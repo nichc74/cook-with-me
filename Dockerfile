@@ -7,9 +7,10 @@ WORKDIR /usr/src/cook-with-me
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y git &&\
-    apt-get install -y python3
+    apt-get install -y python3 &&\
+    apt-get install -y python3-pip
 
 # local path -> container path
 COPY . /usr/src/cook-with-me
 
-# CMD ["apt-get", "install", "git"]
+RUN pip3 install django 
