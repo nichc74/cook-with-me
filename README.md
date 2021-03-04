@@ -1,12 +1,12 @@
 # cook-with-me
 Recipe Website
 
-*Build*
+**Build**
 ``` shell
-docker build -t <IMAGE NAME> .
+$ docker build -t <IMAGE NAME> .
 ```
 
-*Login*
+**Login**
 ``` shell
-docker exec -it <Container ID> /bin/bash
+$ docker exec -it <Container ID> /bin/bash
 ```
