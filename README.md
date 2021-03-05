@@ -8,7 +8,7 @@ $ docker build -t <IMAGE NAME> .
 
 **Run**
 ``` shell
-$ docker run -it -d test
+$ docker run -it -d <IMAGE NAME>
 ```
 
 **Login**
