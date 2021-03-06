@@ -18,6 +18,6 @@ $ docker exec -it <Container ID> /bin/bash
 
 **Running Django**
 ```shell
-$ python3 manage.py runserver 0.0.0.0:<CONTAINER-PORT>
+$ python3 manage.py runserver 0:<CONTAINER-PORT>
 ```
 Runs allows the django app to accept any interface running on `CONTAINER-PORT`.
