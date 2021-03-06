@@ -12,5 +12,4 @@ default-character-set = utf8
 
 EOF
 
-/etc/init.d/mysql reload
 /etc/init.d/mysql restart
