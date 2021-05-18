@@ -75,11 +75,11 @@ WSGI_APPLICATION = 'cook_with_me.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'cook-with-me',
+        'NAME': 'cook_with_me',
         'USER': 'django_admin',
         'PASSWORD': 'N1chola$andj0sh',
         #'HOST': '184.169.179.123',
-        'HOST' : 'localhost';
+        'HOST' : 'localhost',
         'PORT': '3306',
         'ENGINE': 'django.db.backends.mysql',
         # 'OPTIONS': {
