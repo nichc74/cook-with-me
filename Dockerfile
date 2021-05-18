@@ -20,6 +20,6 @@ RUN apt-get update && \
 COPY . /usr/src/cook-with-me
 
 RUN pip3 install django
-RUN pip3 install mariadb
-RUN pip3 install mysqlclient
-RUN sh setup_mysql.sh
+RUN python3 /usr/src/cook-with-me/server/cook_with_me/manage.py runserver localhost:8000
+# RUN pip3 install mariadb
+# RUN pip3 install mysqlclient

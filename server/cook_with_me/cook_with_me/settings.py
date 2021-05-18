@@ -75,10 +75,16 @@ WSGI_APPLICATION = 'cook_with_me.wsgi.application'
 
 DATABASES = {
     'default': {
+        'NAME': 'cook-with-me',
+        'USER': 'django_admin',
+        'PASSWORD': 'N1chola$andj0sh',
+        #'HOST': '184.169.179.123',
+        'HOST' : 'localhost';
+        'PORT': '3306',
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf'
-        }
+        # 'OPTIONS': {
+        #     'read_default_file': '/etc/mysql/my.cnf'
+        # }
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
