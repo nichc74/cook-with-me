@@ -13,3 +13,7 @@ default-character-set = utf8
 EOF
 
 /etc/init.d/mysql restart
+
+mysql -u root < /tmp/alldb.sql
+
+

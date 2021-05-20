@@ -7,7 +7,6 @@ services:
       command: >
         bash -c 
         "
-        /etc/init.d/mysql start;
         sh setup_mysql.sh;
         python3 /usr/src/cook-with-me/server/cook_with_me/manage.py runserver 0.0.0.0:8000
         "
