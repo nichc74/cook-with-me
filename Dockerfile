@@ -1,6 +1,6 @@
 
 FROM debian:latest
-WORKDIR /usr/src/cook-with-me
+WORKDIR /usr/src/app
 
 # COPY requirements.txt ./
 # RUN pip install --no-cache-dir -r requirements.txt
@@ -17,9 +17,9 @@ RUN apt-get update && \
     # apt install -y 
 
 # local path -> container path
-COPY . /usr/src/cook-with-me
+COPY . /usr/src/app
 
 RUN pip3 install django
-# RUN python3 /usr/src/cook-with-me/server/cook_with_me/manage.py runserver localhost:8000
+# RUN python3 /usr/src/app/server/cook_with_me/manage.py runserver localhost:8000
 # RUN pip3 install mariadb
 RUN pip3 install mysqlclient

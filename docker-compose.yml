@@ -3,13 +3,13 @@ services:
     django: 
       build: ./
       volumes:
-      - ./:/usr/src/cook-with-me/
+      - ./:/usr/src/app/
       command: >
         bash -c 
         "
         /etc/init.d/mysql start;
         sh setup_mysql.sh;
-        python3 /usr/src/cook-with-me/server/cook_with_me/manage.py runserver 0.0.0.0:8000
+        python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000
         "
       ports:
       - 8888:8000 
@@ -17,4 +17,4 @@ services:
 
       # 
       # 
-      # python3 /usr/src/cook-with-me/server/cook_with_me/manage.py runserver 0.0.0.0:8000
+      # python3 /usr/src/app/server/cook_with_me/manage.py runserver 0.0.0.0:8000
