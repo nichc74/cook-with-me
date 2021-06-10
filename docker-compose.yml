@@ -3,7 +3,7 @@ services:
     django: 
       build: ./
       volumes:
-      - ./:/usr/src/app/
+      - ./:/usr/src/app
       command: >
         bash -c 
         "
