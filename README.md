@@ -21,3 +21,13 @@ $ docker exec -it <Container ID> /bin/bash
 $ python3 manage.py runserver 0:<CONTAINER-PORT>
 ```
 Runs allows the django app to accept any interface running on `CONTAINER-PORT`.
+
+
+**Start Application**
+``` shell
+$docker-compose up
+```
+Port is on 8888
+
+http://localhost:8888/ forward to the containers port on 8000
+
