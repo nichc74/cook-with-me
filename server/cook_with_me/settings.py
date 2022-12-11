@@ -77,8 +77,8 @@ WSGI_APPLICATION = 'cook_with_me.wsgi.application'
 DATABASES = {
     'default': {
         'NAME': 'cook_with_me',
-        'USER': 'django_admin',
-        'PASSWORD': 'N1chola$andj0sh',
+        'USER': 'root',
+        'PASSWORD': 'Yonex117*',
         #'HOST': '184.169.179.123',
         'HOST' : 'localhost',
         'PORT': '3306',

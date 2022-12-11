@@ -25,7 +25,7 @@ Runs allows the django app to accept any interface running on `CONTAINER-PORT`.
 
 **Start Application**
 ``` shell
-$docker-compose up
+$ docker-compose up
 ```
 Port is on 8888
 

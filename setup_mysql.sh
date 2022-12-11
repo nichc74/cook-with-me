@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/etc/init.d/mysql start
+/etc/init.d/mariadb start
 cat setup_mysql.sql | mysql -u root
 
 cat >> /etc/mysql/my.cnf << EOF
@@ -12,8 +12,8 @@ default-character-set = utf8
 
 EOF
 
-/etc/init.d/mysql restart
+/etc/init.d/mariadb restart
 
-mysql -u root < /tmp/alldb.sql
+# mysql -u root < /tmp/alldb.sql
 
 

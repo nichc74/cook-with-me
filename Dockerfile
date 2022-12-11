@@ -22,10 +22,10 @@ RUN pip3 install django
 RUN pip3 install mysqlclient
 
 # aws 
-RUN pip3 install awscli
-RUN aws configure set aws_access_key_id AKIARCH2QWHYIAUH6JQO
-RUN aws configure set aws_secret_access_key 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
-RUN aws s3 cp s3://cook-with-me-database-backup/alldb.sql /tmp/
+# RUN pip3 install awscli
+# RUN aws configure set aws_access_key_id AKIARCH2QWHYIAUH6JQO
+# RUN aws configure set aws_secret_access_key 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
+# RUN aws s3 cp s3://cook-with-me-database-backup/alldb.sql /tmp/
 
 
 
