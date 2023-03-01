@@ -1,7 +1,7 @@
 .RecipeDetailPage-main {
     display: flex;
     flex-direction: column;
-    background-color: grey;
+    /* background-color: grey; */
 }
 
 .RecipeDetailPage-header {

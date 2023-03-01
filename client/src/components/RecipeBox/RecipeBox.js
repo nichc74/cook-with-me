@@ -14,7 +14,7 @@ export default function RecipeBox({togglePage, id, recipe}) {
         alt="something alt"
         src={recipe.img}
       />
-      <div>
+      <div className="RecipeBox-name">
         {recipe.name} 
       </div>
     </div>

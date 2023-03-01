@@ -8,3 +8,7 @@
     flex-direction: column;
     /* background-color: red; */
 }
+
+.RecipeBox-name {
+    text-align: center;
+}

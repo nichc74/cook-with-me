@@ -2,7 +2,6 @@ import logo from './logo.svg';
 import { useState } from 'react';
 
 import './App.css';
-import TestComponent from './components/TestComponent/TestComponent';
 import RecipeBox from './components/RecipeBox/RecipeBox'
 import RecipeDetailPage from './components/RecipeDetailPage/RecipeDetailPage'
 
@@ -86,7 +85,6 @@ function App() {
           {displayBody()}
         </div>
       </div>
-      {/* <TestComponent/> */}
     </div>
   );
 }
