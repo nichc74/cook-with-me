@@ -1,11 +1,22 @@
-export default function RecipeBox() {
+import './RecipeBox.css'
+
+export default function RecipeBox({togglePage, id, recipe}) {
+  function handleClick() {
+    togglePage(1)
+  }
+  
   return (
-    <img
-      width={100}
-      height={100}
-      alt="something alt"
-      // random image
-      src="https://i.imgur.com/1bX5QH6.jpg"
-    />
+    <div onClick={handleClick} className="RecipeBox-main">
+      <img
+        className="RecipeBox-image"
+        width={275}
+        height={275}
+        alt="something alt"
+        src={recipe.img}
+      />
+      <div>
+        {recipe.name} 
+      </div>
+    </div>
   )
 }
