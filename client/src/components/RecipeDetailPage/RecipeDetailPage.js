@@ -8,6 +8,7 @@ export default function RecipeDetailPage({togglePage}) {
     'total_time': 300,
     'source': 'Williams Sonoma Cooking at Home',
     'portions': 8,
+    'img': "https://redhousespice.com/wp-content/uploads/2022/01/sliced-peking-duck-with-pancakes-scaled.jpg",
     'instructions': [
       `In a large frying pan over medium heat, warm the oil, butter,
        and pancetta, stirring occasionally, until the pancetta renders
@@ -76,17 +77,33 @@ export default function RecipeDetailPage({togglePage}) {
   const title = recipeDetail['name']
   const prep_time = recipeDetail['prep_time']
   const total_time = recipeDetail['total_time']
+  const portions = recipeDetail['portions']
+  const img = recipeDetail['img']
 
   return (
     <div className="RecipeDetailPage-main">
-      <button className="RecipeDetailPage-btn" onClick={toggleBackButton}>
-        Lets go back!
-      </button>
       <div className="RecipeDetailPage-header">
-        <div>{title}</div>
-        <div>{prep_time}</div>
-        <div>{total_time}</div>
+        <div className="RecipeDetailPage-img">
+          <img
+            className="RecipeDetailPage-image"
+            alt="something alt"
+            src={img}
+          />
+        </div>
+        <div className="RecipeDetailPage-labels">
+          <div className="RecipeDetailPage-title">
+            {title}
+          </div>
+          <div className="RecipeDetailPage-prep-time">TIME: {prep_time}</div>
+          <div className="RecipeDetailPage-total-time">PREP: {total_time}</div>
+          <div className="RecipeDetailPage-portions">PORTIONS: {portions}</div>
+        </div>
+      </div>
+      <div className="RecipeDetailPage-body">
         {listRecipes()}
+        <button className="RecipeDetailPage-btn" onClick={toggleBackButton}>
+          Lets go back!
+        </button>
       </div>
     </div>
   )

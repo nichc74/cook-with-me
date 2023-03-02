@@ -1,12 +1,42 @@
 .RecipeDetailPage-main {
     display: flex;
     flex-direction: column;
-    /* background-color: grey; */
 }
 
+
 .RecipeDetailPage-header {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.RecipeDetailPage-img, .RecipeDetailPage-labels {
+    grid-row: 1 / 2;
+}
+
+.RecipeDetailPage-img {
+    grid-column: 1 / 5;
+}
+
+.RecipeDetailPage-labels {
+    grid-column: 3 / -1;
+    background: rgba(51, 83, 121, 0.75);
+    height: 250px;
+    width: 750px;
+    align-self: center;
+}
+
+.RecipeDetailPage-title {
+    color: white;
+    font-size: 72px;
+    margin: 24px;
+}
+
+.RecipeDetailPage-prep-time,
+.RecipeDetailPage-total-time,
+.RecipeDetailPage-portions {
+    margin-left: 24px;
+    font-size: 24px;;
+    color: rgb(79, 182, 188)
 }
 
 .RecipeDetailPage-instruction {

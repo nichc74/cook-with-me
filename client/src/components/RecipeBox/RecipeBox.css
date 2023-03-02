@@ -12,3 +12,8 @@
 .RecipeBox-name {
     text-align: center;
 }
+
+.RecipeDetailPage-image {
+    width: 60%;
+    height: 500px;
+}
