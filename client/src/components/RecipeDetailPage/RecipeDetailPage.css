@@ -3,7 +3,6 @@
     flex-direction: column;
 }
 
-
 .RecipeDetailPage-header {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -29,14 +28,18 @@
     color: white;
     font-size: 72px;
     margin: 24px;
+    font-weight: bold;
+    font-family: roman;
 }
 
 .RecipeDetailPage-prep-time,
 .RecipeDetailPage-total-time,
 .RecipeDetailPage-portions {
     margin-left: 24px;
-    font-size: 24px;;
-    color: rgb(79, 182, 188)
+    font-size: 24px;
+    color: rgb(79, 182, 188);
+    font-weight: 600;
+    letter-spacing: 4px;
 }
 
 .RecipeDetailPage-instruction {
@@ -46,4 +49,26 @@
 .RecipeDetailPage-btn {
     height: 25px;
     width: 100px;
+}
+
+.RecipeDetailPage-body {
+    padding: 50px;
+    display: flex;
+    flex-direction: row;
+}
+.RecipeDetailPage-instr-body {
+    flex-direction: column;
+}
+.RecipeDetailPage-ingr-body {
+    background-color: #f6f6f6;
+    margin-right: 36px;
+}
+
+.RecipeDetailPage-ingr-header {
+    color: #e9a53e;
+    min-width: 300px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin: 24px 8px;
 }

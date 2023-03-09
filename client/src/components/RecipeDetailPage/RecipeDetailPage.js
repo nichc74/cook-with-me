@@ -64,10 +64,21 @@ export default function RecipeDetailPage({togglePage}) {
   function listRecipes() {
     return (
       recipeDetail['instructions'].map((instruction, index) => {
-        console.log(index)
         return (
           <div className="RecipeDetailPage-instruction" key={index}>
             {index}.{instruction}
+          </div>
+        )
+      })
+    )
+  }
+
+  function listIngredients() {
+    return (
+      recipeDetail['ingredients'].map((ingr, index) => {
+        return (
+          <div className="RecipeDetailPage-ingr" key={index}>
+            {ingr['name']}
           </div>
         )
       })
@@ -100,11 +111,19 @@ export default function RecipeDetailPage({togglePage}) {
         </div>
       </div>
       <div className="RecipeDetailPage-body">
-        {listRecipes()}
-        <button className="RecipeDetailPage-btn" onClick={toggleBackButton}>
+        <div className="RecipeDetailPage-ingr-body">
+          <div className="RecipeDetailPage-ingr-header">
+            Ingredients
+          </div>
+          {listIngredients()}
+        </div>
+        <div className="RecipeDetailPage-instr-body">
+          {listRecipes()}
+        </div>
+      </div>
+      <button className="RecipeDetailPage-btn" onClick={toggleBackButton}>
           Lets go back!
         </button>
-      </div>
     </div>
   )
 }
