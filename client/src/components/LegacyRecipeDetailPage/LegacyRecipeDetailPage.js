@@ -1,5 +1,4 @@
 import './RecipeDetailPage.css'
-import IconTag from './../IconTag/IconTag.js'
 
 export default function RecipeDetailPage({togglePage}) {
   // Hard Coded test data
@@ -95,23 +94,31 @@ export default function RecipeDetailPage({togglePage}) {
   return (
     <div className="RecipeDetailPage-main">
       <div className="RecipeDetailPage-header">
-        <div className="RecipeDetailPage-header-top">
+        <div className="RecipeDetailPage-img">
           <img
             className="RecipeDetailPage-image"
             alt="something alt"
             src={img}
           />
-          <div className="RecipeDetailPage-recipeTitle">
+        </div>
+        <div className="RecipeDetailPage-labels">
+          <div className="RecipeDetailPage-title">
             {title}
           </div>
+          <div className="RecipeDetailPage-prep-time">TIME: {prep_time}</div>
+          <div className="RecipeDetailPage-total-time">PREP: {total_time}</div>
+          <div className="RecipeDetailPage-portions">PORTIONS: {portions}</div>
         </div>
-        <div className="RecipeDetailPage-header-divider"></div>
-        <div className="RecipeDetailPage-header-bottom">
-          <IconTag value="300 mins" label="Serving"/>
-          <IconTag value="300 mins" label="Prep Time"/>
-          <IconTag value="300 mins" label="Cook Time"/>
-          <IconTag value="300 mins" label="Rest Time"/>
-          <IconTag value="300 mins" label="Calories"/>
+      </div>
+      <div className="RecipeDetailPage-body">
+        <div className="RecipeDetailPage-ingr-body">
+          <div className="RecipeDetailPage-ingr-header">
+            Ingredients
+          </div>
+          {listIngredients()}
+        </div>
+        <div className="RecipeDetailPage-instr-body">
+          {listRecipes()}
         </div>
       </div>
       <button className="RecipeDetailPage-btn" onClick={toggleBackButton}>

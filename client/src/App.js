@@ -81,9 +81,7 @@ function App() {
         Placeholder Header
       </header>
       <div className="App-main-body">
-        <div>
-          {displayBody()}
-        </div>
+        {displayBody()}
       </div>
     </div>
   );

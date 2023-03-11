@@ -1,0 +1,18 @@
+.IconTag-main {
+    display: flex;
+    flex-direction: row;
+}
+
+.IconTag-icon {
+    background-color: #ababab;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.IconTag-info {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-left: 4px;
+}
