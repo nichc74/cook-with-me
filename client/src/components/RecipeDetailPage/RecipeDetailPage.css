@@ -4,8 +4,17 @@
 }
 
 .RecipeDetailPage-btn {
+    margin-top: 100px;
     height: 25px;
     width: 100px;
+}
+
+.RecipeDetailPage-ingrs {
+    width: 30%;
+}
+
+.RecipeDetailPage-instr {
+    width: 70%;
 }
 
 .RecipeDetailPage-header {
@@ -32,12 +41,45 @@
     margin-top: 12px;
 }
 
+.RecipeDetailPage-ingr-label {
+   margin-left: 12px;
+}
+
+.RecipeDetailPage-body-label {
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    color: #ababab;
+}
+
+.RecipeDetailPage-ingr {
+    margin-left: 24px;
+    margin-top: 4px;
+    font-family: roman;
+    font-weight: 500;
+    font-size: 18px;
+}
+
 .RecipeDetailPage-header-divider {
     margin-top: 24px;
     height: 2px;
     width: 100%;
     background-color: white;    
 }
+
+.RecipeDetailPage-body {
+    margin: 0 10%;
+    display: flex;
+    flex-direction: row;
+    /* background-color: grey; */
+}
+
+/* .RecipeDetailPage-instr {
+    padding: 10px;
+} */
 
 .RecipeDetailPage-recipeTitle {
     display: flex;

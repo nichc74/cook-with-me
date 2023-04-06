@@ -62,7 +62,7 @@ export default function RecipeDetailPage({togglePage}) {
     togglePage(0)
   }
 
-  function listRecipes() {
+  function listInstructions() {
     return (
       recipeDetail['instructions'].map((instruction, index) => {
         return (
@@ -74,12 +74,13 @@ export default function RecipeDetailPage({togglePage}) {
     )
   }
 
+
   function listIngredients() {
     return (
       recipeDetail['ingredients'].map((ingr, index) => {
         return (
           <div className="RecipeDetailPage-ingr" key={index}>
-            {ingr['name']}
+            {ingr['qty']}{ingr['msmt']} {ingr['name']}
           </div>
         )
       })
@@ -112,6 +113,20 @@ export default function RecipeDetailPage({togglePage}) {
           <IconTag value="300 mins" label="Cook Time"/>
           <IconTag value="300 mins" label="Rest Time"/>
           <IconTag value="300 mins" label="Calories"/>
+        </div>
+      </div>
+      <div className="RecipeDetailPage-body">
+        <div className="RecipeDetailPage-ingrs">
+          <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
+            Ingredients
+          </div>
+          {listIngredients()}
+        </div>
+        <div className="RecipeDetailPage-instr">
+          <div className="RecipeDetailPage-instr-label RecipeDetailPage-body-label">
+            Instructions
+          </div>
+          {listInstructions()}
         </div>
       </div>
       <button className="RecipeDetailPage-btn" onClick={toggleBackButton}>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import './App.css';
 import RecipeBox from './components/RecipeBox/RecipeBox'
 import RecipeDetailPage from './components/RecipeDetailPage/RecipeDetailPage'
+import TestComponent from './components/TestComponent/TestComponent'
 
 function App() {
   const [pageState, setPageState] = useState(0)
@@ -82,6 +83,7 @@ function App() {
       </header>
       <div className="App-main-body">
         {displayBody()}
+        {/* <TestComponent/> */}
       </div>
     </div>
   );
