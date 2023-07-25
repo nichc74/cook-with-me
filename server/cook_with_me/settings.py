@@ -25,7 +25,7 @@ SECRET_KEY = '74-^h52d+mm@a5m#1i5$p$5kuhommwr6mnw^3$af9%oo$^oqkf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-184-169-179-123.us-west-1.compute.amazonaws.com', '184.169.179.123', 'localhost']
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 
 
 # Application definition
@@ -76,18 +76,27 @@ WSGI_APPLICATION = 'cook_with_me.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cook_with_me',
         'USER': 'root',
-        'PASSWORD': 'Yonex117*',
-        #'HOST': '184.169.179.123',
-        'HOST' : 'localhost',
+        'PASSWORD': '',
+        'HOST': 'mysql_db',
         'PORT': '3306',
-        'ENGINE': 'django.db.backends.mysql',
         # 'OPTIONS': {
         #     'read_default_file': '/etc/mysql/my.cnf'
         # }
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'NAME': 'cook_with_me',
+    #     'USER': 'root',
+    #     'PASSWORD': '',
+    #     # 'HOST': '184.169.179.123',
+    #     'HOST' : 'localhost',
+    #     'PORT': '3306',
+    #     'ENGINE': 'django.db.backends.mysql',
+        
+    # }
 }
 
 

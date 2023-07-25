@@ -1,25 +1,17 @@
 
-FROM debian:latest
+FROM python:3.11
 WORKDIR /usr/src/app
 
-# COPY requirements.txt ./
-# RUN pip install --no-cache-dir -r requirements.txt
+# Install system dependencies
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y git &&\
-    apt-get install -y python3 &&\
-    apt-get install -y python3-pip &&\
-    apt-get install -y mariadb-server libmariadb-dev &&\
-    apt-get install -y vim &&\
-    apt-get install -y htop &&\
-    apt-get install -y net-tools &&\
-    apt-get install -y procps
-
+    apt-get install -y git mariadb-server libmariadb-dev vim htop net-tools procps
 # local path -> container path
 COPY . /usr/src/app
 
-RUN pip3 install django
-RUN pip3 install mysqlclient
+RUN pip install django mysqlclient
+
+# CMD python /usr/src/app/manage.py runserver 0.0.0.0:8000
 
 # aws 
 # RUN pip3 install awscli

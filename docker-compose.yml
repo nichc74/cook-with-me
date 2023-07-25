@@ -3,16 +3,30 @@ services:
     django: 
       build: ./
       volumes:
-      - ./:/usr/src/app
-      command: >
-        bash -c 
-        "
-        sh setup_mysql.sh;
-        python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000
-        "
+        - ./:/usr/src/app
+      command: > 
+        bash -c
+        "python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000"
+      # command: >
+      #   bash -c 
+      #   "
+      #   sh setup_mysql.sh;
+      #   python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000
+      #   "
+      depends_on: 
+        - mysql_db
       ports:
-      - 8888:8000 
-
+        - 8000:8000 
+      
+    mysql_db:
+      image: mysql:8
+      restart: always
+      volumes:
+      - ./setup_mysql.sql:/docker-entrypoint-initdb.d/setup_mysql.sql
+      environment: 
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      ports:
+      - 3306:3306
 
       # 
       # 
