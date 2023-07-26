@@ -7,6 +7,9 @@ services:
       - MYSQL_DATABASE=cook_with_me
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes 
       - MYSQL_HOST_CACHE_SIZE=0
+    command: --init-file /usr/src/app/setup_mysql.sql
+    volumes:
+      - ./setup_mysql.sql:/usr/src/app/setup_mysql.sql
     ports:
       - "3306:3306"
 
@@ -15,7 +18,10 @@ services:
     restart: always
     volumes:
       - ./:/usr/src/app
-    command: bash -c "python3 /usr/src/app/server/manage.py migrate && python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python3 /usr/src/app/server/manage.py migrate && 
+        python3 /usr/src/app/server/manage.py createsuperuser_on_docker &&
+        python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000 
+      "
     depends_on: 
       - mysql_db
     ports:

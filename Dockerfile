@@ -11,6 +11,9 @@ COPY . /usr/src/app
 
 RUN pip install django mysqlclient
 
+# Create superuser on container start
+CMD ["python3", "/usr/src/app/manage.py", "createsuperuser_on_docker"]
+
 # CMD python /usr/src/app/manage.py runserver 0.0.0.0:8000
 
 # aws 
