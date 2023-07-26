@@ -1,33 +1,23 @@
 version: '3'
 services:
-    django: 
-      build: ./
-      volumes:
-        - ./:/usr/src/app
-      command: > 
-        bash -c
-        "python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000"
-      # command: >
-      #   bash -c 
-      #   "
-      #   sh setup_mysql.sh;
-      #   python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000
-      #   "
-      depends_on: 
-        - mysql_db
-      ports:
-        - 8000:8000 
-      
-    mysql_db:
-      image: mysql:8
-      restart: always
-      volumes:
-      - ./setup_mysql.sql:/docker-entrypoint-initdb.d/setup_mysql.sql
-      environment: 
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      ports:
-      - 3306:3306
+  mysql_db:
+    image: mysql:8
+    restart: always
+    environment: 
+      - MYSQL_DATABASE=cook_with_me
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes 
+      - MYSQL_HOST_CACHE_SIZE=0
+    ports:
+      - "3306:3306"
 
-      # 
-      # 
-      # python3 /usr/src/app/server/cook_with_me/manage.py runserver 0.0.0.0:8000
+  orm_django: 
+    build: .
+    restart: always
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "python3 /usr/src/app/server/manage.py migrate && python3 /usr/src/app/server/manage.py runserver 0.0.0.0:8000"
+    depends_on: 
+      - mysql_db
+    ports:
+      - "8000:8000"
+   

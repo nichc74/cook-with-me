@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cook_with_me',
-        'USER': 'root',
+        'USER': 'root', 
         'PASSWORD': '',
         'HOST': 'mysql_db',
         'PORT': '3306',
