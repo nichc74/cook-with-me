@@ -1,0 +1,25 @@
+.recipe-form-container {
+    background-color: #FFF8EA;
+    height: 100%;
+    width: 40%;
+    margin: auto;
+}
+
+.recipe-form-container {
+    padding: 50px;
+}
+
+.recipe-form-metadata {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.recipe-form-button-options-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 300px;
+    margin-left: auto;
+}

@@ -5,6 +5,7 @@ import './App.css';
 import RecipeBox from './components/RecipeBox/RecipeBox'
 import RecipeDetailPage from './components/RecipeDetailPage/RecipeDetailPage'
 import TestComponent from './components/TestComponent/TestComponent'
+import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
 
 function App() {
   const [pageState, setPageState] = useState(0)
@@ -78,13 +79,14 @@ function App() {
   }
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         Placeholder Header
       </header>
       <div className="App-main-body">
         {displayBody()}
-        {/* <TestComponent/> */}
-      </div>
+        <TestComponent/> 
+      </div> */}
+      <RecipeForm/>
     </div>
   );
 }
