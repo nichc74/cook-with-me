@@ -1,12 +1,14 @@
 .recipe-form-container {
-    background-color: #FFF8EA;
+    background-color: #fffcf5;
     height: 100%;
-    width: 40%;
+    width: 50%;
+    min-width: 650px;
+    max-width: 80%;
     margin: auto;
 }
 
 .recipe-form-container {
-    padding: 50px;
+    padding: 100px;
 }
 
 .recipe-form-metadata {
@@ -19,7 +21,7 @@
 .recipe-form-button-options-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 300px;
     margin-left: auto;
 }
@@ -27,15 +29,15 @@
 .description-container {
     display: flex;
     flex-direction: row;
-    padding: 10px 10px 10px 0px;
+    padding: 2px;
 }
 
 .ingredients-container {
     display: flex;
     flex-direction: row;
-    padding: 10px 10px 10px 0px;
-    justify-content: space-between;
-    width: 700px;
+    padding: 2px;
+    justify-content: start;
+    /* width: 700px; */
 }
 
 .equipment-container {
@@ -44,4 +46,11 @@
     padding: 10px;
     justify-content: space-between;
     width: 275px;
+}
+
+.ingredient-section-buttons {
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
 }

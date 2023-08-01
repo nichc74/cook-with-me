@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 import ClearIcon from '@mui/icons-material/Clear';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
-const InstructionItem = ({ provided, snapshot, item, deleteInstruction})=> {
+const NoteItem = ({ provided, snapshot, item, deleteNotes })=> {
     const [instructionInput, setinstructionInput] = useState("");
 
     const handleInstructionInput = (e) => {
@@ -24,16 +24,17 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction})=> {
                     <TextField 
                         multiline
                         size="small"
-                        label="Instruction" 
+                        label="Note" 
                         variant="outlined" 
                         fullWidth
                         value={item.content} onChange={handleInstructionInput}
                     />
-                    <Button variant="contained" onClick={() =>{deleteInstruction(item.id)}}><ClearIcon/></Button>
+                    <Button variant="contained" onClick={() =>{deleteNotes(item.id)}}><ClearIcon/></Button>
                     <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
                 </Paper>
+                
         </Box>
     )
 }
 
-export default InstructionItem;
+export default NoteItem;

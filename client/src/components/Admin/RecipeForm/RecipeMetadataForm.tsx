@@ -45,54 +45,56 @@ const RecipeMetadataForm = ({setMetadataOnForm}) => {
                 <TextField id="outlined-search" label="Title" type="search" 
                 value={title} 
                 onChange={handleTitleInput}
-                style={{width: 300}}
+                style={{width: 300, paddingBottom: 10}}
                 InputLabelProps={{
                         shrink: true,
                     }}/> 
                 <div className="recipe-form-metadata">
-                <TextField id="outlined-search" label="Author" type="search"  value={author} onChange={handleAuthorInput} InputLabelProps={{
+                    <TextField id="outlined-search" label="Author" type="search"  value={author} onChange={handleAuthorInput} InputLabelProps={{
+                            shrink: true,
+                        }}/> 
+                    <TextField id="outlined-search" label="Cuisine" type="search" value={cuisineType} onChange={handleCuisineTypeInput} InputLabelProps={{
+                            shrink: true,
+                        }}/> 
+                    <TextField id="outlined-search" label="Category" type="search" value={category} onChange={handleCategoryInput} InputLabelProps={{
                         shrink: true,
                     }}/> 
-                <TextField id="outlined-search" label="Cuisine" type="search" value={cuisineType} onChange={handleCuisineTypeInput} InputLabelProps={{
-                        shrink: true,
-                    }}/> 
-                <TextField id="outlined-search" label="Category" type="search" value={category} onChange={handleCategoryInput} InputLabelProps={{
-                    shrink: true,
-                }}/> 
-                <TextField
-                    id="outlined-number"
-                    label="Prep Time"
-                    type="number"
-                    value={prepTime}
-                    onChange={handlePrepInput}
-                    style={{width: 100}}
-                    
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-                <TextField
-                    id="outlined-number"
-                    label="Cook Time"
-                    type="number"
-                    value={cookTime}
-                    onChange={handleCookInput}
-                    style={{width: 100}}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-                <TextField
-                    id="outlined-number"
-                    label="Serves"
-                    type="number"
-                    style={{width: 100}}
-                    value={servings}
-                    onChange={handleServingsInput}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
+                </div>
+                <div className="recipe-form-metadata">
+                    <TextField
+                        id="outlined-number"
+                        label="Prep Time"
+                        type="number"
+                        value={prepTime}
+                        onChange={handlePrepInput}
+                        style={{width: 100}}
+                        
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <TextField
+                        id="outlined-number"
+                        label="Cook Time"
+                        type="number"
+                        value={cookTime}
+                        onChange={handleCookInput}
+                        style={{width: 100}}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <TextField
+                        id="outlined-number"
+                        label="Serves"
+                        type="number"
+                        style={{width: 100}}
+                        value={servings}
+                        onChange={handleServingsInput}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
                 </div>
                 <h1>Summary</h1>
                 <TextField fullWidth id="outlined-multiline-flexible" label="Recipe Summary" multiline 

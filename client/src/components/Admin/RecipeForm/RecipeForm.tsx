@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import './RecipeForm.css';
 import RecipeMetadataForm from './RecipeMetadataForm.tsx';
 // import RecipeImageUploader from './RecipeImageUploader.tsx'
-import EquipmentForm from './EquipmentForm.tsx';
 import IngredientForm from './IngredientForm/IngredientForm.tsx';
 import InstructionForm from './InstructionForm/InstructionForm.tsx';
-import NoteForm from './NoteForm.tsx';
+import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button } from '@mui/material';
 
 interface Ingredient {
@@ -47,7 +46,6 @@ const RecipeForm: React.FC = () => {
       <div className="recipe-form-container">
         <RecipeMetadataForm setMetadataOnForm={setMetadataOnForm} />
         {/* <RecipeImageUploader/> */}
-        {/* <EquipmentForm /> */}
         <IngredientForm setRecipeIngredientsOnForm={setRecipeIngredientsOnForm} />
         <InstructionForm setRecipeInstructionsOnForm={setRecipeInstructionsOnForm} />
         <NoteForm setRecipeNotesOnForm={setRecipeNotesOnForm} />

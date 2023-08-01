@@ -1,53 +1,56 @@
 import React from 'react';
 import {useState} from 'react';
 import { Button, Paper} from '@mui/material';
-import InstructionItem from './InstructionItem.tsx';
+import NoteItem from './NoteItem.tsx';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 
-const InstructionForm = ({setRecipeIngredientsOnForm}) => {
-    // const [instructions, setInstructions] = useState(Array.apply(null, {length: 5}).map(Number.call, Number));
+const elements = [
+    { id: "1", content: "Note 1" },
+    { id: "2", content: "Note 2" },
+  ];
+
+const NoteForm = ({}) => {
+    const [notes, setNotes] = useState(Array(2).fill({}).map((_, i) => ({ id: i + "" })));
     // const [items, setItems] = useState(Array.apply(null, {length: 5}).map(Number.call, Number));
-    const [instructions, setInstructions] = useState(Array(5).fill({}).map((_, i) => ({ id: i + "" })));
+    // const [items, setItems] = useState(elements);
 
     const onDragEnd = (result: any) => {
-        const newItems = Array.from(instructions);
+        const newItems = Array.from(notes);
         const [removed] = newItems.splice(result.source.index, 1);
         newItems.splice(result.destination.index, 0, removed);
-        setInstructions(newItems);
+        setNotes(newItems);
     };
 
-    const deleteInstruction = (id: string) => {
-        const temp = [...instructions];
-
-        for (var inIdx = 0; inIdx < instructions.length; inIdx++) {
-            if (instructions[inIdx].id == id) {
+    const deleteNotes = (id: string) => {
+        const temp = [...notes];
+        for (var inIdx = 0; inIdx < notes.length; inIdx++) {
+            if (notes[inIdx].id == id) {
                 temp.splice(inIdx, 1);
                 break;
             }
         }
-        setInstructions(temp);
+        setNotes(temp);
     }
 
-    const addInstruction = () => {
-        setInstructions([...instructions, {id: instructions.length + ""}]);
+    const addNote = () => {
+        setNotes([...notes, {id: notes.length + 1 + ""}]);
     }
 
     return (
         <div>
-            <h1> Instructions </h1>
+            <h1> Notes </h1>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="droppable">
                     {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {instructions.map((item, index) => (
+                        {notes.map((item, index) => (
                             <Draggable key={item.id} draggableId={item.id} index={index}>
                                 {(provided, snapshot) => (
-                                <InstructionItem
+                                <NoteItem
                                     provided={provided}
                                     snapshot={snapshot}
                                     item={item}
-
-                                    deleteInstruction={deleteInstruction}
+                                    deleteNotes={deleteNotes}
                                 />
                                 )}
                             </Draggable>
@@ -56,9 +59,9 @@ const InstructionForm = ({setRecipeIngredientsOnForm}) => {
                     )}
                 </Droppable>
             </DragDropContext>
-            <Button style={{width: "100%"}} variant="contained" onClick={() => addInstruction()}>Add Instruction</Button>
+            <Button style={{width: "100%"}} variant="contained" onClick={() => addNote()}>Add Note</Button>
         </div>
     );
 }
 
-export default InstructionForm;
+export default NoteForm;

@@ -1,50 +1,38 @@
 import React, {useState}  from 'react';
-import '../RecipeForm.css';
 import { Button } from '@mui/material';
-import IngredientItem from './IngredientItem.tsx';
+import IngredientsRecipeComponent from './IngredientsRecipeComponent.tsx';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import '../RecipeForm.css';
 
-const elements = [
-    { id: "1", amount: 1, metric: "cup", ingredient: "sugar" },
-    { id: "2", amount: 3, metric: "cups", ingredient: "flour" },
-    { id: "3", amount: 3, metric: "cloves", ingredient: "garlic"},
-    { id: "4", amount: 3, metric: "cup", ingredient: "flour" }
-  ];
-
+interface IngredientForm {
+    // Define the properties of an ingredient here
+}
 
 const IngredientForm = ({setRecipeIngredientsOnForm}) => {
-    const [recipeIngredients, setRecipeIngredients] = useState(elements);
-
-
-    const pushIngredient = (amount, metric, ingredient) => {
-        let recipeIngredient = {
-            amount, metric, ingredient
+    const [recipeComponents, setRecipeComponents] = useState(Array(1).fill({}).map((_, i) => ({ id: i + ""})));
+    
+    
+    const addRecipeComponent = () => {
+        setRecipeComponents([...recipeComponents, {id: recipeComponents.length + 1 + ""}])
+    }
+    
+    const deleteRecipeComponent = (id: string) => {
+        const temp = [...recipeComponents];
+        for (var inIdx = 0; inIdx < recipeComponents.length; inIdx++) {
+            if (recipeComponents[inIdx].id == id) {
+                temp.splice(inIdx, 1);
+                break;
+            }
         }
-        setRecipeIngredients([...recipeIngredients, recipeIngredient]);
-        console.log("Adding Ingredient");
-        console.dir(recipeIngredients);
-    }
-
-
-    const addIngredient = (amount: number, metric: string, name: string) => {
-        pushIngredient(amount, metric, name);
-        setRecipeIngredientsOnForm(recipeIngredients)
-    }
-
-
-    const deleteIngredient = (index) => {
-        const temp = [...recipeIngredients];
-        temp.splice(index, 1)
-        setRecipeIngredients(temp);
+        setRecipeComponents(temp);
     }
 
     const onDragEnd = (result: any) => {
-        const newItems = Array.from(recipeIngredients);
+        const newItems = Array.from(recipeComponents);
         const [removed] = newItems.splice(result.source.index, 1);
         newItems.splice(result.destination.index, 0, removed);
-        setRecipeIngredients(newItems);
+        setRecipeComponents(newItems);
     };
-
 
     return (
         <div>
@@ -53,14 +41,15 @@ const IngredientForm = ({setRecipeIngredientsOnForm}) => {
                 <Droppable droppableId="droppable">
                     {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {recipeIngredients.map((item, index) => (
-                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                        {recipeComponents.map((recipeComponent, index) => (
+                            <Draggable key={recipeComponent.id} draggableId={recipeComponent.id} index={index}>
                                 {(provided, snapshot) => (
-                                <IngredientItem
-                                    provided={provided}
-                                    snapshot={snapshot}
-                                    item={item}
-                                />
+                                    <IngredientsRecipeComponent
+                                        provided={provided}
+                                        snapshot={snapshot}
+                                        recipeComponent={recipeComponent}
+                                        deleteRecipeComponent={deleteRecipeComponent}
+                                    />
                                 )}
                             </Draggable>
                         ))}
@@ -68,8 +57,8 @@ const IngredientForm = ({setRecipeIngredientsOnForm}) => {
                     )}
                 </Droppable>
             </DragDropContext>
-
-            <Button variant="contained" onClick={() => {}}>Add</Button>
+            <br/>            
+            <Button style={{width: "100%"}} variant="contained" onClick={() => addRecipeComponent()}>Add Section</Button>
             {/* <Button variant="contained" onClick={() => setRecipeIngredientsOnForm(recipeIngredients)}>Save</Button> */}
         </div>
         
