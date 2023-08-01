@@ -23,3 +23,25 @@
     width: 300px;
     margin-left: auto;
 }
+
+.description-container {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 10px 10px 0px;
+}
+
+.ingredients-container {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 10px 10px 0px;
+    justify-content: space-between;
+    width: 700px;
+}
+
+.equipment-container {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-between;
+    width: 275px;
+}

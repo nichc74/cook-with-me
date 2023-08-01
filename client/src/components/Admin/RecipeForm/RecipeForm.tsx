@@ -3,8 +3,8 @@ import './RecipeForm.css';
 import RecipeMetadataForm from './RecipeMetadataForm.tsx';
 // import RecipeImageUploader from './RecipeImageUploader.tsx'
 import EquipmentForm from './EquipmentForm.tsx';
-import IngredientForm from './IngredientForm.tsx';
-import InstructionForm from './InstructionForm.tsx';
+import IngredientForm from './IngredientForm/IngredientForm.tsx';
+import InstructionForm from './InstructionForm/InstructionForm.tsx';
 import NoteForm from './NoteForm.tsx';
 import { Button } from '@mui/material';
 
@@ -47,13 +47,13 @@ const RecipeForm: React.FC = () => {
       <div className="recipe-form-container">
         <RecipeMetadataForm setMetadataOnForm={setMetadataOnForm} />
         {/* <RecipeImageUploader/> */}
-        <EquipmentForm />
+        {/* <EquipmentForm /> */}
         <IngredientForm setRecipeIngredientsOnForm={setRecipeIngredientsOnForm} />
         <InstructionForm setRecipeInstructionsOnForm={setRecipeInstructionsOnForm} />
         <NoteForm setRecipeNotesOnForm={setRecipeNotesOnForm} />
         <br/>
         <div className="recipe-form-button-options-container ">
-            <Button color="error" variant="contained" >Discard</Button>
+            <Button color="error" variant="contained" >Delete</Button>
             <Button color="success" variant="contained">Save</Button>
             <Button variant="contained">Publish</Button>
         </div>

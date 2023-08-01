@@ -41,7 +41,7 @@ const RecipeMetadataForm = ({setMetadataOnForm}) => {
         
     return (
         <div>
-            <h1>Recipe Form</h1>
+            <h1>Recipe</h1>
                 <TextField id="outlined-search" label="Title" type="search" 
                 value={title} 
                 onChange={handleTitleInput}
