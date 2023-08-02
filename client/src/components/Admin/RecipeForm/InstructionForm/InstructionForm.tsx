@@ -4,6 +4,7 @@ import { Button, Paper} from '@mui/material';
 import InstructionItem from './InstructionItem.tsx';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 
+
 const InstructionForm = ({setRecipeIngredientsOnForm}) => {
     // const [instructions, setInstructions] = useState(Array.apply(null, {length: 5}).map(Number.call, Number));
     // const [items, setItems] = useState(Array.apply(null, {length: 5}).map(Number.call, Number));
@@ -46,7 +47,6 @@ const InstructionForm = ({setRecipeIngredientsOnForm}) => {
                                     provided={provided}
                                     snapshot={snapshot}
                                     item={item}
-
                                     deleteInstruction={deleteInstruction}
                                 />
                                 )}

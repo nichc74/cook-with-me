@@ -6,6 +6,14 @@ import Paper from '@mui/material/Paper';
 import ClearIcon from '@mui/icons-material/Clear';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
+// const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
+// 	background: isDragging ? "#4a2975" : "white",
+// 	color: isDragging ? "white" : "black",
+// 	borderRadius: `5px`,
+// 	...draggableStyle,
+// })
+
+
 const InstructionItem = ({ provided, snapshot, item, deleteInstruction})=> {
     const [instructionInput, setinstructionInput] = useState("");
 
@@ -19,6 +27,7 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction})=> {
             snapshot={snapshot}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            // style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
             >
                 <Paper elevation={3} style={{width: "100%", display: "flex", padding: 10, background: "white"}}>
                     <TextField 
@@ -27,9 +36,9 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction})=> {
                         label="Instruction" 
                         variant="outlined" 
                         fullWidth
-                        value={item.content} onChange={handleInstructionInput}
+                        value={instructionInput} onChange={handleInstructionInput}
                     />
-                    <Button variant="contained" onClick={() =>{deleteInstruction(item.id)}}><ClearIcon/></Button>
+                    <Button color="error" variant="contained" onClick={() =>{deleteInstruction(item.id)}}><ClearIcon/></Button>
                     <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
                 </Paper>
         </Box>

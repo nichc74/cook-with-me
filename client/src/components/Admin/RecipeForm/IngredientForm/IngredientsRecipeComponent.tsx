@@ -50,7 +50,7 @@ const IngredientsRecipeComponent = ({ provided, snapshot, recipeComponent, delet
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             >
-            <Paper elevation={2} style={{width: "100%", padding: 10, background: "#fffcf5"}}>
+            <Paper elevation={2} style={{width: "", padding: 10, background: "#fffcf5"}}>
                 <Paper>
                     <TextField id="amount" 
                         size="medium" 

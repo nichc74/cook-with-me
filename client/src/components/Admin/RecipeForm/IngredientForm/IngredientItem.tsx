@@ -33,10 +33,10 @@ const IngredientItem = ({ provided, snapshot, item, deleteIngredient}) => {
             {...provided.draggableProps}
             {...provided.dragHandleProps}>
             <Paper elevation={3} style={{width: "fit-content", display: "flex", padding: 10, justifyContent: "left", background: "white"}} >
-                <TextField id="amount" size="small" type="number" label="Amount" variant="outlined" value={item.amount} onChange={handleIngredientAmountInput}/>
-                <TextField id="metric" size="small" label="Metric" variant="outlined" value={item.metric} onChange={handleIngredientMetricInput}/>
-                <TextField id="ingredient" size="small" label="Ingredient" variant="outlined" value={item.ingredient} onChange={handleIngredientNameInput}/>
-                <Button variant="contained" onClick={() =>{deleteIngredient(item.id)}}><ClearIcon/></Button>
+                <TextField id="amount" size="small" type="number" label="Amount" variant="outlined" value={ingredientAmount} onChange={handleIngredientAmountInput}/>
+                <TextField id="metric" size="small" label="Metric" variant="outlined" value={ingredientMetric} onChange={handleIngredientMetricInput}/>
+                <TextField id="ingredient" size="small" label="Ingredient" variant="outlined" value={ingredientName} onChange={handleIngredientNameInput}/>
+                <Button color="error" variant="contained" onClick={() =>{deleteIngredient(item.id)}}><ClearIcon/></Button>
                 <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
             </Paper>
         </Box>

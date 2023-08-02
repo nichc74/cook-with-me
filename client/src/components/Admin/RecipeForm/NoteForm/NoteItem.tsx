@@ -7,10 +7,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
 const NoteItem = ({ provided, snapshot, item, deleteNotes })=> {
-    const [instructionInput, setinstructionInput] = useState("");
+    const [note, setNoteInput] = useState("");
 
-    const handleInstructionInput = (e) => {
-        setinstructionInput(e.target.value)
+    const handleNoteInput = (e) => {
+        setNoteInput(e.target.value)
     }
 
     return (
@@ -27,9 +27,9 @@ const NoteItem = ({ provided, snapshot, item, deleteNotes })=> {
                         label="Note" 
                         variant="outlined" 
                         fullWidth
-                        value={item.content} onChange={handleInstructionInput}
+                        value={note} onChange={handleNoteInput}
                     />
-                    <Button variant="contained" onClick={() =>{deleteNotes(item.id)}}><ClearIcon/></Button>
+                    <Button color="error" variant="contained" onClick={() =>{deleteNotes(item.id)}}><ClearIcon/></Button>
                     <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
                 </Paper>
                 

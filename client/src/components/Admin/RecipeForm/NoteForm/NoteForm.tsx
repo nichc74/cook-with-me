@@ -11,8 +11,6 @@ const elements = [
 
 const NoteForm = ({}) => {
     const [notes, setNotes] = useState(Array(2).fill({}).map((_, i) => ({ id: i + "" })));
-    // const [items, setItems] = useState(Array.apply(null, {length: 5}).map(Number.call, Number));
-    // const [items, setItems] = useState(elements);
 
     const onDragEnd = (result: any) => {
         const newItems = Array.from(notes);

@@ -8,6 +8,18 @@ interface IngredientForm {
     // Define the properties of an ingredient here
 }
 
+const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
+	padding: 10,
+	margin: `0 50px 15px 50px`,
+	background: isDragging ? "#4a2975" : "white",
+	color: isDragging ? "white" : "black",
+	border: `1px solid black`,
+	fontSize: `20px`,
+	borderRadius: `5px`,
+
+	...draggableStyle
+})
+
 const IngredientForm = ({setRecipeIngredientsOnForm}) => {
     const [recipeComponents, setRecipeComponents] = useState(Array(1).fill({}).map((_, i) => ({ id: i + ""})));
     

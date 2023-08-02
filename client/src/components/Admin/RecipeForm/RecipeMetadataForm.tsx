@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { TextField } from '@mui/material';
+import { Paper, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const RecipeMetadataForm = ({setMetadataOnForm}) => {
@@ -36,12 +36,14 @@ const RecipeMetadataForm = ({setMetadataOnForm}) => {
     }
 
     const handleSummaryInput = (e) => {
-        setServings(e.target.value)
+        setSummary(e.target.value)
     }
         
     return (
         <div>
             <h1>Recipe</h1>
+            <Paper style={{display: "flex" ,flexDirection: "column", padding: 10, background: "white"}}>
+   
                 <TextField id="outlined-search" label="Title" type="search" 
                 value={title} 
                 onChange={handleTitleInput}
@@ -63,23 +65,22 @@ const RecipeMetadataForm = ({setMetadataOnForm}) => {
                 <div className="recipe-form-metadata">
                     <TextField
                         id="outlined-number"
-                        label="Prep Time"
+                        label="Prep Time (minutes)"
                         type="number"
                         value={prepTime}
                         onChange={handlePrepInput}
-                        style={{width: 100}}
-                        
+                        style={{width: 150}}
                         InputLabelProps={{
                             shrink: true,
                         }}
                     />
                     <TextField
                         id="outlined-number"
-                        label="Cook Time"
+                        label="Cook Time (minutes)"
                         type="number"
                         value={cookTime}
                         onChange={handleCookInput}
-                        style={{width: 100}}
+                        style={{width: 150}}
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -100,6 +101,7 @@ const RecipeMetadataForm = ({setMetadataOnForm}) => {
                 <TextField fullWidth id="outlined-multiline-flexible" label="Recipe Summary" multiline 
                     value={summary} onChange={handleSummaryInput}
                 />
+            </Paper>
         </div>
     )
 }
