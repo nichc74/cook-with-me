@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import ClearIcon from '@mui/icons-material/Clear';
+import RemoveIcon from '@mui/icons-material/Remove';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
 const NoteItem = ({ provided, snapshot, item, deleteNotes })=> {
@@ -29,7 +29,7 @@ const NoteItem = ({ provided, snapshot, item, deleteNotes })=> {
                         fullWidth
                         value={note} onChange={handleNoteInput}
                     />
-                    <Button color="error" variant="contained" onClick={() =>{deleteNotes(item.id)}}><ClearIcon/></Button>
+                    <Button color="error" variant="contained" onClick={() =>{deleteNotes(item.id)}}><RemoveIcon/></Button>
                     <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
                 </Paper>
                 

@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import ClearIcon from '@mui/icons-material/Clear';
+import RemoveIcon from '@mui/icons-material/Remove';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
 // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -29,18 +29,18 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction})=> {
             {...provided.dragHandleProps}
             // style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
             >
-                <Paper elevation={3} style={{width: "100%", display: "flex", padding: 10, background: "white"}}>
-                    <TextField 
-                        multiline
-                        size="small"
-                        label="Instruction" 
-                        variant="outlined" 
-                        fullWidth
-                        value={instructionInput} onChange={handleInstructionInput}
-                    />
-                    <Button color="error" variant="contained" onClick={() =>{deleteInstruction(item.id)}}><ClearIcon/></Button>
-                    <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
-                </Paper>
+            <Paper elevation={3} style={{width: "100%", display: "flex", padding: 10, background: "white"}}>
+                <TextField 
+                    multiline
+                    size="small"
+                    label="Instruction" 
+                    variant="outlined" 
+                    fullWidth
+                    value={instructionInput} onChange={handleInstructionInput}
+                />
+                <Button color="error" variant="contained" onClick={() =>{deleteInstruction(item.id)}}><RemoveIcon/></Button>
+                <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
+            </Paper>
         </Box>
     )
 }

@@ -4,22 +4,6 @@ import IngredientsRecipeComponent from './IngredientsRecipeComponent.tsx';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import '../RecipeForm.css';
 
-interface IngredientForm {
-    // Define the properties of an ingredient here
-}
-
-const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-	padding: 10,
-	margin: `0 50px 15px 50px`,
-	background: isDragging ? "#4a2975" : "white",
-	color: isDragging ? "white" : "black",
-	border: `1px solid black`,
-	fontSize: `20px`,
-	borderRadius: `5px`,
-
-	...draggableStyle
-})
-
 const IngredientForm = ({setRecipeIngredientsOnForm}) => {
     const [recipeComponents, setRecipeComponents] = useState(Array(1).fill({}).map((_, i) => ({ id: i + ""})));
     
@@ -71,7 +55,6 @@ const IngredientForm = ({setRecipeIngredientsOnForm}) => {
             </DragDropContext>
             <br/>            
             <Button style={{width: "100%"}} variant="contained" onClick={() => addRecipeComponent()}>Add Section</Button>
-            {/* <Button variant="contained" onClick={() => setRecipeIngredientsOnForm(recipeIngredients)}>Save</Button> */}
         </div>
         
     )

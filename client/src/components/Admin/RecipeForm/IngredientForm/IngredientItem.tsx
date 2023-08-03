@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { TextField, Button, Box, Paper } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
+import RemoveIcon from '@mui/icons-material/Remove';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
 const IngredientItem = ({ provided, snapshot, item, deleteIngredient}) => {
@@ -36,7 +36,7 @@ const IngredientItem = ({ provided, snapshot, item, deleteIngredient}) => {
                 <TextField id="amount" size="small" type="number" label="Amount" variant="outlined" value={ingredientAmount} onChange={handleIngredientAmountInput}/>
                 <TextField id="metric" size="small" label="Metric" variant="outlined" value={ingredientMetric} onChange={handleIngredientMetricInput}/>
                 <TextField id="ingredient" size="small" label="Ingredient" variant="outlined" value={ingredientName} onChange={handleIngredientNameInput}/>
-                <Button color="error" variant="contained" onClick={() =>{deleteIngredient(item.id)}}><ClearIcon/></Button>
+                <Button color="error" variant="contained" onClick={() =>{deleteIngredient(item.id)}}><RemoveIcon/></Button>
                 <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
             </Paper>
         </Box>

@@ -6,8 +6,6 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 
 
 const InstructionForm = ({setRecipeIngredientsOnForm}) => {
-    // const [instructions, setInstructions] = useState(Array.apply(null, {length: 5}).map(Number.call, Number));
-    // const [items, setItems] = useState(Array.apply(null, {length: 5}).map(Number.call, Number));
     const [instructions, setInstructions] = useState(Array(5).fill({}).map((_, i) => ({ id: i + "" })));
 
     const onDragEnd = (result: any) => {

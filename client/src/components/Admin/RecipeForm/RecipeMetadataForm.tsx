@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import { Paper, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 
-const RecipeMetadataForm = ({setMetadataOnForm}) => {
-    //TODO: Take this out when you integrate with API
+const RecipeMetadataForm = ({setMetadataOnForm, ref}) => {
     const [title, setTitle] = useState("")
     const [author, setAuthor] = useState("")
-    const [prepTime, setPrepTime] = useState("")
-    const [cookTime, setCookTime] = useState("")
-    const [cuisineType, setMealType] = useState("")
+    const [prepTime, setPrepTime] = useState(0)
+    const [cookTime, setCookTime] = useState(0)
+    const [cuisineType, setCuisineType] = useState("")
     const [category, setCategory] = useState("")
-    const [servings, setServings] = useState("")
+    const [servings, setServings] = useState(1)
     const [summary, setSummary] = useState("")
 
     const handleTitleInput = (e) => {
         setTitle(e.target.value)
+        setMetadataOnForm(title);
     }
     const handleAuthorInput = (e) => {
         setAuthor(e.target.value)
@@ -26,7 +26,7 @@ const RecipeMetadataForm = ({setMetadataOnForm}) => {
         setCookTime(e.target.value)
     }
     const handleCuisineTypeInput = (e) => {
-        setMealType(e.target.value)
+        setCuisineType(e.target.value)
     }
     const handleCategoryInput = (e) => {
         setCategory(e.target.value)
@@ -38,7 +38,20 @@ const RecipeMetadataForm = ({setMetadataOnForm}) => {
     const handleSummaryInput = (e) => {
         setSummary(e.target.value)
     }
-        
+
+    const getMetadata = () => {
+        return {
+            title: title,
+            author: author,
+            prepTime: prepTime,
+            cookTime: cookTime,
+            cuisineType: cuisineType,
+            category: category,
+            servings: servings,
+            summary: summary
+        }
+    }
+
     return (
         <div>
             <h1>Recipe</h1>

@@ -3,6 +3,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Button, Paper, TextField, Box} from '@mui/material';
 import IngredientItem from './IngredientItem.tsx';
 import AddIcon from '@mui/icons-material/Add';
+import ReorderIcon from '@mui/icons-material/Reorder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../RecipeForm.css';
 
@@ -10,7 +11,6 @@ interface recipeComponents {
     id: string,
     component: string,
     ingredients: []
-    // Define the properties of an ingredient here
 }
 
 const IngredientsRecipeComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent}) => {
@@ -51,7 +51,7 @@ const IngredientsRecipeComponent = ({ provided, snapshot, recipeComponent, delet
             {...provided.dragHandleProps}
             >
             <Paper elevation={2} style={{width: "", padding: 10, background: "#fffcf5"}}>
-                <Paper>
+                <div className="" style={{display: 'flex', flexDirection: "row", background: "white"}}>
                     <TextField id="amount" 
                         size="medium" 
                         label="Section" 
@@ -59,7 +59,9 @@ const IngredientsRecipeComponent = ({ provided, snapshot, recipeComponent, delet
                         variant="outlined" 
                         onChange={handleRecipeComponentNameInput}
                         value={recipeComponentName} />
-                </Paper>
+                        <ReorderIcon style={{height: "100%", paddingLeft: 10, margin: "auto"}}/>
+                </div>
+                   
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="droppable">
                         {(provided) => (
