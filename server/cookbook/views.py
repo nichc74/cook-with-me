@@ -1,21 +1,9 @@
 from .models import Recipe
-# from rest_framework import viewsets
-# from rest_framework import permissions
-
- 
-# class RecipeViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
-#     queryset = Recipe.objects.all()
-#     serializer_class = RecipeSerializer
-#     permission_classes = [permissions.IsAuthenticated]
-
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Recipe
-from .serializer import RecipeSerializer
+from .models import Recipe, RecipeSummary, Category, Image
+from .serializers import RecipeSerializer
+from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_recipe
 
 # Create your views here.
 @api_view(['GET'])
@@ -26,7 +14,17 @@ def getRecipes(request):
 
 @api_view(['POST'])
 def postRecipe(request):
-    serializer = RecipeSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+    data = request.data.pop("recipe_data", {})
+    response = parse_and_create_recipe(data)
+    return Response(response)
+
+# def createRecipe(request):
+#     print("==============================================")
+#     print(request)
+#     recipe_summary_data = request.pop("summary", {})
+#     recipe = Recipe.objects.create(**request)
+#     serializer = RecipeSerializer(data=request.data)
+#     RecipeSummary.objects.create(recipe=recipe, **recipe_summary_data)
+#     if serializer.is_valid():
+#         serializer.save()
+#     return Response(serializer.data)

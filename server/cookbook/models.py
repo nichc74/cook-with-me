@@ -33,7 +33,7 @@ class RecipeSummary(models.Model):
     summary = models.TextField()
 
     def __str__(self):
-        return "%s: %s" % (self.id, self.title)
+        return "%s: %s" % (self.id, self.summary)
 
 class RecipeComponent(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -56,7 +56,7 @@ class RecipeIngredient(models.Model):
     metric = models.CharField(max_length=64, default="")
 
     def __str__(self):
-        return "%s: %s" % (self.recipe.title, self.ingredient.name)   
+        return "%s: %s" % (self.recipe_component, self.ingredient.name)   
     
 class Instruction(models.Model):
     recipe_component = models.ForeignKey(RecipeComponent, on_delete=models.CASCADE, default=None)
