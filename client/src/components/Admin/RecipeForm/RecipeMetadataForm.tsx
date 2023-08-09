@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import { Paper, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
+import { useDispatch } from 'react-redux';
+import { updateMetadata, updateSummary } from '../../../store/actions/recipeActions';
 
-const RecipeMetadataForm = ({setMetadataOnForm, ref}) => {
+const RecipeMetadataForm = () => {
+    const dispatch = useDispatch();
     const [title, setTitle] = useState("")
     const [author, setAuthor] = useState("")
     const [prepTime, setPrepTime] = useState(0)
@@ -14,42 +17,49 @@ const RecipeMetadataForm = ({setMetadataOnForm, ref}) => {
 
     const handleTitleInput = (e) => {
         setTitle(e.target.value)
-        setMetadataOnForm(title);
+        setMetadata();
     }
     const handleAuthorInput = (e) => {
         setAuthor(e.target.value)
+        setMetadata();
     }
     const handlePrepInput = (e) => {
         setPrepTime(e.target.value)
+        setMetadata();
     }
     const handleCookInput = (e) => {
         setCookTime(e.target.value)
+        setMetadata();
     }
     const handleCuisineTypeInput = (e) => {
         setCuisineType(e.target.value)
+        setMetadata();
     }
     const handleCategoryInput = (e) => {
         setCategory(e.target.value)
+        setMetadata();
     }
     const handleServingsInput = (e) => {
         setServings(e.target.value)
+        setMetadata();
     }
 
     const handleSummaryInput = (e) => {
         setSummary(e.target.value)
+        dispatch(updateSummary(summary));
     }
 
-    const getMetadata = () => {
-        return {
+    const setMetadata = () => {
+        var data = {
             title: title,
             author: author,
             prepTime: prepTime,
             cookTime: cookTime,
             cuisineType: cuisineType,
             category: category,
-            servings: servings,
-            summary: summary
+            servings: servings
         }
+        dispatch(updateMetadata(data));
     }
 
     return (

@@ -5,7 +5,7 @@ import InstructionItem from './InstructionItem.tsx';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 
 
-const InstructionForm = ({setRecipeIngredientsOnForm}) => {
+const InstructionForm = () => {
     const [instructions, setInstructions] = useState(Array(5).fill({}).map((_, i) => ({ id: i + "" })));
 
     const onDragEnd = (result: any) => {

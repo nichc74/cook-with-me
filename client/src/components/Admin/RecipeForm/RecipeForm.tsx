@@ -5,7 +5,7 @@ import IngredientForm from './IngredientForm/IngredientForm.tsx';
 import InstructionForm from './InstructionForm/InstructionForm.tsx';
 import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button } from '@mui/material';
-
+import { useSelector } from 'react-redux';
 
 interface Metadata {
     title: string,
@@ -19,46 +19,29 @@ interface Metadata {
 }
 
 const RecipeForm: React.FC = () => {
-    const [metadata, setMetadata] = useState<Metadata>({});
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [instructions, setInstructions] = useState<Instruction[]>([]);
-    const [notes, setNotes] = useState<Note[]>([]);
-
-    const setMetadataOnForm = () => {
-        setMetadata(metadata);
-    };
-
-    const setRecipeIngredientsOnForm = (ingredients: Ingredient[]) => {
-        setIngredients(ingredients);
-    };
-
-    const setRecipeInstructionsOnForm = (instructions: Instruction[]) => {
-        setInstructions(instructions);
-    };
-
-    const setRecipeNotesOnForm = (notes: Note[]) => {
-        setNotes(notes);
-    };
+    const metadata = useSelector((state) => state.recipeReducer.metadata);
+    const recipe_ingredient_components = useSelector((state) => state.recipeReducer.recipe_ingredient_components);
 
     const onSave = () => {
         console.log(metadata);
+        console.log(recipe_ingredient_components);
     }
 
     const onDelete = () => {
-        console.log(metadata);
+
     }
 
     const onPublish = () => {
-        console.log(metadata);
+
     }
 
     return (
         <div className="recipe-form">
             <div className="recipe-form-container">
-                <RecipeMetadataForm setMetadataOnForm={setMetadataOnForm} />
-                <IngredientForm setRecipeIngredientsOnForm={setRecipeIngredientsOnForm} />
-                <InstructionForm setRecipeInstructionsOnForm={setRecipeInstructionsOnForm} />
-                <NoteForm setRecipeNotesOnForm={setRecipeNotesOnForm} />
+                <RecipeMetadataForm/>
+                <IngredientForm/>
+                <InstructionForm/>
+                <NoteForm/>
                 <br/>
                 <div className="recipe-form-button-options-container ">
                     <Button color="error" variant="contained"  onClick={() => onDelete()}>Delete</Button>

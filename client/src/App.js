@@ -86,7 +86,7 @@ function App() {
         {displayBody()}
         <TestComponent/> 
       </div>
-      {/* <RecipeForm/> */}
+      <RecipeForm/>
     </div>
   );
 }
