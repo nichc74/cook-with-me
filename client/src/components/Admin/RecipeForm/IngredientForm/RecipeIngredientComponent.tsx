@@ -19,7 +19,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
 
     const handleRecipeComponentNameInput = (value: string) => {
         setRecipeComponentName(value);
-        updateComponent();
+        updateComponent(value, recipeIngredients);
     };
 
     const deleteIngredient = (id: string) => {
@@ -31,7 +31,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
             }
         }
         setRecipeIngredients(temp);
-        updateComponent();
+        updateComponent(recipeComponentName, temp);
     };
 
     const onDragEnd = (result: any) => {
@@ -41,6 +41,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
         const [removed] = newItems.splice(result.source.index, 1);
         newItems.splice(result.destination.index, 0, removed);
         setRecipeIngredients(newItems);
+        updateComponent(recipeComponentName, newItems);
     };
 
     const updateIngredient = (id: string, updatedIngredient: any) => {
@@ -55,13 +56,13 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
         });
     
         setRecipeIngredients(updatedIngredients);
-        updateComponent();
+        updateComponent(recipeComponentName, updatedIngredients);
     };
 
-    const updateComponent = () => {
+    const updateComponent = (componentName, recipeIngredientList) => {
         var component_data = {
-            component_name: recipeComponentName,
-            recipe_ingredients: recipeIngredients
+            component_name: componentName,
+            recipe_ingredients: recipeIngredientList
         }
         console.log(component_data)
         updateRecipeComponent(recipeComponent.id, component_data);
