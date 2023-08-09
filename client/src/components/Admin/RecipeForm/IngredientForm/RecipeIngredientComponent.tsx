@@ -31,6 +31,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
             }
         }
         setRecipeIngredients(temp);
+        updateComponent();
     };
 
     const onDragEnd = (result: any) => {

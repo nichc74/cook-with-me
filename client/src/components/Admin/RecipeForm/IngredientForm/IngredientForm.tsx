@@ -26,7 +26,7 @@ const IngredientForm = () => {
             }
         }
         setRecipeComponents(temp);
-        dispatch(updateRecipeIngredientComponent(recipeComponents));
+        dispatch(updateRecipeIngredientComponent(temp));
 
     };
 
@@ -36,7 +36,7 @@ const IngredientForm = () => {
         const [removed] = newItems.splice(result.source.index, 1);
         newItems.splice(result.destination.index, 0, removed);
         setRecipeComponents(newItems);
-        dispatch(updateRecipeIngredientComponent(recipeComponents));
+        dispatch(updateRecipeIngredientComponent(newItems));
 
     };
 
