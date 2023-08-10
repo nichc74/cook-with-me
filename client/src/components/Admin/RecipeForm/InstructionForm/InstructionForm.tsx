@@ -1,62 +1,93 @@
-import React from 'react';
-import {useState} from 'react';
-import { Button, Paper} from '@mui/material';
-import InstructionItem from './InstructionItem.tsx';
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
+import React, { useState } from 'react';
+import { Button } from '@mui/material';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useDispatch } from 'react-redux';
+import RecipeInstructionalComponent from './RecipeInstructionalCompnent.tsx';
+import { updateRecipeInstructionalComponent } from '../../../../store/actions/recipeActions.js';
+import '../RecipeForm.css';
 
+const IngredientForm = () => {
+    const dispatch = useDispatch();
 
-const InstructionForm = () => {
-    const [instructions, setInstructions] = useState(Array(5).fill({}).map((_, i) => ({ id: i + "" })));
+    const [recipeComponents, setRecipeComponents] = useState([
+        {
+            id: '0',
+            component_name: '',
+            recipe_instructions: []
+        }
+    ]);
 
-    const onDragEnd = (result: any) => {
-        const newItems = Array.from(instructions);
-        const [removed] = newItems.splice(result.source.index, 1);
-        newItems.splice(result.destination.index, 0, removed);
-        setInstructions(newItems);
+    const addRecipeComponent = () => {
+        const newId = String(recipeComponents.length);
+        const newComponent = {
+            id: newId,
+            component_name: '',
+            recipe_instructions: []
+        };
+        setRecipeComponents([...recipeComponents, newComponent]);
     };
 
-    const deleteInstruction = (id: string) => {
-        const temp = [...instructions];
+    const deleteRecipeComponent = (idToDelete: string) => {
+        const updatedComponents = recipeComponents.filter(component => component.id !== idToDelete);
+        setRecipeComponents(updatedComponents);
+        dispatch(updateRecipeInstructionalComponent(updatedComponents));
+    };
 
-        for (var inIdx = 0; inIdx < instructions.length; inIdx++) {
-            if (instructions[inIdx].id == id) {
-                temp.splice(inIdx, 1);
-                break;
+    const onDragEnd = (result: any) => {
+        if (!result.destination) return;
+        const newComponents = Array.from(recipeComponents);
+        const [reorderedComponent] = newComponents.splice(result.source.index, 1);
+        newComponents.splice(result.destination.index, 0, reorderedComponent);
+        setRecipeComponents(newComponents);
+        dispatch(updateRecipeInstructionalComponent(newComponents));
+    };
+
+    const updateRecipeComponent = (idToUpdate: string, updatedData: any) => {
+        const updatedComponents = recipeComponents.map(component => {
+            if (component.id === idToUpdate) {
+                return {
+                    ...component,
+                    component_name: updatedData.component_name,
+                    recipe_instructions: updatedData.recipeInstructionList
+                };
             }
-        }
-        setInstructions(temp);
-    }
+            return component;
+        });
 
-    const addInstruction = () => {
-        setInstructions([...instructions, {id: instructions.length + ""}]);
-    }
+        setRecipeComponents(updatedComponents);
+        dispatch(updateRecipeInstructionalComponent(updatedComponents));
+    };
 
     return (
         <div>
-            <h1> Instructions </h1>
+            <h1>Instructions</h1>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="droppable">
                     {(provided) => (
-                    <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {instructions.map((item, index) => (
-                            <Draggable key={item.id} draggableId={item.id} index={index}>
-                                {(provided, snapshot) => (
-                                <InstructionItem
-                                    provided={provided}
-                                    snapshot={snapshot}
-                                    item={item}
-                                    deleteInstruction={deleteInstruction}
-                                />
-                                )}
-                            </Draggable>
-                        ))}
-                    </div>
+                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                            {recipeComponents.map((recipeComponent, index) => (
+                                <Draggable key={recipeComponent.id} draggableId={recipeComponent.id} index={index}>
+                                    {(provided, snapshot) => (
+                                        <RecipeInstructionalComponent
+                                            provided={provided}
+                                            snapshot={snapshot}
+                                            recipeComponent={recipeComponent}
+                                            deleteRecipeComponent={deleteRecipeComponent}
+                                            updateRecipeComponent={updateRecipeComponent}
+                                        />
+                                    )}
+                                </Draggable>
+                            ))}
+                        </div>
                     )}
                 </Droppable>
             </DragDropContext>
-            <Button style={{width: "100%"}} variant="contained" onClick={() => addInstruction()}>Add Instruction</Button>
+            <br />
+            <Button style={{ width: '100%' }} variant="contained" onClick={addRecipeComponent}>
+                Add Section
+            </Button>
         </div>
     );
-}
+};
 
-export default InstructionForm;
+export default IngredientForm;

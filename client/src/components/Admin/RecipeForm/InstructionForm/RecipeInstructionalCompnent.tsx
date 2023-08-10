@@ -1,62 +1,64 @@
 import React, { useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Paper, TextField, Box } from '@mui/material';
-import IngredientItem from './IngredientItem.tsx';
+import InstructionItem from './InstructionItem.tsx';
 import AddIcon from '@mui/icons-material/Add';
 import ReorderIcon from '@mui/icons-material/Reorder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../RecipeForm.css';
 
-const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent }) => {
+const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent }) => {
     const [recipeComponentName, setRecipeComponentName] = useState('');
-    const [recipeIngredients, setRecipeIngredients] = useState(
-        new Array(5).fill({}).map((_, i) => ({ id: i + '', ingredient: {} }))
+    const [recipeInstructions, setRecipeInstructions] = useState(
+        new Array(5).fill({}).map((_, i) => ({ id: i + '', description: "", is_image: false}))
     );
 
-    const addIngredient = () => {
-        setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length ).toString(), ingredient: {} }]);
+    const addIntruction = () => {
+        setRecipeInstructions([...recipeInstructions, { id: (recipeInstructions.length ).toString(), description: "", is_image: false  }]);
     };
 
     const handleRecipeComponentNameInput = (value: string) => {
         setRecipeComponentName(value);
-        updateComponent(value, recipeIngredients);
+        updateComponent(value, recipeInstructions);
     };
 
-    const deleteIngredient = (idToDelete: string) => {
-        const updatedComponents = recipeIngredients.filter(component => component.id !== idToDelete);
-        setRecipeIngredients(updatedComponents);
+    const deleteInstruction = (idToDelete: string) => {
+        const updatedComponents = recipeInstructions.filter(component => component.id !== idToDelete);
+        setRecipeInstructions(updatedComponents);
         updateComponent(recipeComponentName, updatedComponents);
     };
 
     const onDragEnd = (result: any) => {
         if (!result.destination) return;
 
-        const newItems = Array.from(recipeIngredients);
+        const newItems = Array.from(recipeInstructions);
         const [removed] = newItems.splice(result.source.index, 1);
         newItems.splice(result.destination.index, 0, removed);
-        setRecipeIngredients(newItems);
+        setRecipeInstructions(newItems);
         updateComponent(recipeComponentName, newItems);
     };
 
-    const updateIngredient = (id: string, updatedIngredient: any) => {
-        const updatedIngredients = recipeIngredients.map(ingredient => {
-            if (ingredient.id === id) {
+    const updateInstruction = (id: string, updatedInstruction: any) => {
+        const updatedInstructions = recipeInstructions.map(instruction => {
+            if (instruction.id === id) {
                 return {
-                    ...ingredient,
-                    ingredient: updatedIngredient,
+                    ...instruction,
+                    description: updatedInstruction.description,
+                    is_image: updatedInstruction.is_image
                 };
             }
-            return ingredient;
+            return instruction;
         });
     
-        setRecipeIngredients(updatedIngredients);
-        updateComponent(recipeComponentName, updatedIngredients);
+        setRecipeInstructions(updatedInstructions);
+        updateComponent(recipeComponentName, updatedInstructions);
     };
 
-    const updateComponent = (componentName, recipeIngredientList) => {
+    const updateComponent = (componentName: string, recipeInstructionList: any) => {
+        console.log(recipeInstructionList)
         var component_data = {
             component_name: componentName,
-            recipe_ingredients: recipeIngredientList
+            recipeInstructionList: recipeInstructionList
         }
         console.log(component_data)
         updateRecipeComponent(recipeComponent.id, component_data);
@@ -69,7 +71,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
                     <TextField
                         id="amount"
                         size="medium"
-                        label="Ingredient Section"
+                        label="Instruction Section"
                         fullWidth
                         variant="outlined"
                         onChange={(e) => handleRecipeComponentNameInput(e.target.value)}
@@ -82,15 +84,15 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
                     <Droppable droppableId="droppable">
                         {(provided) => (
                             <div {...provided.droppableProps} ref={provided.innerRef}>
-                                {recipeIngredients.map((item, index) => (
+                                {recipeInstructions.map((item, index) => (
                                     <Draggable key={item.id} draggableId={item.id} index={index}>
                                         {(provided, snapshot) => (
-                                            <IngredientItem
-                                                updateIngredient={updateIngredient}
+                                            <InstructionItem
+                                                updateInstruction={updateInstruction}
                                                 provided={provided}
                                                 snapshot={snapshot}
                                                 item={item}
-                                                deleteIngredient={deleteIngredient}
+                                                deleteInstruction={deleteInstruction}
                                             />
                                         )}
                                     </Draggable>
@@ -100,7 +102,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
                     </Droppable>
                 </DragDropContext>
                 <div className="ingredient-section-buttons">
-                    <Button variant="contained" onClick={addIngredient}>
+                    <Button variant="contained" onClick={addIntruction}>
                         <AddIcon />
                     </Button>
                     <Button color="error" variant="contained" onClick={() => deleteRecipeComponent(recipeComponent.id)}>
@@ -112,4 +114,4 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
     );
 };
 
-export default RecipeIngredientComponent;
+export default RecipeInstructionalComponent;
