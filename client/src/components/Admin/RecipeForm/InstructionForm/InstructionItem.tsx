@@ -28,8 +28,7 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction, updateIn
             ref={provided.innerRef}
             snapshot={snapshot}
             {...provided.draggableProps}
-            {...provided.dragHandleProps}
-        >
+            {...provided.dragHandleProps}>
             <Paper elevation={3} style={{ width: '100%', display: 'flex', padding: 10, background: 'white' }}>
                 <TextField
                     multiline

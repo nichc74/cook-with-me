@@ -6,6 +6,7 @@ import InstructionForm from './InstructionForm/InstructionForm.tsx';
 import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { createRecipe } from '../../../apis/AdminAPI/createRecipe';
 
 interface Metadata {
     title: string,
@@ -21,21 +22,22 @@ interface Metadata {
 const RecipeForm: React.FC = () => {
     const metadata = useSelector((state) => state.recipeReducer.metadata);
     const summary = useSelector((state) => state.recipeReducer.summary)
-    const recipe_ingredient_components = useSelector((state) => state.recipeReducer.recipe_instructional_components);
-    const recipe_instructional_components = useSelector((state) => state.recipeReducer.recipe_ingredient_components);
+    const recipe_ingredient_components = useSelector((state) => state.recipeReducer.recipe_ingredient_components);
+    const recipe_instructional_components = useSelector((state) => state.recipeReducer.recipe_instructional_components);
     const notes = useSelector((state) => state.recipeReducer.notes);
 
     const onSave = () => {
-        console.log("================= metadata =================");
-        console.log(metadata);
-        console.log("================= summary =================");
-        console.log(summary)
-        console.log("================= recipe_ingredient_components =================");
-        console.log(recipe_ingredient_components);
-        console.log("================= recipe_instructional_components =================");
-        console.log(recipe_instructional_components);
-        console.log("================= notes =================");
-        console.log(notes);
+        // console.log("================= metadata =================");
+        // console.log(metadata);
+        // console.log("================= summary =================");
+        // console.log(summary)
+        // console.log("================= recipe_ingredient_components =================");
+        // console.log(recipe_ingredient_components);
+        // console.log("================= recipe_instructional_components =================");
+        // console.log(recipe_instructional_components);
+        // console.log("================= notes =================");
+        // console.log(notes);
+        createRecipe(metadata, summary, recipe_ingredient_components, recipe_instructional_components, notes);
     }
 
     const onDelete = () => {

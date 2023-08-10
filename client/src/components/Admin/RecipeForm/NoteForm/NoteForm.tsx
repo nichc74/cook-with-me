@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 import { updateNotes } from '../../../../store/actions/recipeActions.js';
 
-
 const NoteForm = () => {
     const dispatch = useDispatch();
     const [notes, setNotes] = useState(Array(2).fill({}).map((_, i) => ({ id: i + "", description: "", is_image: false })));
