@@ -27,12 +27,12 @@ def parse_and_create_recipe_metadata(data):
     return Recipe.objects.create(
         title=data['title'],
         author=data['author'],
-        url_slug=data['url_slug'],
-        prep_time=data['prep_time'],
-        cook_time=data['cook_time'],
+        url_slug=data['urlSlug'],
+        prep_time=data['prepTime'],
+        cook_time=data['cookTime'],
         cuisine=data['cuisine'],
         serves=data['serves'],
-        is_published=data['is_published'],
+        is_published=data['isPublished'],
         banner_image_id=image[0],
         category=category[0],
     )
@@ -65,12 +65,14 @@ def parse_and_create_recipe_instructional_components(recipe_instructional_compon
 
 
 def parse_and_create_instructions(recipe_instructional_data, component):
-    for instruction in recipe_instructional_data:
-        Instruction.objects.create(recipe_component=component, description=instruction['description'], step_id=instruction['step_id'], is_image=instruction['is_image'] )
+    for step in range(0, len(recipe_instructional_data)):
+        instruction = recipe_instructional_data[step]
+        Instruction.objects.create(recipe_component=component, description=instruction['description'], step_id=step+1, is_image=instruction['is_image'] )
     return 
 
 def parse_and_create_notes(notes, recipe):
-    for note in notes:
-        Note.objects.create(recipe=recipe, **note)
+    for step in range(0, len(notes)):
+        note=notes[step]
+        Note.objects.create(recipe=recipe, description=note['description'], step_id=step+1, is_image=note['is_image'])
     return
 
