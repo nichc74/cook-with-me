@@ -14,7 +14,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
     );
 
     const addIngredient = () => {
-        setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length + 1).toString(), ingredient: {} }]);
+        setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length ).toString(), ingredient: {} }]);
     };
 
     const handleRecipeComponentNameInput = (value: string) => {
@@ -22,16 +22,10 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
         updateComponent(value, recipeIngredients);
     };
 
-    const deleteIngredient = (id: string) => {
-        const temp = [...recipeIngredients];
-        for (var inIdx = 0; inIdx < recipeIngredients.length; inIdx++) {
-            if (recipeIngredients[inIdx].id == id) {
-                temp.splice(inIdx, 1);
-                break;
-            }
-        }
-        setRecipeIngredients(temp);
-        updateComponent(recipeComponentName, temp);
+    const deleteIngredient = (idToDelete: string) => {
+        const updatedComponents = recipeIngredients.filter(component => component.id !== idToDelete);
+        setRecipeIngredients(updatedComponents);
+        updateComponent(recipeComponentName, updatedComponents);
     };
 
     const onDragEnd = (result: any) => {

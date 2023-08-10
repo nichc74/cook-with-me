@@ -33,7 +33,6 @@ const IngredientItem = ({ provided, snapshot, item, deleteIngredient, updateIngr
             metric: newMetric,
             ingredient: newName
         };
-        console.log(item.id);
         updateIngredient(item.id, data);
     };
 

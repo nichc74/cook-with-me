@@ -21,10 +21,12 @@ interface Metadata {
 const RecipeForm: React.FC = () => {
     const metadata = useSelector((state) => state.recipeReducer.metadata);
     const recipe_ingredient_components = useSelector((state) => state.recipeReducer.recipe_ingredient_components);
+    const notes = useSelector((state) => state.recipeReducer.notes);
 
     const onSave = () => {
         console.log(metadata);
         console.log(recipe_ingredient_components);
+        console.log(notes);
     }
 
     const onDelete = () => {

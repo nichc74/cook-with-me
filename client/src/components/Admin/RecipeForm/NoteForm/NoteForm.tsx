@@ -2,37 +2,48 @@ import React from 'react';
 import {useState} from 'react';
 import { Button, Paper} from '@mui/material';
 import NoteItem from './NoteItem.tsx';
+import { useDispatch } from 'react-redux';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
+import { updateNotes } from '../../../../store/actions/recipeActions.js';
 
-const elements = [
-    { id: "1", content: "Note 1" },
-    { id: "2", content: "Note 2" },
-  ];
 
-const NoteForm = ({}) => {
-    const [notes, setNotes] = useState(Array(2).fill({}).map((_, i) => ({ id: i + "" })));
+const NoteForm = () => {
+    const dispatch = useDispatch();
+    const [notes, setNotes] = useState(Array(2).fill({}).map((_, i) => ({ id: i + "", data: {} })));
 
     const onDragEnd = (result: any) => {
         const newItems = Array.from(notes);
         const [removed] = newItems.splice(result.source.index, 1);
         newItems.splice(result.destination.index, 0, removed);
         setNotes(newItems);
+        dispatch(updateNotes(newItems))
     };
 
-    const deleteNotes = (id: string) => {
-        const temp = [...notes];
-        for (var inIdx = 0; inIdx < notes.length; inIdx++) {
-            if (notes[inIdx].id == id) {
-                temp.splice(inIdx, 1);
-                break;
-            }
-        }
-        setNotes(temp);
+    const deleteNotes = (idToDelete: string) => {
+        const updatedNotes = notes.filter(component => component.id !== idToDelete);
+        setNotes(updatedNotes);
+        dispatch(updateNotes(updatedNotes))
     }
 
     const addNote = () => {
-        setNotes([...notes, {id: notes.length + 1 + ""}]);
+        setNotes([...notes, {id: notes.length + "", data: {}}]);
     }
+
+    const updateRecipeNotes = (idToUpdate: string, updateNoteData: any) => {
+        console.log(updateNoteData)
+        const updatedNotes = notes.map(note => {
+            if (note.id === idToUpdate) {
+                return {
+                    ...note,
+                    data: updateNoteData
+                };
+            }
+            return note;
+        });
+
+        setNotes(updatedNotes);
+        dispatch(updateNotes(updatedNotes));
+    };
 
     return (
         <div>
@@ -49,6 +60,7 @@ const NoteForm = ({}) => {
                                     snapshot={snapshot}
                                     item={item}
                                     deleteNotes={deleteNotes}
+                                    updateRecipeNotes={updateRecipeNotes}
                                 />
                                 )}
                             </Draggable>
