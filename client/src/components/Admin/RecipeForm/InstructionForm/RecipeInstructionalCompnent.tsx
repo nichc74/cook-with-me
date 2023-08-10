@@ -14,7 +14,7 @@ const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, del
     );
 
     const addIntruction = () => {
-        setRecipeInstructions([...recipeInstructions, { id: (recipeInstructions.length ).toString(), description: "", is_image: false  }]);
+        setRecipeInstructions([...recipeInstructions, { id: (recipeInstructions.length ).toString(), description: "", is_image: false }]);
     };
 
     const handleRecipeComponentNameInput = (value: string) => {
@@ -39,6 +39,7 @@ const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, del
     };
 
     const updateInstruction = (id: string, updatedInstruction: any) => {
+        console.log(updatedInstruction);
         const updatedInstructions = recipeInstructions.map(instruction => {
             if (instruction.id === id) {
                 return {
@@ -55,12 +56,10 @@ const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, del
     };
 
     const updateComponent = (componentName: string, recipeInstructionList: any) => {
-        console.log(recipeInstructionList)
         var component_data = {
             component_name: componentName,
             recipeInstructionList: recipeInstructionList
         }
-        console.log(component_data)
         updateRecipeComponent(recipeComponent.id, component_data);
     }
 

@@ -16,7 +16,8 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction, updateIn
 
     const updateInstructionEntry = (value: string) => {
         var data = {
-            description: value
+            description: value,
+            is_image: false
         }
         updateInstruction(item.id, data)
     }

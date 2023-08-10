@@ -26,11 +26,10 @@ const NoteForm = () => {
     }
 
     const addNote = () => {
-        setNotes([...notes, {id: notes.length + "", data: {}}]);
+        setNotes([...notes, {id: notes.length + "", description: "", is_image: false }]);
     }
 
     const updateRecipeNotes = (idToUpdate: string, updateNoteData: any) => {
-        console.log(updateNoteData)
         const updatedNotes = notes.map(note => {
             if (note.id === idToUpdate) {
                 return {
