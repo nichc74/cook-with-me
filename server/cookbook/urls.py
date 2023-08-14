@@ -4,5 +4,6 @@ from django.conf import settings
 
 urlpatterns = [
     path('recipes', views.getRecipes),
+    path("recipe/<id>/", views.getRecipe),
     path('postRecipe', views.postRecipe),
 ]

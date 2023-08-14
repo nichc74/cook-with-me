@@ -4,42 +4,65 @@ from .models import Recipe, RecipeSummary, RecipeComponent, Ingredient, RecipeIn
 class RecipeSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeSummary
-        fields = '__all__'
-
-class RecipeComponentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RecipeComponent
-        fields = '__all__'
+        fields = ['summary']
+        # fields = '__all__'
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
-        fields = '__all__'
+        fields = ['name']
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='ingredient.name', read_only=True)
     class Meta:
         model = RecipeIngredient
-        fields = '__all__'
+        fields = ['amount', 'metric', 'name']
 
 class InstructionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instruction
-        fields = '__all__'
+        fields = ['description', 'step_id', 'is_image']
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = '__all__'
+        fields = ['description', 'step_id', 'is_image']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
 
+class RecipeIngredientComponentSerializer(serializers.ModelSerializer):
+    ingredients = RecipeIngredientSerializer(many=True, read_only=True, source='recipeingredient_set')
+    class Meta:
+        model = RecipeComponent
+        fields = ['component_name', 'ingredients']
+        # fields = '__all__'
+
+class RecipeInstructionalComponentSerializer(serializers.ModelSerializer):
+    instructions = InstructionSerializer(many=True, read_only=True, source='instruction_set')
+    class Meta:
+        model = RecipeComponent
+        fields = ['component_name', 'instructions']
+        # fields = '__all__'
+
 class RecipeSerializer(serializers.ModelSerializer):
-    RecipeSummary = RecipeSummarySerializer(many=False, required=False)
+    recipe_summary = RecipeSummarySerializer(many=True, read_only=True, source='recipesummary_set')
+    recipe_ingredient_components = serializers.SerializerMethodField()
+    recipe_instructional_components = serializers.SerializerMethodField()
+    notes = NoteSerializer(many=True, read_only=True, source='note_set')
+
+    def get_recipe_ingredient_components(self, instance):
+        # Filter RecipeSummaries based on specific criteria
+        filtered_components = instance.recipecomponent_set.filter(type="ingredient")  # Add your filtering logic here
+        return RecipeIngredientComponentSerializer(filtered_components, many=True).data
+    
+    def get_recipe_instructional_components(self, instance):
+        # Filter RecipeSummaries based on specific criteria
+        filtered_components = instance.recipecomponent_set.filter(type="instruction")  # Add your filtering logic here
+        return RecipeInstructionalComponentSerializer(filtered_components, many=True).data
+
     class Meta:
         model = Recipe
         fields = '__all__'
-
-

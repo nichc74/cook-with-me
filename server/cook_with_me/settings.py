@@ -84,6 +84,7 @@ DATABASES = {
         'NAME': 'cook_with_me',
         'USER': 'root', 
         'PASSWORD': '',
+        # 'HOST': 'localhost',
         'HOST': 'mysql_db',
         'PORT': '3306',
         # 'OPTIONS': {

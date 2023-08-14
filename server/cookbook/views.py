@@ -1,7 +1,7 @@
 from .models import Recipe
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Recipe, RecipeSummary, Category, Image
+from .models import Recipe, RecipeSummary, RecipeComponent, Note
 from .serializers import RecipeSerializer
 from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_recipe
 
@@ -11,6 +11,17 @@ def getRecipes(request):
     recipes = Recipe.objects.all()
     serializer = RecipeSerializer(recipes, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def getRecipe(request, id):
+    # recipe_id = request.data.pop("recipe_id", "")
+    try:
+        recipe = Recipe.objects.get(id=id)
+        serializer = RecipeSerializer(recipe)
+        return Response(serializer.data)
+    except Recipe.DoesNotExist:
+        return Response({"message": "Recipe not found"}, status=404)
+
 
 @api_view(['POST'])
 def postRecipe(request):

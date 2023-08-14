@@ -1,8 +1,7 @@
 from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeComponent, RecipeIngredient, Instruction, Ingredient
+import re
 
 def parse_and_create_recipe(data):
-    # print("========================== DATA ========================")
-    # print(data)
     metadata = data.pop("metadata", {})
     recipe = parse_and_create_recipe_metadata(metadata)
     
@@ -27,7 +26,7 @@ def parse_and_create_recipe_metadata(data):
     return Recipe.objects.create(
         title=data['title'],
         author=data['author'],
-        url_slug=data['urlSlug'],
+        url_slug=create_url_slug(data['title']),
         prep_time=data['prepTime'],
         cook_time=data['cookTime'],
         cuisine=data['cuisine'],
@@ -43,7 +42,8 @@ def parse_and_create_summary(summary_data, recipe):
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
     for recipe_componet in recipe_ingredient_component_data:
         name = recipe_componet['component_name']
-        component = RecipeComponent.objects.create(recipe=recipe, component_name=name)
+        type = recipe_componet['type']
+        component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=type)
         recipe_ingredient_data = recipe_componet.pop("recipe_ingredients", [])
         parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
     return
@@ -58,7 +58,8 @@ def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
 def parse_and_create_recipe_instructional_components(recipe_instructional_component_data, recipe):
     for recipe_componet in recipe_instructional_component_data:
         name = recipe_componet['component_name']
-        component = RecipeComponent.objects.create(recipe=recipe, component_name=name)
+        type = recipe_componet['type']
+        component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=type)
         recipe_instructional_data = recipe_componet.pop("instructions", [])
         parse_and_create_instructions(recipe_instructional_data, component)
     return
@@ -76,3 +77,15 @@ def parse_and_create_notes(notes, recipe):
         Note.objects.create(recipe=recipe, description=note['description'], step_id=step+1, is_image=note['is_image'])
     return
 
+
+def create_url_slug(title):
+    url_slug = ""
+    title = re.sub('[^0-9a-zA-Z]+', ' ', title)
+    title = title.lower()
+    title_array = title.split()
+    for idx in range(0, len(title_array)):
+        if idx == len(title_array)-1:
+            url_slug += title_array[idx]
+        else:
+            url_slug += title_array[idx] + "_"
+    return "/" + url_slug

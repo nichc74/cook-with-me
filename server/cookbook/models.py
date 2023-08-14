@@ -38,6 +38,7 @@ class RecipeSummary(models.Model):
 class RecipeComponent(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     component_name = models.CharField(max_length=128)
+    type = models.CharField(max_length=128, default="")
 
     def __str__(self):
         return "%s: %s" % (self.id, self.component_name)
