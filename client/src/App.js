@@ -79,13 +79,13 @@ function App() {
   }
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         Placeholder Header
       </header>
       <div className="App-main-body">
         {displayBody()}
         <TestComponent/> 
-      </div>
+      </div> */}
       <RecipeForm/>
     </div>
   );

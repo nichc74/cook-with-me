@@ -3,6 +3,7 @@ import { Paper, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { updateMetadata, updateSummary } from '../../../store/actions/recipeActions';
+import ImageUpload from '../../Basics/ImageUploader/ImageUpload.tsx';
 
 const RecipeMetadataForm = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const RecipeMetadataForm = () => {
         category: '',
         urlSlug: '',
         isPublished: false,
-        serves: 1
+        serves: 0
     });
     const [summary, setSummary] = useState('');
 
@@ -25,7 +26,12 @@ const RecipeMetadataForm = () => {
             ...prevMetadata,
             [field]: value
         }));
-        dispatch(updateMetadata(metadata));
+        const updatedMetadata = {
+            ...metadata,
+            [field]: value
+        };
+        setMetadata(updatedMetadata);
+        dispatch(updateMetadata(updatedMetadata));
     };
 
     const handleSummaryInput = (e) => {
@@ -37,7 +43,10 @@ const RecipeMetadataForm = () => {
     return (
         <div>
             <h1>Recipe</h1>
+
             <Paper style={{ display: 'flex', flexDirection: 'column', padding: 10, background: 'white' }}>
+                <ImageUpload/>
+                <br/>
                 <TextField
                     id="outlined-search"
                     label="Title"
@@ -64,8 +73,8 @@ const RecipeMetadataForm = () => {
                         id="outlined-search"
                         label="Cuisine"
                         type="search"
-                        value={metadata.cuisineType}
-                        onChange={(e) => handleMetadataInput('cuisineType', e.target.value)}
+                        value={metadata.cuisine}
+                        onChange={(e) => handleMetadataInput('cuisine', e.target.value)}
                         InputLabelProps={{
                             shrink: true,
                         }}

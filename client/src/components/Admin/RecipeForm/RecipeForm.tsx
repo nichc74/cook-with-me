@@ -27,16 +27,6 @@ const RecipeForm: React.FC = () => {
     const notes = useSelector((state) => state.recipeReducer.notes);
 
     const onSave = () => {
-        // console.log("================= metadata =================");
-        // console.log(metadata);
-        // console.log("================= summary =================");
-        // console.log(summary)
-        // console.log("================= recipe_ingredient_components =================");
-        // console.log(recipe_ingredient_components);
-        // console.log("================= recipe_instructional_components =================");
-        // console.log(recipe_instructional_components);
-        // console.log("================= notes =================");
-        // console.log(notes);
         createRecipe(metadata, summary, recipe_ingredient_components, recipe_instructional_components, notes);
     }
 

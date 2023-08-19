@@ -5,7 +5,6 @@ class RecipeSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeSummary
         fields = ['summary']
-        # fields = '__all__'
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,12 +53,12 @@ class RecipeSerializer(serializers.ModelSerializer):
     notes = NoteSerializer(many=True, read_only=True, source='note_set')
 
     def get_recipe_ingredient_components(self, instance):
-        # Filter RecipeSummaries based on specific criteria
+        # Filter Recipe Ingredients based on specific criteria
         filtered_components = instance.recipecomponent_set.filter(type="ingredient")  # Add your filtering logic here
         return RecipeIngredientComponentSerializer(filtered_components, many=True).data
     
     def get_recipe_instructional_components(self, instance):
-        # Filter RecipeSummaries based on specific criteria
+        # Filter Recipe Instructions based on specific criteria
         filtered_components = instance.recipecomponent_set.filter(type="instruction")  # Add your filtering logic here
         return RecipeInstructionalComponentSerializer(filtered_components, many=True).data
 
