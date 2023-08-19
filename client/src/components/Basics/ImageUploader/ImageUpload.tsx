@@ -25,12 +25,11 @@ const ImageUpload = () => {
             <img src={image} alt="Uploaded" className="image"></img>}
             <br/>
 
-            <label htmlFor="contained-button-file">
+            <label>
                 <Button style={{width: "100%"}} variant="contained" component="span">
                     <ImageIcon />
                     <input
                         accept="image/*"
-                        id="contained-button-file"
                         type="file"
                         style={{ display: 'none' }}
                         onChange={handleUploadClick}

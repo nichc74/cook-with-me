@@ -65,7 +65,7 @@ const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, del
 
     return (
         <Box ref={provided.innerRef} snapshot={snapshot} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <Paper elevation={2} style={{ width: '', padding: 10, background: '#fffcf5' }}>
+            <Paper elevation={2} style={{ width: '100%', padding: 10, background: '#fffcf5' }}>
                 <div className="" style={{ display: 'flex', flexDirection: 'row', background: 'white' }}>
                     <TextField
                         id="amount"
