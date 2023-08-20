@@ -23,6 +23,7 @@ class Recipe(models.Model):
     cuisine = models.CharField(max_length=128, default="")
     serves = models.IntegerField()
     banner_image_id = models.ForeignKey(Image, on_delete=models.PROTECT, default="")
+    original_link = models.TextField(default="")
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
