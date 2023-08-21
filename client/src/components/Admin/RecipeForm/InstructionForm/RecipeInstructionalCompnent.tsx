@@ -10,11 +10,11 @@ import '../RecipeForm.css';
 const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent }) => {
     const [recipeComponentName, setRecipeComponentName] = useState('');
     const [recipeInstructions, setRecipeInstructions] = useState(
-        new Array(3).fill({}).map((_, i) => ({ id: i + '', image: "", description: "", is_image: false}))
+        new Array(3).fill({}).map((_, i) => ({ id: i + '', image: "", description: ""}))
     );
 
     const addIntruction = () => {
-        setRecipeInstructions([...recipeInstructions, { id: (recipeInstructions.length ).toString(), image: "", description: "", is_image: false }]);
+        setRecipeInstructions([...recipeInstructions, { id: (recipeInstructions.length ).toString(), image: "", description: ""}]);
     };
 
     const handleRecipeComponentNameInput = (value: string) => {
@@ -39,13 +39,13 @@ const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, del
     };
 
     const updateInstruction = (id: string, updatedInstruction: any) => {
-        console.log(updatedInstruction);
         const updatedInstructions = recipeInstructions.map(instruction => {
             if (instruction.id === id) {
                 return {
                     ...instruction,
                     description: updatedInstruction.description,
-                    is_image: updatedInstruction.is_image
+                    // is_image: updatedInstruction.is_image,
+                    image: updatedInstruction.image
                 };
             }
             return instruction;
@@ -65,6 +65,7 @@ const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, del
 
     return (
         <Box ref={provided.innerRef} snapshot={snapshot} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <br/>
             <Paper elevation={2} style={{ width: '100%', padding: 10, background: '#fffcf5' }}>
                 <div className="" style={{ display: 'flex', flexDirection: 'row', background: 'white' }}>
                     <TextField

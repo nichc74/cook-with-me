@@ -6,7 +6,7 @@ const initialState = {
     summary: "",
     recipe_ingredient_components: [],
     recipe_instructional_components: [],
-    notes: []
+    notes: [],
 };
 
 
@@ -27,7 +27,6 @@ const recipeReducer = createReducer(initialState, (builder) => {
         .addCase(updateNotes, (state, action) => {
             state.notes = action.payload
         })
-
 });
   
 export default recipeReducer;

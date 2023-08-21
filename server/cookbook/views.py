@@ -25,8 +25,8 @@ def getRecipe(request, id):
 
 @api_view(['POST'])
 def postRecipe(request):
-    data = request.data.pop("recipe_data", {})
-    response = parse_and_create_recipe(data)
+    # data = request.data.pop("recipe_data", {})
+    response = parse_and_create_recipe(request.data)
     return Response(response)
 
 # def createRecipe(request):

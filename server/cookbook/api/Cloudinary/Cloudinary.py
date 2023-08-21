@@ -10,5 +10,6 @@ def upload(file):
         response = cloudinary.uploader.upload(file, folder=DEFAULT_FOLDER)
     except:
         print("Error uploading image")
-    return response.url
+
+    return response['url']
 

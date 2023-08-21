@@ -13,6 +13,7 @@ const IngredientForm = () => {
         {
             id: '0',
             component_name: '',
+            type: "instruction",
             recipe_instructions: []
         }
     ]);
@@ -22,6 +23,7 @@ const IngredientForm = () => {
         const newComponent = {
             id: newId,
             component_name: '',
+            type: "instruction",
             recipe_instructions: []
         };
         setRecipeComponents([...recipeComponents, newComponent]);
@@ -75,9 +77,11 @@ const IngredientForm = () => {
                                             deleteRecipeComponent={deleteRecipeComponent}
                                             updateRecipeComponent={updateRecipeComponent}
                                         />
+                                        
                                     )}
                                 </Draggable>
                             ))}
+                          
                         </div>
                     )}
                 </Droppable>

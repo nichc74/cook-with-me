@@ -7,6 +7,7 @@ import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { createRecipe } from '../../../apis/AdminAPI/createRecipe';
+import FormData from 'form-data';
 
 interface Metadata {
     title: string,
@@ -25,9 +26,25 @@ const RecipeForm: React.FC = () => {
     const recipe_ingredient_components = useSelector((state) => state.recipeReducer.recipe_ingredient_components);
     const recipe_instructional_components = useSelector((state) => state.recipeReducer.recipe_instructional_components);
     const notes = useSelector((state) => state.recipeReducer.notes);
+    // const images = useSelector((state) => state.recipeReducer.images);
+
+   
 
     const onSave = () => {
-        createRecipe(metadata, summary, recipe_ingredient_components, recipe_instructional_components, notes);
+        let formData = new FormData();
+
+        formData.append('metadata', JSON.stringify(metadata));
+        formData.append('summary', JSON.stringify(summary));
+        formData.append('recipe_ingredient_components', JSON.stringify(recipe_ingredient_components));
+        formData.append('recipe_instructional_components', JSON.stringify(recipe_instructional_components));
+        formData.append('notes', JSON.stringify(notes));
+
+        // for (let data of formData) {
+        //     console.log(data);
+        // }
+        // console.log(formData);
+        // createRecipe(metadata, summary, recipe_ingredient_components, recipe_instructional_components, notes);
+        createRecipe(formData);
     }
 
     const onDelete = () => {

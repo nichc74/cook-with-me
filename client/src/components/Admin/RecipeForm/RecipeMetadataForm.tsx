@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
-import { Paper, TextField } from '@mui/material';
+import React, { useRef, useState } from 'react';
+import { Paper, TextField, Tooltip } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
 import { updateMetadata, updateSummary } from '../../../store/actions/recipeActions';
-import ImageUpload from '../../Basics/ImageUploader/ImageUpload.tsx';
+// import ImageUpload from '../../Basics/ImageUploader/ImageUpload.tsx';
+import ImageIcon from '@mui/icons-material/Image';
+import Add from '@mui/icons-material/Add';
 
 const RecipeMetadataForm = () => {
-    const dispatch = useDispatch();
-
     const [metadata, setMetadata] = useState({
-        title: '',
-        author: '',
-        prepTime: 0,
-        cookTime: 0,
-        cuisine: '',
-        category: '',
+        title: 'Japchae – Korean noodles',
+        author: 'Josh Cheung',
+        prepTime: 20,
+        cookTime: 15,
+        cuisine: 'Korean',
+        category: 'Entree',
         urlSlug: '',
         isPublished: false,
-        serves: 0
+        originalSource: '',
+        serves: 5,
+        recipeImage: ''
     });
-    const [summary, setSummary] = useState('');
+
+    const [summary, setSummary] = useState('Hello world');
+
+    const inputRef = useRef(null);
+    const dispatch = useDispatch();
 
     const handleMetadataInput = (field: string, value: string) => {
         setMetadata(prevMetadata => ({
@@ -40,12 +46,53 @@ const RecipeMetadataForm = () => {
         dispatch(updateSummary(value));
     };
 
+
+    const handleUploadClick = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const imageData = reader.result;
+            handleMetadataInput('recipeImage', imageData);
+        };
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeImage = () => {
+        handleMetadataInput('recipeImage', '')
+        inputRef.current.value = null;
+    }
+
+
     return (
         <div>
             <h1>Recipe</h1>
 
             <Paper style={{ display: 'flex', flexDirection: 'column', padding: 10, background: 'white' }}>
-                <ImageUpload/>
+                <div style={{width: "100%"}}>
+                    {metadata.recipeImage && 
+                        <Button className="remove-image" onClick={removeImage}>
+                            <Tooltip title="Delete">
+                                <img className="image-button" src={metadata.recipeImage} alt="Uploaded"/>
+                            </Tooltip>
+                        </Button>
+                }
+                    <br/>
+
+                    <label>
+                        <Button style={{width: "100%"}} variant="contained" component="span">
+                            <ImageIcon/> <Add/>
+                            <input
+                                ref={inputRef}
+                                accept="image/*"
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={handleUploadClick}
+                            />
+                        </Button>
+                    </label>
+                </div>
                 <br/>
                 <TextField
                     id="outlined-search"
@@ -58,6 +105,7 @@ const RecipeMetadataForm = () => {
                         shrink: true,
                     }}
                 />
+
                 <div className="recipe-form-metadata">
                     <TextField
                         id="outlined-search"
@@ -140,3 +188,7 @@ const RecipeMetadataForm = () => {
 };
 
 export default RecipeMetadataForm;
+function dispatch(arg0: { payload: undefined; type: "recipeForm/updateMetadata"; }) {
+    throw new Error('Function not implemented.');
+}
+

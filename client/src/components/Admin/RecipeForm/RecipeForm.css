@@ -54,3 +54,7 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.remove-image {
+    width: 100%;
+}

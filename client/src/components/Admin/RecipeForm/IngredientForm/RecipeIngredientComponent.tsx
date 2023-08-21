@@ -10,11 +10,11 @@ import '../RecipeForm.css';
 const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent }) => {
     const [recipeComponentName, setRecipeComponentName] = useState('');
     const [recipeIngredients, setRecipeIngredients] = useState(
-        new Array(5).fill({}).map((_, i) => ({ id: i + '', ingredient: "", metric: "", amount: 0 }))
+        new Array(5).fill({}).map((_, i) => ({ id: i + '', ingredient: "", metric: "", amount: "" }))
     );
 
     const addIngredient = () => {
-        setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length ).toString(), ingredient: "", metric: "", amount: 0 }]);
+        setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length ).toString(), ingredient: "", metric: "", amount: "" }]);
     };
 
     const handleRecipeComponentNameInput = (value: string) => {
@@ -65,6 +65,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
 
     return (
         <Box ref={provided.innerRef} snapshot={snapshot} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <br/>
             <Paper elevation={2} style={{ width: '', padding: 10, background: '#fffcf5' }}>
                 <div className="" style={{ display: 'flex', flexDirection: 'row', background: 'white' }}>
                     <TextField

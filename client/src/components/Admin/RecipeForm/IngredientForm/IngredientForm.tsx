@@ -13,6 +13,7 @@ const IngredientForm = () => {
         {
             id: '0',
             component_name: '',
+            type: "ingredient",
             recipe_ingredients: []
         }
     ]);
@@ -22,6 +23,7 @@ const IngredientForm = () => {
         const newComponent = {
             id: newId,
             component_name: '',
+            type: "ingredient",
             recipe_ingredients: []
         };
         setRecipeComponents([...recipeComponents, newComponent]);

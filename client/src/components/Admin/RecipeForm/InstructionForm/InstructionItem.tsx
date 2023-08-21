@@ -5,10 +5,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ReorderIcon from '@mui/icons-material/Reorder';
-import ImageUpload from '../../../Basics/ImageUploader/ImageUpload.tsx';
 import ImageIcon from '@mui/icons-material/Image';
 import Add from '@mui/icons-material/Add';
-import Delete from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
 
 import './instruction.css'
@@ -26,7 +24,7 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction, updateIn
     const updateInstructionEntry = (value: string) => {
         var data = {
             description: value,
-            is_image: false
+            image: instructionImage
         }
         updateInstruction(item.id, data)
     }
@@ -35,12 +33,19 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction, updateIn
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
+            const imageData = reader.result;
             setInstructionImage(reader.result);
+
+            var data = {
+                description: instructionInput,
+                image: imageData
+            }
+            updateInstruction(item.id, data)
         };
+
         if (file) {
             reader.readAsDataURL(file);
         }
-        console.log("path: " + file.name);
     };
 
     const removeImage = () => {
