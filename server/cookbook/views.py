@@ -1,8 +1,8 @@
 from .models import Recipe
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Recipe, RecipeSummary, RecipeComponent, Note
-from .serializers import RecipeSerializer
+from .models import Recipe, RecipeIngredient, Ingredient
+from .serializers import RecipeSerializer, RecipeIngredientSerializer
 from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_recipe
 
 # Create your views here.
@@ -14,20 +14,32 @@ def getRecipes(request):
 
 @api_view(['GET'])
 def getRecipe(request, id):
-    # recipe_id = request.data.pop("recipe_id", "")
     try:
         recipe = Recipe.objects.get(id=id)
         serializer = RecipeSerializer(recipe)
         return Response(serializer.data)
     except Recipe.DoesNotExist:
         return Response({"message": "Recipe not found"}, status=404)
-
+    
+@api_view(['GET'])
+def getMetricsAndIngredients(request):
+    try:
+        metrics = RecipeIngredient.objects.values('metric').distinct()
+        ingredients = Ingredient.objects.all()
+        metric_array = [item['metric'] for item in metrics if item['metric']]
+        ingredient_names_array = [ingredient.name for ingredient in ingredients]
+        print(ingredient_names_array)
+        return Response({"metrics": metric_array, "ingredients": ingredient_names_array})
+    except Recipe.DoesNotExist:
+        return Response({"message": "Metrics not found"}, status=404)
 
 @api_view(['POST'])
 def postRecipe(request):
-    # data = request.data.pop("recipe_data", {})
-    response = parse_and_create_recipe(request.data)
-    return Response(response)
+    try:
+        response = parse_and_create_recipe(request.data)
+        return Response((response), status=200)
+    except:
+        return Response({"Message": "Error Occurred"}, status=500)
 
 # def createRecipe(request):
 #     print("==============================================")

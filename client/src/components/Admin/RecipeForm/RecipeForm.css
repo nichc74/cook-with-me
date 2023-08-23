@@ -1,7 +1,7 @@
 .recipe-form-container {
     background-color: #fff9eb;
     height: 100%;
-    width: 50%;
+    width: 40%;
     min-width: 500px;
     max-width: 75%;
     margin: auto;
@@ -56,5 +56,16 @@
 }
 
 .remove-image {
+    width: 50%;
+    margin: auto !important;
+}
+
+.remove-image:hover {
+    background-color: gray;
+    /* opacity: 5; */
+}
+.image-button:hover {
+    opacity: 0.5;
+    background-color: rgb(143, 143, 143);
     width: 100%;
 }

@@ -1,6 +1,6 @@
 
 
-const endpoint = 'http://localhost:8000/'
+const endpoint = 'http://localhost:8000'
 
 // export async function createRecipe(metadata, summary, recipe_ingredient_components, recipe_instructional_components, notes) {
 //     var recipe_data = {
@@ -34,14 +34,29 @@ export async function createRecipe(formData) {
     //     console.log(pair[0]+ ', ' + pair[1]); 
     // }
     
-    var createRecipeEndpoint = endpoint + 'postRecipe';
+    var createRecipeEndpoint = `${endpoint}/postRecipe`;
     
     const options = {
         method: 'POST',
         body: formData,
     };
-  
     var response = await fetch(createRecipeEndpoint, options);
-
     return response;
 } 
+
+
+export async function getMetricsAndIngredients() {
+    var getMetricsEndpoint = `${endpoint}/metrics`;
+
+    var response = await fetch(getMetricsEndpoint, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
+    });
+
+    var metrics = await response.json();
+    console.log(metrics);
+    return await metrics;
+}

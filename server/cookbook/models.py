@@ -14,16 +14,16 @@ class Image(models.Model):
      
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=128)
-    author = models.CharField(max_length=128)
-    url_slug = models.CharField(max_length=128, default="")
+    title = models.CharField(max_length=128, null=False)
+    author = models.CharField(max_length=128, null=True)
+    url_slug = models.CharField(max_length=128, default="", null=True)
     prep_time = models.IntegerField()
     cook_time = models.IntegerField()
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, default="")
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, default="", null=True)
     cuisine = models.CharField(max_length=128, default="")
     serves = models.IntegerField()
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, default=None)
-    source_link = models.TextField(default="")
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, default=None, null=True)
+    source_link = models.TextField(default="", null=True)
     is_published = models.BooleanField(default=False)
 
     def __str__(self):
@@ -63,7 +63,7 @@ class RecipeIngredient(models.Model):
 class Instruction(models.Model):
     recipe_component = models.ForeignKey(RecipeComponent, on_delete=models.CASCADE, default=None)
     description = models.TextField(default="")
-    image = models.ForeignKey(Image, default=None, on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, default=None, on_delete=models.CASCADE, null=True)
     step_id = models.IntegerField(default=None)
 
     def __str__(self):

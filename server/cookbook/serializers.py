@@ -49,6 +49,7 @@ class RecipeInstructionalComponentSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='image.path', read_only=True)
+    category = serializers.CharField(source='category.category_name', read_only=True)
     recipe_summary = RecipeSummarySerializer(many=True, read_only=True, source='recipesummary_set')
     recipe_ingredient_components = serializers.SerializerMethodField()
     recipe_instructional_components = serializers.SerializerMethodField()

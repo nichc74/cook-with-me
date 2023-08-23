@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,7 @@ import RecipeIngredientComponent from './RecipeIngredientComponent.tsx';
 import { updateRecipeIngredientComponent } from '../../../../store/actions/recipeActions.js';
 import '../RecipeForm.css';
 
-const IngredientForm = () => {
+const IngredientForm = ({presets}) => {
     const dispatch = useDispatch();
 
     const [recipeComponents, setRecipeComponents] = useState([
@@ -17,6 +17,7 @@ const IngredientForm = () => {
             recipe_ingredients: []
         }
     ]);
+
 
     const addRecipeComponent = () => {
         const newId = String(recipeComponents.length);
@@ -60,6 +61,8 @@ const IngredientForm = () => {
         dispatch(updateRecipeIngredientComponent(updatedComponents));
     };
 
+    
+
     return (
         <div>
             <h1>Ingredients</h1>
@@ -71,6 +74,7 @@ const IngredientForm = () => {
                                 <Draggable key={recipeComponent.id} draggableId={recipeComponent.id} index={index}>
                                     {(provided, snapshot) => (
                                         <RecipeIngredientComponent
+                                            presets={presets}
                                             provided={provided}
                                             snapshot={snapshot}
                                             recipeComponent={recipeComponent}

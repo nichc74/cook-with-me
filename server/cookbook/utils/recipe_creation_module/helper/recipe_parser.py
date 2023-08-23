@@ -2,8 +2,10 @@ from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, Recipe
 import re
 import json
 from types import SimpleNamespace
+from django.db import transaction
 from cookbook.api.Cloudinary.Cloudinary import upload
 
+@transaction.atomic
 def parse_and_create_recipe(data):
     metadata = data['metadata']
     recipe = parse_and_create_recipe_metadata(metadata)
@@ -11,7 +13,7 @@ def parse_and_create_recipe(data):
     summary = data['summary']
     parse_and_create_summary(summary, recipe)
     
-    # recipe_ingredient_component_data = data.pop("recipe_ingredient_components", [])
+    # # recipe_ingredient_component_data = data.pop("recipe_ingredient_components", [])
     recipe_ingredient_components = data['recipe_ingredient_components'] 
     parse_and_create_recipe_ingredient_components(recipe_ingredient_components, recipe)
 
@@ -41,6 +43,7 @@ def parse_and_create_recipe_metadata(data):
         cuisine=data.cuisine,
         serves=data.serves,
         is_published=data.isPublished,
+        source_link=data.sourceLink,
         image=image,
         category=category[0],
     )
@@ -50,9 +53,7 @@ def parse_and_create_summary(summary_data, recipe):
 
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
     recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
-    print(recipe_ingredient_component_data)
     for recipe_componet in recipe_ingredient_component_data:
-        print(recipe_componet)
         name = recipe_componet.component_name
         recipe_type = recipe_componet.type
         component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=recipe_type)
@@ -63,12 +64,13 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     for recipe_ingredient in recipe_ingredient_data:
         ingredient = Ingredient.objects.get_or_create(name=recipe_ingredient.ingredient)
-        RecipeIngredient.objects.create(recipe_component=component, ingredient=ingredient[0], amount=recipe_ingredient.amount, metric=recipe_ingredient.metric )
+        RecipeIngredient.objects.create(recipe_component=component, ingredient=ingredient[0].lower(), amount=recipe_ingredient.amount, metric=recipe_ingredient.metric )
     return 
 
 
 def parse_and_create_recipe_instructional_components(recipe_instructional_component_data, recipe):
     recipe_instructional_component_data = json.loads(recipe_instructional_component_data, object_hook=lambda d: SimpleNamespace(**d))
+    print(recipe_instructional_component_data)
     for recipe_componet in recipe_instructional_component_data:
         name = recipe_componet.component_name
         type = recipe_componet.type
@@ -79,15 +81,17 @@ def parse_and_create_recipe_instructional_components(recipe_instructional_compon
 
 
 def parse_and_create_instructions(recipe_instructional_data, component):
+    # print(recipe_instructional_data)
     for step in range(0, len(recipe_instructional_data)):
         instruction = recipe_instructional_data[step]
-        image = None
+        print(instruction.description)
         if instruction.image:
             image = upload_image(instruction.image)
             if image:
                 Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=image)
-            else:
-                Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=None)
+                
+        else:
+            Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=None)
     return 
 
 def parse_and_create_notes(notes, recipe):

@@ -9,20 +9,20 @@ import Add from '@mui/icons-material/Add';
 
 const RecipeMetadataForm = () => {
     const [metadata, setMetadata] = useState({
-        title: 'Japchae – Korean noodles',
-        author: 'Josh Cheung',
-        prepTime: 20,
-        cookTime: 15,
-        cuisine: 'Korean',
-        category: 'Entree',
+        title: '',
+        author: '',
+        prepTime: 0,
+        cookTime: 0,
+        cuisine: '',
+        category: '',
         urlSlug: '',
         isPublished: false,
-        originalSource: '',
-        serves: 5,
+        sourceLink: '',
+        serves: 1,
         recipeImage: ''
     });
 
-    const [summary, setSummary] = useState('Hello world');
+    const [summary, setSummary] = useState('');
 
     const inputRef = useRef(null);
     const dispatch = useDispatch();
@@ -70,14 +70,14 @@ const RecipeMetadataForm = () => {
             <h1>Recipe</h1>
 
             <Paper style={{ display: 'flex', flexDirection: 'column', padding: 10, background: 'white' }}>
-                <div style={{width: "100%"}}>
+                <div style={{width: "100%", margin: 'auto', display: 'flex', flexDirection: "column"}}>
                     {metadata.recipeImage && 
                         <Button className="remove-image" onClick={removeImage}>
                             <Tooltip title="Delete">
                                 <img className="image-button" src={metadata.recipeImage} alt="Uploaded"/>
                             </Tooltip>
                         </Button>
-                }
+                    }
                     <br/>
 
                     <label>
@@ -94,17 +94,31 @@ const RecipeMetadataForm = () => {
                     </label>
                 </div>
                 <br/>
-                <TextField
-                    id="outlined-search"
-                    label="Title"
-                    type="search"
-                    value={metadata.title}
-                    onChange={(e) => handleMetadataInput('title', e.target.value)}
-                    style={{ width: 300, paddingBottom: 10 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
+                <div className="recipe-form-metadata">
+                    <TextField
+                        id="outlined-search"
+                        label="Title"
+                        type="search"
+                        value={metadata.title}
+                        onChange={(e) => handleMetadataInput('title', e.target.value)}
+                        style={{ width: 300, paddingBottom: 10 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+
+                    <TextField
+                        id="outlined-search"
+                        label="Source Link"
+                        type="search"
+                        value={metadata.sourceLink}
+                        onChange={(e) => handleMetadataInput('sourceLink', e.target.value)}
+                        style={{ width: 300, paddingBottom: 10 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />  
+                </div>
 
                 <div className="recipe-form-metadata">
                     <TextField

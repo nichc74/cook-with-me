@@ -7,7 +7,7 @@ import ReorderIcon from '@mui/icons-material/Reorder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../RecipeForm.css';
 
-const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent }) => {
+const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent, presets }) => {
     const [recipeComponentName, setRecipeComponentName] = useState('');
     const [recipeIngredients, setRecipeIngredients] = useState(
         new Array(5).fill({}).map((_, i) => ({ id: i + '', ingredient: "", metric: "", amount: "" }))
@@ -88,6 +88,7 @@ const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, delete
                                     <Draggable key={item.id} draggableId={item.id} index={index}>
                                         {(provided, snapshot) => (
                                             <IngredientItem
+                                                presets={presets}
                                                 updateIngredient={updateIngredient}
                                                 provided={provided}
                                                 snapshot={snapshot}
