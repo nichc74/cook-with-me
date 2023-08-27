@@ -51,13 +51,12 @@
     text-transform: uppercase;
     margin-top: 24px;
     margin-bottom: 24px;
-    font-size: 12px;
+    font-size: 20px;
     color: #ababab;
 }
 
 .RecipeDetailPage-ingr {
-    margin-left: 24px;
-    margin-top: 4px;
+    margin: 4px 4px 4px 24px;
     font-family: roman;
     font-weight: 500;
     font-size: 18px;

@@ -4,6 +4,9 @@ import Instruction from "./Instruction.tsx";
 const RecipeInstructions = ({recipeComponentInstructions}) => {
     return (
         <div>
+            <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
+                Instructions
+            </div>
             {
                 recipeComponentInstructions.map((component: any) => (
                     <div>

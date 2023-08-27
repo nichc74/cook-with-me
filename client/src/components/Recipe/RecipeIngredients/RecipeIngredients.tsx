@@ -5,6 +5,9 @@ const RecipeIngredients = ({recipeIngredientComponents}) => {
     console.log(recipeIngredientComponents);
     return (
         <div>
+            <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
+                Ingredients
+            </div>
             {
                 recipeIngredientComponents.map((component: any) => (
                     <div>

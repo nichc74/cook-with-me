@@ -24,7 +24,7 @@ const Recipe = ({ recipe_id }) => {
   };
 
   return (
-    <div style={{padding: 100}}>
+    <div>
         {recipeDetails ? (
             <div>
                 <RecipeMetadata metadata={recipeDetails.metadata} />
