@@ -9,7 +9,7 @@ const RecipeInstructions = ({recipeComponentInstructions}) => {
             </div>
             {
                 recipeComponentInstructions.map((component: any) => (
-                    <div>
+                    <div className="instruction-container">
                         <b>{component.component_name}</b>
                         {
                             component.instructions.map((instruction: any, index: number) => (

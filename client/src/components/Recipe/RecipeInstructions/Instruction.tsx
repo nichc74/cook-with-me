@@ -5,7 +5,7 @@ const Instruction = ({instruction}) => {
         <div className="RecipeDetailPage-ingr">
             {
                 instruction.image &&  
-                <img style={{justifyContent: "space-around"}} src={instruction.image} height={'100%'} width={'50%'} />
+                <img className="instruction-image" src={instruction.image} height={'100%'} width={'50%'} />
 
             }
             <div className="step-container">

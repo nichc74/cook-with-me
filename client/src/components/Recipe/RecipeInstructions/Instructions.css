@@ -11,3 +11,15 @@
 .step-description {
     display: flex;
 }
+
+.instruction-image {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
+
+.instruction-container {
+    padding: 20px;
+}
