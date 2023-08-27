@@ -8,6 +8,7 @@ from cookbook.api.Cloudinary.Cloudinary import upload
 @transaction.atomic
 def parse_and_create_recipe(data):
     metadata = data['metadata']
+    # print(data)
     recipe = parse_and_create_recipe_metadata(metadata)
     
     summary = data['summary']
@@ -52,25 +53,32 @@ def parse_and_create_summary(summary_data, recipe):
     return RecipeSummary.objects.create(recipe=recipe, summary=summary_data)
 
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
-    recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
-    for recipe_componet in recipe_ingredient_component_data:
-        name = recipe_componet.component_name
-        recipe_type = recipe_componet.type
-        component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=recipe_type)
-        recipe_ingredient_data = recipe_componet.recipe_ingredients
-        parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
-    return
+    try:
+        recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
+        for recipe_componet in recipe_ingredient_component_data:
+            name = recipe_componet.component_name
+            recipe_type = recipe_componet.type
+            component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=recipe_type)
+            recipe_ingredient_data = recipe_componet.recipe_ingredients
+            parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
+        return
+    except:
+        print("parsing ingredient component")
 
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
-    for recipe_ingredient in recipe_ingredient_data:
-        ingredient = Ingredient.objects.get_or_create(name=recipe_ingredient.ingredient)
-        RecipeIngredient.objects.create(recipe_component=component, ingredient=ingredient[0].lower(), amount=recipe_ingredient.amount, metric=recipe_ingredient.metric )
-    return 
+    try:
+        for recipe_ingredient in recipe_ingredient_data:
+            name = recipe_ingredient.ingredient.lower()
+            ingredient = Ingredient.objects.get_or_create(name=name)
+            RecipeIngredient.objects.create(recipe_component=component, ingredient=ingredient[0], amount=recipe_ingredient.amount, metric=recipe_ingredient.metric )
+        return 
+    except Exception as error:
+        print("An exception occurred:", error) 
 
 
 def parse_and_create_recipe_instructional_components(recipe_instructional_component_data, recipe):
     recipe_instructional_component_data = json.loads(recipe_instructional_component_data, object_hook=lambda d: SimpleNamespace(**d))
-    print(recipe_instructional_component_data)
+    # print(recipe_instructional_component_data)
     for recipe_componet in recipe_instructional_component_data:
         name = recipe_componet.component_name
         type = recipe_componet.type

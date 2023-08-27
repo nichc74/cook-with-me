@@ -8,7 +8,8 @@ const IngredientItem = ({ provided, snapshot, item, deleteIngredient, updateIngr
     const [ingredientMetric, setIngredientMetric] = useState("");
     const [ingredientName, setIngredientName] = useState("");
 
-    const handleInputChange = (type, value) => {
+    const handleInputChange = (type: string, event: any) => {
+        var value = event.target.value
         switch (type) {
             case 'amount':
                 setIngredientAmount(value);
@@ -42,22 +43,25 @@ const IngredientItem = ({ provided, snapshot, item, deleteIngredient, updateIngr
             snapshot={snapshot}
             {...provided.draggableProps}
             {...provided.dragHandleProps}>
-            <Paper elevation={3} style={{width: "fit-content", display: "flex", padding: 10, justifyContent: "left", background: "white"}} >
-                <TextField id="amount" size="small" type="number" label="Amount" variant="outlined" value={ingredientAmount} onChange={(e) => handleInputChange('amount', e.target.value)} />
+            <Paper elevation={3} style={{width: "100%", display: "flex", padding: 10, justifyContent: "left", background: "white"}} >
+                <TextField id="amount"  sx={{ width: '100%' }} fullWidth type="number" label="Amount" variant="outlined" value={ingredientAmount} onChange={(e) => handleInputChange('amount', e)} />
                 <Autocomplete
                     disablePortal
                     id="combo-box-demo"
                     options={presets.metrics}
-                    sx={{ width: 250 }}
-                    renderInput={(params) => <TextField {...params}  id="metric" size="small" label="Metric" variant="outlined" value={ingredientMetric} onChange={(e) => handleInputChange('metric', e.target.value)} />
-                }
+                    sx={{ width: '100%' }}
+                    onInputChange={(e) => {handleInputChange('metric', e)}}
+                    freeSolo
+                    renderInput={(params) => <TextField {...params}  id="metric" fullWidth label="Metric" variant="outlined" />}
                 />
                 <Autocomplete
                     disablePortal
                     id="combo-box-demo"
                     options={presets.ingredients}
-                    sx={{ width: 250 }}
-                    renderInput={(params) => <TextField {...params} id="ingredient" size="small" label="Ingredient" variant="outlined" value={ingredientName} onChange={(e) => handleInputChange('ingredient', e.target.value)}/>
+                    sx={{ width: '100%' }}
+                    freeSolo
+                    onInputChange={(e) => handleInputChange('ingredient', e)}
+                    renderInput={(params) => <TextField {...params} id="ingredient" fullWidth label="Ingredient" variant="outlined" value={ingredientName} />
                 }
                 />
                 <Button color="error" variant="contained" onClick={() => deleteIngredient(item.id)}><RemoveIcon/></Button>

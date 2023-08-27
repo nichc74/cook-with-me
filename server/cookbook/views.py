@@ -2,21 +2,22 @@ from .models import Recipe
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Recipe, RecipeIngredient, Ingredient
-from .serializers import RecipeSerializer, RecipeIngredientSerializer
+from .serializers import RecipeWithDataSerializer, RecipeSerializer
 from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_recipe
 
 # Create your views here.
 @api_view(['GET'])
 def getRecipes(request):
-    recipes = Recipe.objects.all()
-    serializer = RecipeSerializer(recipes, many=True)
-    return Response(serializer.data)
+    recipes = Recipe.objects.filter(is_published=True)[:5]
+    # recipes = Recipe.objects.all()  # You can filter this as needed
+    return Response(RecipeSerializer(recipes, many = True).data)
+
 
 @api_view(['GET'])
 def getRecipe(request, id):
     try:
         recipe = Recipe.objects.get(id=id)
-        serializer = RecipeSerializer(recipe)
+        serializer = RecipeWithDataSerializer(recipe)
         return Response(serializer.data)
     except Recipe.DoesNotExist:
         return Response({"message": "Recipe not found"}, status=404)

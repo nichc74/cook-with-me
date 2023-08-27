@@ -47,13 +47,22 @@ class RecipeInstructionalComponentSerializer(serializers.ModelSerializer):
         fields = ['component_name', 'instructions']
         # fields = '__all__'
 
+
 class RecipeSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='image.path', read_only=True)
     category = serializers.CharField(source='category.category_name', read_only=True)
+
+    class Meta:
+        model = Recipe
+        fields = '__all__'
+
+class RecipeWithDataSerializer(serializers.ModelSerializer):
+
     recipe_summary = RecipeSummarySerializer(many=True, read_only=True, source='recipesummary_set')
     recipe_ingredient_components = serializers.SerializerMethodField()
     recipe_instructional_components = serializers.SerializerMethodField()
     notes = NoteSerializer(many=True, read_only=True, source='note_set')
+    metadata = serializers.SerializerMethodField()
 
     def get_recipe_ingredient_components(self, instance):
         # Filter Recipe Ingredients based on specific criteria
@@ -65,6 +74,11 @@ class RecipeSerializer(serializers.ModelSerializer):
         filtered_components = instance.recipecomponent_set.filter(type="instruction")  # Add your filtering logic here
         return RecipeInstructionalComponentSerializer(filtered_components, many=True).data
 
+    def get_metadata(self, instance):
+        return RecipeSerializer(instance).data
+    
     class Meta:
         model = Recipe
-        fields = '__all__'
+        fields = ['id', 'metadata', 'recipe_summary', 'recipe_ingredient_components', 'recipe_instructional_components', 'notes']
+        # fields = '__all__'
+

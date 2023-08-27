@@ -6,7 +6,7 @@ import InstructionForm from './InstructionForm/InstructionForm.tsx';
 import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { createRecipe, getMetricsAndIngredients } from '../../../apis/AdminAPI/createRecipe';
+import { createRecipe, getMetricsAndIngredients } from '../../../apis/AdminAPI/RecipeAPI';
 import FormData from 'form-data';
 
 interface Metadata {

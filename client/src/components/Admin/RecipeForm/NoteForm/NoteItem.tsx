@@ -17,7 +17,7 @@ const NoteItem = ({ provided, snapshot, item, deleteNotes, updateRecipeNotes})=>
     const updateNote = (description: string) => {
         const data = { 
             description: description,
-            is_image: false
+            // is_image: false
         };
         updateRecipeNotes(item.id, data);
     };

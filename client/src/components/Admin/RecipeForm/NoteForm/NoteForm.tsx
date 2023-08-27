@@ -8,7 +8,7 @@ import { updateNotes } from '../../../../store/actions/recipeActions.js';
 
 const NoteForm = () => {
     const dispatch = useDispatch();
-    const [notes, setNotes] = useState(Array(2).fill({}).map((_, i) => ({ id: i + "", description: "", is_image: false })));
+    const [notes, setNotes] = useState(Array(5).fill({}).map((_, i) => ({ id: i + "", description: "", is_image: false })));
 
     const onDragEnd = (result: any) => {
         const newItems = Array.from(notes);
@@ -34,7 +34,7 @@ const NoteForm = () => {
                 return {
                     ...note,
                     description: updateNoteData.description,
-                    is_image: updateNoteData.is_image
+                    // is_image: updateNoteData.is_image
                 };
             }
             return note;

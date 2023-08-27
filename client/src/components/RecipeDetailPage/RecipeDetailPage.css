@@ -18,7 +18,7 @@
 }
 
 .RecipeDetailPage-header {
-    margin: 0 10%;
+    /* margin: 0 10%; */
     margin-top: 36px;
     background-color: #e6e6e6;
     display: flex;
@@ -71,7 +71,7 @@
 }
 
 .RecipeDetailPage-body {
-    margin: 0 10%;
+    /* margin: 0 10%; */
     display: flex;
     flex-direction: row;
     /* background-color: grey; */
@@ -91,5 +91,5 @@
 
 .RecipeDetailPage-image {
     width: 40%;
-    height: 500px;
+    height: 100%;
 }

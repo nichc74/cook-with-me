@@ -1,7 +1,10 @@
 import './RecipeDetailPage.css'
-import IconTag from './../IconTag/IconTag.js'
+// import IconTag from './../IconTag/IconTag.js';
+import Recipe from '../Recipe/Recipe.tsx';
+import { useState } from 'react';
 
-export default function RecipeDetailPage({togglePage}) {
+export default function RecipeDetailPage({pageState, togglePage}) {
+  const [recipeDetails, setRecipeDetails] = useState({});
   // Hard Coded test data
   const recipeDetail = {
     'name': 'Bolognese Sauce',
@@ -94,44 +97,8 @@ export default function RecipeDetailPage({togglePage}) {
   const img = recipeDetail['img']
 
   return (
-    <div className="RecipeDetailPage-main">
-      <div className="RecipeDetailPage-header">
-        <div className="RecipeDetailPage-header-top">
-          <img
-            className="RecipeDetailPage-image"
-            alt="something alt"
-            src={img}
-          />
-          <div className="RecipeDetailPage-recipeTitle">
-            {title}
-          </div>
-        </div>
-        <div className="RecipeDetailPage-header-divider"></div>
-        <div className="RecipeDetailPage-header-bottom">
-          <IconTag value="300 mins" label="Serving"/>
-          <IconTag value="300 mins" label="Prep Time"/>
-          <IconTag value="300 mins" label="Cook Time"/>
-          <IconTag value="300 mins" label="Rest Time"/>
-          <IconTag value="300 mins" label="Calories"/>
-        </div>
-      </div>
-      <div className="RecipeDetailPage-body">
-        <div className="RecipeDetailPage-ingrs">
-          <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
-            Ingredients
-          </div>
-          {listIngredients()}
-        </div>
-        <div className="RecipeDetailPage-instr">
-          <div className="RecipeDetailPage-instr-label RecipeDetailPage-body-label">
-            Instructions
-          </div>
-          {listInstructions()}
-        </div>
-      </div>
-      <button className="RecipeDetailPage-btn" onClick={toggleBackButton}>
-          Lets go back!
-        </button>
+    <div>
+      <Recipe recipe_id={pageState}/>
     </div>
   )
 }
