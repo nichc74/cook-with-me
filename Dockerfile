@@ -10,6 +10,9 @@ RUN apt-get update && \
 COPY . /usr/src/app
 
 RUN pip install django mysqlclient
+RUN pip install djangorestframework 
+RUN pip install django-cors-headers
+RUN pip install cloudinary
 
 # CMD python /usr/src/app/manage.py runserver 0.0.0.0:8000
 

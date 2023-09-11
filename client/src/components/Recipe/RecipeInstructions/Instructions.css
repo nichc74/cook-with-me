@@ -1,0 +1,25 @@
+.step-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.step-number {
+    display: flex;
+    margin-right: 10px;
+}
+
+.step-description {
+    display: flex;
+}
+
+.instruction-image {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
+
+.instruction-container {
+    padding: 20px;
+}

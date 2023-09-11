@@ -1,8 +1,10 @@
 import './RecipeBox.css'
+// import Recipe from '../Recipe/Recipe';
 
-export default function RecipeBox({togglePage, id, recipe}) {
+export default function RecipeBox({togglePage, recipe}) {
   function handleClick() {
-    togglePage(1)
+    console.log(recipe.id);
+    togglePage(recipe.id);
   }
   
   return (
@@ -12,10 +14,10 @@ export default function RecipeBox({togglePage, id, recipe}) {
         width={275}
         height={275}
         alt="something alt"
-        src={recipe.img}
+        src={recipe.image}
       />
       <div className="RecipeBox-name">
-        {recipe.name} 
+        {recipe.title} 
       </div>
     </div>
   )
