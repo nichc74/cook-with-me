@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./Notes.css"
 const RecipeNotes = ({notes}) => {
     return (
         <div>
@@ -10,7 +10,7 @@ const RecipeNotes = ({notes}) => {
             {
                 notes.map((note: any, index: number) => (
                     <div className="RecipeDetailPage-ingr">
-                        <div className="step-container">
+                        <div className="note-step-container">
                             <div className="step-number"><b>{note.step_id}.</b></div>
                             <div className="step-description">{note.description}</div>
                         </div>
