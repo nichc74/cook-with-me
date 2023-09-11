@@ -35,6 +35,8 @@ function App() {
                 <Route key={recipe.id} exact path={recipe.url_slug} element={<RecipeDetailPage slug={recipe.url_slug} pageState={recipe.id}/>}/>
             ))
           }
+          <Route exact path="/form" element={<RecipeForm/> }/>
+
         </Routes>
       </div>
     );
@@ -48,7 +50,6 @@ function App() {
       <div className="App-main-body">
         {displayBody()}
       </div>
-      {/* <RecipeForm/> */}
     </div>
   );
 }
