@@ -29,10 +29,14 @@ const Recipe = ({ recipe_id }) => {
             <div>
                 <RecipeMetadata metadata={recipeDetails.metadata} />
                 <RecipeSummary summary={recipeDetails.recipe_summary[0].summary}/>
-                {/* <div className="RecipeDetailPage-body"> */}
-                    <RecipeIngredients recipeIngredientComponents={recipeDetails.recipe_ingredient_components} />
-                    <RecipeInstructions recipeComponentInstructions={recipeDetails.recipe_instructional_components} />
-                {/* </div> */}
+                <div className="RecipeDetailPage-body">
+                    <div className="RecipeDetailPage-ingredient-body">
+                      <RecipeIngredients recipeIngredientComponents={recipeDetails.recipe_ingredient_components} />
+                    </div>
+                    <div className="RecipeDetailPage-instruction-body">
+                      <RecipeInstructions recipeComponentInstructions={recipeDetails.recipe_instructional_components} />
+                    </div>
+                </div>
                 <RecipeNotes notes={recipeDetails.notes} />
             </div>
         ) : (
