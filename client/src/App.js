@@ -1,8 +1,8 @@
 import logo from './logo.svg';
 import { useEffect, useState } from 'react';
-
+import { Routes, Route } from 'react-router-dom'; 
 import './App.css';
-import RecipeBox from './components/RecipeBox/RecipeBox'
+import Recipes from './components/Recipes/Recipes.tsx';
 import RecipeDetailPage from './components/RecipeDetailPage/RecipeDetailPage'
 import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
 import { getRecipes } from './apis/AdminAPI/RecipeAPI';
@@ -24,27 +24,20 @@ function App() {
     }
   };
   
-  function togglePage(pageCode) {
-    console.log('toggling recipe detail', pageCode)
-    setPageState(pageCode)
-  }
 
   function displayBody() {
-    if (pageState !== 0) {
-      return (
-        <RecipeDetailPage pageState={pageState} />
-      );
-    } else {
-      return (
-        <div className="App-recipeBoxes">
+    return (
+      <div className="App-recipeBoxes">
+        <Routes>
+          <Route exact path="/" element={<Recipes recipes={recipes}/>}/>
           {
             recipes.map((recipe) => (
-              <RecipeBox togglePage={togglePage} key={recipe.id} recipe={recipe} />
+                <Route key={recipe.id} exact path={recipe.url_slug} element={<RecipeDetailPage slug={recipe.url_slug} pageState={recipe.id}/>}/>
             ))
           }
-        </div>
-      );
-    }
+        </Routes>
+      </div>
+    );
   }
   
   return (

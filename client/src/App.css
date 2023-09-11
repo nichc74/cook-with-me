@@ -35,7 +35,9 @@
 .App-main-body {
   background-color: white;
   min-height: 100vh;
-  margin: 0 15%;
+  margin: auto;
+  width: 50%;
+  max-width: 1200px;
 }
 
 @keyframes App-logo-spin {

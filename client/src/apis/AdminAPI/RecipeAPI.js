@@ -70,7 +70,24 @@ export async function getRecipes() {
     return await recipes;
 }
 
-export async function getRecipe(id) {
+// export async function getRecipe(id) {
+//     var fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
+//     var response = await fetch(fetchRecipeEndpoint, {
+//         method: 'GET',
+//         headers: {
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json',
+//         }
+//     });
+
+//     var recipe = await response.json();
+//     console.log(recipe);
+//     return await recipe;
+// }
+
+export async function getRecipe(url_slug, id) {
+    console.log(url_slug);
+    console.log(id);
     var fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
     var response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
