@@ -29,6 +29,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Header/>
+        <div style={{height: 16, width: "100%", background: "black"}}/>
       </header>
       <div className="App-main-body">
         <div className="App-recipeBoxes">
