@@ -4,11 +4,12 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import Recipes from './components/Recipes/Recipes.tsx';
 import RecipeDetailPage from './components/RecipeDetailPage/RecipeDetailPage'
+import Recipe from './components/Recipe/Recipe.tsx';
 import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
 import { getRecipes } from './apis/AdminAPI/RecipeAPI';
+import Header from './components/Basics/Header/Header.tsx';
 
 function App() {
-  const [pageState, setPageState] = useState(0);
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
@@ -24,32 +25,27 @@ function App() {
     }
   };
   
-
-  function displayBody() {
-    return (
-      <div className="App-recipeBoxes">
-        <Routes>
-          <Route exact path="/" element={<Recipes recipes={recipes}/>}/>
-          {
-            recipes.map((recipe) => (
-                <Route key={recipe.id} exact path={recipe.url_slug} element={<RecipeDetailPage slug={recipe.url_slug} pageState={recipe.id}/>}/>
-            ))
-          }
-          <Route exact path="/form" element={<RecipeForm/> }/>
-
-        </Routes>
-      </div>
-    );
-  }
-  
   return (
     <div className="App">
       <header className="App-header">
-        Placeholder Header
+        <Header/>
       </header>
       <div className="App-main-body">
-        {displayBody()}
+        <div className="App-recipeBoxes">
+          <Routes>
+            <Route exact path="" element={<Recipes recipes={recipes}/>}/>
+            {
+              recipes.map((recipe) => (
+                  <Route key={recipe.id} exact path={recipe.url_slug} element={<Recipe slug={recipe.url_slug} recipe_id={recipe.id}/>}/>
+              ))
+            }
+            <Route exact path="/recipe-form" element={<RecipeForm/> }/>
+          </Routes>
+        </div>
       </div>
+      <footer className="App-footer">
+        Placeholder Header
+      </footer>
     </div>
   );
 }

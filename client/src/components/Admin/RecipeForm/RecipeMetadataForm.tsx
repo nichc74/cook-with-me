@@ -42,6 +42,7 @@ const RecipeMetadataForm = () => {
 
     const handleSummaryInput = (e) => {
         const value = e.target.value;
+        // console.log(value);
         setSummary(value);
         dispatch(updateSummary(value));
     };

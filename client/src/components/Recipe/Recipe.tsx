@@ -24,7 +24,7 @@ const Recipe = ({ slug, recipe_id }) => {
   };
 
   return (
-    <div>
+    <div style={{display: "flex"}}>
         {recipeDetails ? (
             <div>
                 <RecipeMetadata metadata={recipeDetails.metadata} />

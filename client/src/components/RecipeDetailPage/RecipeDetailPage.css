@@ -66,6 +66,7 @@
 
 .RecipeDetailPage-body {
     /* margin: 0 10%; */
+    justify-content: center;
     display: flex;
     flex-direction: row;
     border-top: 1px solid lightgray;
@@ -88,7 +89,7 @@
     display: flex;
     align-items: center;
     font-size: 72px;
-    margin-left: 36px;
+    margin-left: 64px;
     font-family: serif;
 }
 

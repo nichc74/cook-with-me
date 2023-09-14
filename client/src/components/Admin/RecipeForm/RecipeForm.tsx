@@ -38,7 +38,6 @@ const RecipeForm: React.FC = () => {
         console.log(presets)
         setMetricsAndIngredients(presets);
     }
-    // const images = useSelector((state) => state.recipeReducer.images);
 
     const onSave = () => {
         let formData = new FormData();
@@ -46,15 +45,11 @@ const RecipeForm: React.FC = () => {
         formData.append('metadata', JSON.stringify(metadata));
         formData.append('summary', JSON.stringify(summary));
         formData.append('recipe_ingredient_components', JSON.stringify(recipe_ingredient_components));
+        console.dir(recipe_ingredient_components);
         formData.append('recipe_instructional_components', JSON.stringify(recipe_instructional_components));
+
         formData.append('notes', JSON.stringify(notes));
 
-        console.dir(recipe_instructional_components)
-        // for (let data of formData) {
-        //     console.log(data);
-        // }
-        // console.log(formData);
-        // createRecipe(metadata, summary, recipe_ingredient_components, recipe_instructional_components, notes);
         createRecipe(formData);
     }
 

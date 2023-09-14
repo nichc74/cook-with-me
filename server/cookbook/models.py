@@ -54,7 +54,7 @@ class Ingredient(models.Model):
 class RecipeIngredient(models.Model):
     recipe_component = models.ForeignKey(RecipeComponent, on_delete=models.CASCADE, default=None)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    amount = models.FloatField(default=0)
+    amount = models.FloatField(default=None, null=True)
     metric = models.CharField(max_length=64, default="")
 
     def __str__(self):

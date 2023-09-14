@@ -13,13 +13,14 @@ export default function RecipeBox({togglePage, recipe}) {
   
   return (
     <div onClick={handleClick} className="RecipeBox-main">
-        <img
-          className="RecipeBox-image"
-          width={275}
-          height={275}
-          alt="something alt"
-          src={recipe.image}
-        />
+        <div style={{width: `${240}px`, height: `${240}px`}}>
+          <img
+            className="RecipeBox-image"
+            alt="Recipe Image"
+            src={recipe.image}
+          />
+        </div>
+       
       <div className="RecipeBox-name">
         {recipe.title} 
       </div>

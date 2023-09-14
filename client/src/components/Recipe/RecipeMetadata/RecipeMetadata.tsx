@@ -17,7 +17,8 @@ const RecipeMetadata = ({metadata}) => {
                     {metadata.title}
                 </div>
                 </div>
-                <div className="RecipeDetailPage-header-divider"></div>
+                <div className="RecipeDetailPage-header-divider"/>
+
                 <div className="RecipeDetailPage-header-bottom">
                     <IconTag value={metadata.serves} label="Serving"/>
                     <IconTag value={metadata.prep_time} label="Prep Time"/>
@@ -25,6 +26,7 @@ const RecipeMetadata = ({metadata}) => {
                     <IconTag value={metadata.cuisine} label="Cuisine"/>
                     <IconTag value={metadata.category} label="Category"/>
                 </div>
+                <a href={metadata.source_link}>Source</a>
             </div>
            
         </div>

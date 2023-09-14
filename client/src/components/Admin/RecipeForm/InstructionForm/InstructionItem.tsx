@@ -22,7 +22,7 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction, updateIn
     };
 
     const updateInstructionEntry = (value: string) => {
-        var data = {
+        let data = {
             description: value,
             image: instructionImage
         }
@@ -36,7 +36,7 @@ const InstructionItem = ({ provided, snapshot, item, deleteInstruction, updateIn
             const imageData = reader.result;
             setInstructionImage(reader.result);
 
-            var data = {
+            let data = {
                 description: instructionInput,
                 image: imageData
             }

@@ -8,7 +8,7 @@ from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_
 # Create your views here.
 @api_view(['GET'])
 def getRecipes(request):
-    recipes = Recipe.objects.filter(is_published=True)[:5]
+    recipes = Recipe.objects.filter(is_published=True)
     # recipes = Recipe.objects.all()  # You can filter this as needed
     return Response(RecipeSerializer(recipes, many = True).data)
 

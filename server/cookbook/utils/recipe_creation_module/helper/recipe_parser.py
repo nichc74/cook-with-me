@@ -53,6 +53,7 @@ def parse_and_create_summary(summary_data, recipe):
     return RecipeSummary.objects.create(recipe=recipe, summary=summary_data)
 
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
+    print(recipe_ingredient_component_data)
     try:
         recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
         for recipe_componet in recipe_ingredient_component_data:
@@ -62,12 +63,15 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
             recipe_ingredient_data = recipe_componet.recipe_ingredients
             parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
         return
-    except:
+    except Exception as e: 
+        print(e)
         print("parsing ingredient component")
 
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     try:
         for recipe_ingredient in recipe_ingredient_data:
+            if recipe_ingredient.ingredient == "":
+                continue
             name = recipe_ingredient.ingredient.lower()
             ingredient = Ingredient.objects.get_or_create(name=name)
             RecipeIngredient.objects.create(recipe_component=component, ingredient=ingredient[0], amount=recipe_ingredient.amount, metric=recipe_ingredient.metric )
@@ -92,7 +96,8 @@ def parse_and_create_instructions(recipe_instructional_data, component):
     # print(recipe_instructional_data)
     for step in range(0, len(recipe_instructional_data)):
         instruction = recipe_instructional_data[step]
-        print(instruction.description)
+        if instruction.description == "":
+            continue
         if instruction.image:
             image = upload_image(instruction.image)
             if image:
@@ -106,6 +111,8 @@ def parse_and_create_notes(notes, recipe):
     notes = json.loads(notes, object_hook=lambda d: SimpleNamespace(**d))
     for step in range(0, len(notes)):
         note=notes[step]
+        if note.description == "":
+            continue
         Note.objects.create(recipe=recipe, description=note.description, step_id=step+1)
     return
 
