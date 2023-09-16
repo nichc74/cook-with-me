@@ -1,0 +1,24 @@
+.admin-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filters-and-search-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filters-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-container {
+    width: 50%;
+}
+
+.applied-filters-container{
+    padding: 20px 0px; 
+}
