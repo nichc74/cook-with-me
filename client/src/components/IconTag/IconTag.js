@@ -5,8 +5,9 @@ export default function IconTag({label, icon, value}) {
         <div className="IconTag-main">
             <div className="IconTag-icon"></div>
             <div className="IconTag-info">
-                <div>{label}</div>
-                <div className="IconTag-value">{value}</div>
+                <b>{label}</b>
+                {value}
+                {/* <div className="IconTag-value"></div> */}
             </div>
         </div>
     )

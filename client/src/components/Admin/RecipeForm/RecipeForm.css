@@ -1,14 +1,13 @@
-.recipe-form-container {
+.recipe-form {
+    width: 60%;
+    padding: 50px;
     background-color: #fff9eb;
-    height: 100%;
-    width: 40%;
-    min-width: 500px;
-    max-width: 75%;
-    margin: auto;
 }
 
 .recipe-form-container {
-    padding: 100px;
+    height: 100%;
+    width: 100%;
+    margin: auto;
 }
 
 .recipe-form-metadata {

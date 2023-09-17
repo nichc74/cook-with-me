@@ -1,0 +1,17 @@
+.navbarContainer {
+    width: 100%;
+    height: 100%;
+    /* border-bottom: 16px solid black; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #b1d9e4;
+}
+
+.logo {
+    margin-left: 128px;
+    height: inherit;
+    cursor: pointer;
+    /* background-color: blue; */
+}
+

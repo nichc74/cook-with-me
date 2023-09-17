@@ -10,6 +10,7 @@ services:
     command: --init-file /usr/src/app/setup_mysql.sql
     volumes:
       - ./setup_mysql.sql:/usr/src/app/setup_mysql.sql
+
     ports:
       - "3306:3306"
 

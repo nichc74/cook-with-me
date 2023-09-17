@@ -10,11 +10,11 @@ import '../RecipeForm.css';
 const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent, presets }) => {
     const [recipeComponentName, setRecipeComponentName] = useState('');
     const [recipeIngredients, setRecipeIngredients] = useState(
-        new Array(5).fill({}).map((_, i) => ({ id: i + '', ingredient: "", metric: "", amount: "" }))
+        new Array(5).fill({}).map((_, i) => ({ id: i + '', ingredient: "", metric: "", amount: null }))
     );
 
     const addIngredient = () => {
-        setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length ).toString(), ingredient: "", metric: "", amount: "" }]);
+        setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length ).toString(), ingredient: "", metric: "", amount: null }]);
     };
 
     const handleRecipeComponentNameInput = (value: string) => {

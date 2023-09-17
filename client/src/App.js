@@ -1,14 +1,15 @@
 import logo from './logo.svg';
 import { useEffect, useState } from 'react';
-
+import { Routes, Route } from 'react-router-dom'; 
 import './App.css';
-import RecipeBox from './components/RecipeBox/RecipeBox'
+import Recipes from './components/Recipes/Recipes.tsx';
 import RecipeDetailPage from './components/RecipeDetailPage/RecipeDetailPage'
+import Recipe from './components/Recipe/Recipe.tsx';
 import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
 import { getRecipes } from './apis/AdminAPI/RecipeAPI';
-
+import Header from './components/Basics/Header/Header.tsx';
+import RecipesPage from './components/Admin/RecipesPage/RecipesPage.tsx';
 function App() {
-  const [pageState, setPageState] = useState(0);
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
@@ -24,38 +25,29 @@ function App() {
     }
   };
   
-  function togglePage(pageCode) {
-    console.log('toggling recipe detail', pageCode)
-    setPageState(pageCode)
-  }
-
-  function displayBody() {
-    if (pageState !== 0) {
-      return (
-        <RecipeDetailPage pageState={pageState} />
-      );
-    } else {
-      return (
-        <div className="App-recipeBoxes">
-          {
-            recipes.map((recipe) => (
-              <RecipeBox togglePage={togglePage} key={recipe.id} recipe={recipe} />
-            ))
-          }
-        </div>
-      );
-    }
-  }
-  
   return (
     <div className="App">
       <header className="App-header">
-        Placeholder Header
+        <Header/>
+        <div style={{height: 16, width: "100%", background: "black"}}/>
       </header>
       <div className="App-main-body">
-        {displayBody()}
+        <div className="App-recipeBoxes">
+          <Routes>
+            <Route exact path="/admin" element={<RecipesPage recipes={recipes}/>}/>
+            <Route exact path="admin/recipe-form/create" element={<RecipeForm/> }/>
+            <Route exact path="/" element={<Recipes recipes={recipes}/> }/>
+            {
+              recipes.map((recipe) => (
+                <Route exact path={recipe.url_slug} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
+              ))
+            }
+          </Routes>
+        </div>
       </div>
-      {/* <RecipeForm/> */}
+      <footer className="App-footer">
+        Placeholder Header
+      </footer>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import "./Notes.css"
 const RecipeNotes = ({notes}) => {
     return (
-        <div>
+        <div className="notes-container">
             <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
                 Notes
             </div>

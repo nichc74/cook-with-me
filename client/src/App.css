@@ -28,14 +28,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #61dafb;
-  margin-bottom: 5px;
+  flex-direction: column;
+  /* background-color: #61dafb; */
 }
+
+.App-footer {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #61dafb;
+}
+
 
 .App-main-body {
   background-color: white;
   min-height: 100vh;
-  margin: 0 15%;
+  margin: auto;
+  /* width: 60%; */
+  max-width: 1200px;
 }
 
 @keyframes App-logo-spin {

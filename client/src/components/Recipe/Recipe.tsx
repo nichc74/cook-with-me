@@ -6,7 +6,7 @@ import RecipeIngredients from "./RecipeIngredients/RecipeIngredients.tsx";
 import RecipeInstructions from "./RecipeInstructions/RecipeInstrunctions.tsx";
 import RecipeNotes from "./RecipeNotes/RecipeNotes.tsx";
 
-const Recipe = ({ recipe_id }) => {
+const Recipe = ({ slug, recipe_id }) => {
   const [recipeDetails, setRecipeDetails] = useState(null);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Recipe = ({ recipe_id }) => {
 
   const fetchRecipeDetails = async () => {
     try {
-      const recipeDetail = await getRecipe(recipe_id);
+      const recipeDetail = await getRecipe(slug, recipe_id);
       setRecipeDetails(recipeDetail);
       console.log(recipeDetail);
     } catch (error) {
@@ -24,7 +24,7 @@ const Recipe = ({ recipe_id }) => {
   };
 
   return (
-    <div>
+    <div style={{display: "flex"}}>
         {recipeDetails ? (
             <div>
                 <RecipeMetadata metadata={recipeDetails.metadata} />
