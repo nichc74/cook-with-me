@@ -1,7 +1,7 @@
 #!/bin/bash
 
 /etc/init.d/mariadb start
-cat setup_mysql.sql | mysql -u root
+cat backup.sql | mysql -u root
 
 cat >> /etc/mysql/my.cnf << EOF
 [client]
