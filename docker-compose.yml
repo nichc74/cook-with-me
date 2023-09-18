@@ -7,10 +7,8 @@ services:
       - MYSQL_DATABASE=cook_with_me
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes 
       - MYSQL_HOST_CACHE_SIZE=0
-    command: --init-file /usr/src/app/setup_mysql.sql
     volumes:
-      - ./setup_mysql.sql:/usr/src/app/setup_mysql.sql
-
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql
     ports:
       - "3306:3306"
 

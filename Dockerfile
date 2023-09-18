@@ -3,9 +3,9 @@ FROM python:3.11
 WORKDIR /usr/src/app
 
 # Install system dependencies
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y git mariadb-server libmariadb-dev vim htop net-tools procps
+# RUN apt-get update && \
+#     apt-get upgrade -y && \
+#     apt-get install -y git mariadb-server libmariadb-dev vim htop net-tools procps
 # local path -> container path
 COPY . /usr/src/app
 
