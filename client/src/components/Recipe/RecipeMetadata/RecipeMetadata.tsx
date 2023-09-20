@@ -1,5 +1,6 @@
 import React from "react";
 import IconTag from "../../IconTag/IconTag.js";
+import "../../RecipeDetailPage/RecipeDetailPage.css";
 
 const RecipeMetadata = ({metadata}) => {
     console.log(metadata.metadata);
