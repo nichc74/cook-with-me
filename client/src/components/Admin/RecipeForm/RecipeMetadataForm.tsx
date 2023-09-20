@@ -64,11 +64,10 @@ const RecipeMetadataForm = () => {
         handleMetadataInput('recipeImage', '')
         inputRef.current.value = null;
     }
-
-
+    
     return (
         <div>
-            <h1>Recipe</h1>
+            <h1>Recipe Form</h1>
 
             <Paper style={{ display: 'flex', flexDirection: 'column', padding: 10, background: 'white' }}>
                 <div style={{width: "100%", margin: 'auto', display: 'flex', flexDirection: "column"}}>

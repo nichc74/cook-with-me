@@ -1,16 +1,17 @@
 import React from "react";
-import RecipeBox from './RecipeBox/RecipeBox';
-import { useNavigate, Route } from "react-router-dom";
+import RecipeBox from './RecipeBox/RecipeBox.js';
 
-const Recipes = ({recipes, togglePage}) => {
-    const navigate = useNavigate();
+interface RecipesProps {
+    recipes: Array<Object>,
+    togglePage: Number
+}
 
+const Recipes = ({recipes, togglePage}: RecipesProps) => {
     return (
         <div style={{display: "flex", flexWrap: "wrap", justifyContent:"space-evenly"}}>
             {
                 recipes.map((recipe: any) => (
-                    <RecipeBox togglePage={togglePage} recipe={recipe}/>
-                    // <Route path={recipe.url_slug} element={<RecipeBox togglePage={togglePage} recipe={recipe}/>}/>
+                    <RecipeBox key={recipe.id} togglePage={togglePage} recipe={recipe}/>
                 ))
             }
         </div>

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom'; 
 import './App.css';
 import Recipes from './components/Recipes/Recipes.tsx';
-import RecipeDetailPage from './components/RecipeDetailPage/RecipeDetailPage'
 import Recipe from './components/Recipe/Recipe.tsx';
 import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
 import { getRecipes } from './apis/AdminAPI/RecipeAPI';
@@ -19,6 +18,7 @@ function App() {
   const fetchRecipes = async () => { // Make fetchRecipes async
     try {
       const fetchedRecipes = await getRecipes();
+      console.log(fetchedRecipes);
       setRecipes(fetchedRecipes);
     } catch (error) {
       console.error('Error fetching recipes:', error);
@@ -35,11 +35,12 @@ function App() {
         <div className="App-recipeBoxes">
           <Routes>
             <Route exact path="/admin" element={<RecipesPage recipes={recipes}/>}/>
-            <Route exact path="admin/recipe-form/create" element={<RecipeForm/> }/>
+            <Route exact path="/admin/recipe-form/create" element={<RecipeForm/> }/>
+            <Route path="/admin/recipe-form/edit" element={<RecipeForm/>} />
             <Route exact path="/" element={<Recipes recipes={recipes}/> }/>
             {
               recipes.map((recipe) => (
-                <Route exact path={recipe.url_slug} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
+                <Route key={recipe.id} exact path={recipe.url_slug} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
               ))
             }
           </Routes>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './RecipeForm.css';
 import RecipeMetadataForm from './RecipeMetadataForm.tsx';
 import IngredientForm from './IngredientForm/IngredientForm.tsx';
 import InstructionForm from './InstructionForm/InstructionForm.tsx';
@@ -8,19 +7,11 @@ import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux'; // Assuming you have a Redux store set up.
 import { createRecipe, getMetricsAndIngredients } from '../../../apis/AdminAPI/RecipeAPI';
 import FormData from 'form-data';
+import './RecipeForm.css';
+import { useLocation } from 'react-router-dom';
 
-interface Metadata {
-    title: string;
-    author: string;
-    prepTime: number;
-    cookTime: number;
-    cuisineType: string;
-    category: string;
-    servings: number;
-    summary: string;
-}
-
-const RecipeForm: React.FC = () => {
+const RecipeForm = ({recipe}) => {
+    const location = useLocation();
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [severity, setSeverity] = useState("");
@@ -33,9 +24,9 @@ const RecipeForm: React.FC = () => {
 
     const [metricsAndIngredients, setMetricsAndIngredients] = useState([]);
 
-    const dispatch = useDispatch();
-
     useEffect(() => {
+        console.log(location.state);
+        // console.log(recipe);
         fetchMetricsAndIngredients();
     }, []);
 
@@ -82,10 +73,6 @@ const RecipeForm: React.FC = () => {
         setOpenSnackbar(false);
     };
 
-    const onDelete = () => {
-        // Implement delete functionality here
-    }
-
     const onPublish = () => {
         // Implement publish functionality here
     }
@@ -114,8 +101,7 @@ const RecipeForm: React.FC = () => {
                 open={openSnackbar}
                 autoHideDuration={3000}
                 onClose={handleCloseSnackbar}>
-                <Alert
-                    severity={severity}>
+                <Alert>
                     {snackbarMessage}
                 </Alert>
             </Snackbar>

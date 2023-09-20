@@ -1,7 +1,11 @@
 import React from "react";
 import './Summary.css';
 
-const RecipeSummary = ({summary}) => {
+interface SummaryProps {
+    summary: string
+}
+
+const RecipeSummary = ({summary}: SummaryProps) => {
     let summaryObj = summary.substring(1, summary.length - 1).replace(/\\n/g, "<br/>");
     console.log(summaryObj);
     const theObj = {__html:summaryObj};

@@ -3,9 +3,10 @@ import './RecipeDetailPage.css'
 import Recipe from '../Recipe/Recipe.tsx';
 import { useState } from 'react';
 
-export default function RecipeDetailPage({pageState, slug, togglePage}) {
-
+export default function RecipeDetailPage({pageState, togglePage}) {
   return (
-    <Recipe slug={slug} recipe_id={pageState}/>
+    <div>
+      <Recipe recipe_id={pageState}/>
+    </div>
   )
 }

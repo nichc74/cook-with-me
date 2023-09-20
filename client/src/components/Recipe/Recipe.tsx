@@ -6,7 +6,12 @@ import RecipeIngredients from "./RecipeIngredients/RecipeIngredients.tsx";
 import RecipeInstructions from "./RecipeInstructions/RecipeInstrunctions.tsx";
 import RecipeNotes from "./RecipeNotes/RecipeNotes.tsx";
 
-const Recipe = ({ slug, recipe_id }) => {
+interface RecipeProps {
+  slug: string,
+  recipe_id: Number
+}
+
+const Recipe = ({ slug, recipe_id }: RecipeProps) => {
   const [recipeDetails, setRecipeDetails] = useState(null);
 
   useEffect(() => {

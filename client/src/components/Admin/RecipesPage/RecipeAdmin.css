@@ -13,10 +13,12 @@
 .filters-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
 }
 
 .search-container {
-    width: 50%;
+    width: 100%;
 }
 
 .applied-filters-container{

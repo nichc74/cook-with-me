@@ -4,7 +4,11 @@ import { Button, MenuItem, Select, TextField } from "@mui/material";
 import "./RecipeAdmin.css";
 import { useNavigate } from "react-router-dom";
 
-const RecipesPage = ({recipes}) => {
+interface RecipesPageProps {
+    recipes: Array<Object>
+}
+
+const RecipesPage = ({recipes}: RecipesPageProps) => {
     const navigate = useNavigate();
 
     const onClickAddRecipe = () => {
@@ -22,6 +26,7 @@ const RecipesPage = ({recipes}) => {
                     <TextField placeholder="Search Recipes" fullWidth/>
                 </div>
                 <div className="filters-container">   
+                    <Button>Select All</Button>   
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -48,7 +53,7 @@ const RecipesPage = ({recipes}) => {
             <div className="applied-filters-container">
                 <Button>Clear Filter</Button>
             </div>
-            <Recipes recipes={recipes}/>
+            <Recipes/>
         </div>
     )
 }
