@@ -16,7 +16,7 @@ const NoteForm = ({recipesNotes}: NoteFormProp) => {
 
     useEffect(() => {
         if (recipesNotes) {
-            setNotes(recipesNotes);
+            setNotes(recipesNotes.map((note, index) => ({id: `${index}`, ...note})));
         }
     }, [recipesNotes]);
 

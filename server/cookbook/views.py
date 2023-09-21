@@ -8,10 +8,14 @@ from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_
 # Create your views here.
 @api_view(['GET'])
 def getRecipes(request):
-    recipes = Recipe.objects.filter(is_published=True)
+    recipes = Recipe.objects.filter(status='published')
     # recipes = Recipe.objects.all()  # You can filter this as needed
     return Response(RecipeSerializer(recipes, many = True).data)
 
+@api_view(['GET'])
+def getAllRecipes(request):
+    recipes = Recipe.objects.all()
+    return Response(RecipeSerializer(recipes, many = True).data)
 
 @api_view(['GET'])
 def getRecipe(request, id):
@@ -39,6 +43,17 @@ def postRecipe(request):
     try:
         response = parse_and_create_recipe(request.data)
         return Response((response), status=200)
+    except:
+        return Response({"Message": "Error Occurred"}, status=500)
+
+@api_view(['POST'])
+def updateRecipeStatus(request, id):
+    try:
+        print(request.data)
+        recipe = Recipe.objects.get(id=id)
+        recipe.status = request.data['status']
+        recipe.save()
+        return Response({"success"}, status=200)
     except:
         return Response({"Message": "Error Occurred"}, status=500)
 

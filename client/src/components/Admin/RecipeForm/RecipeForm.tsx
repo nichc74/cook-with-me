@@ -5,7 +5,7 @@ import InstructionForm from './InstructionForm/InstructionForm.tsx';
 import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux'; // Assuming you have a Redux store set up.
-import { createRecipe, getMetricsAndIngredients, getRecipe } from '../../../apis/AdminAPI/RecipeAPI';
+import { createRecipe, getMetricsAndIngredients, getRecipe, updateRecipeStatus} from '../../../apis/AdminAPI/RecipeAPI';
 import FormData from 'form-data';
 import './RecipeForm.css';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -42,11 +42,13 @@ interface State {
 const RecipeForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const [editting, setEdit] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [severity, setSeverity] = useState("");
     const [recipeData, setRecipeData] = useState<RecipeData | {}>({});
     const [loading, setLoading] = useState(false);
+    const [recipeStatus, setRecipeStatus] = useState("unpublished");
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
     const summary = useSelector((state: any) => state.recipeReducer.summary);
@@ -59,7 +61,7 @@ const RecipeForm = () => {
     useEffect(() => {
         if (location.state) {
             fetchRecipeToEdit();
-            console.log(recipeData)
+            setEdit(true);
         }
         fetchMetricsAndIngredients();
     }, []);
@@ -82,6 +84,7 @@ const RecipeForm = () => {
     const onSave = async () => {
         try {
             const formData = new FormData();
+            formData.append('status', recipeStatus);
             formData.append('metadata', JSON.stringify(metadata));
             formData.append('summary', summary);
             formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
@@ -113,7 +116,7 @@ const RecipeForm = () => {
 
     const onPublish = async () => {
         try {
-            // Implement publish logic here
+            setRecipeStatus("published");
             setOpenSnackbar(true);
             setSnackbarMessage('Recipe published successfully');
             setSeverity('success');
@@ -122,28 +125,32 @@ const RecipeForm = () => {
         }
     };
     
-
-    function onBack(): void {
+    const onBack = () => {
         navigate('/admin');
     }
 
     return (
         <div className="recipe-form">
             <Button color="error" variant="contained" onClick={() => onBack()}>
-                        Back
-                    </Button>
+                Back
+            </Button>
             <div className="recipe-form-container">
-                {/* <RecipeMetadataForm recipeMetadata={recipeData.metadata} recipeSummary={recipeData.recipe_summary[0].summary}/> */}
-                <RecipeMetadataForm recipeMetadata={recipeData.metadata} recipeSummary={"Hello World"}/>
+                <RecipeMetadataForm recipeMetadata={recipeData.metadata} recipeSummary={recipeData.recipe_summary}/>
+                {/* <RecipeMetadataForm recipeMetadata={recipeData.metadata} recipeSummary={"Hello World"}/> */}
                 <IngredientForm presets={metricsAndIngredients} recipeIngredientComponents={recipeData.recipe_ingredient_components} />
                 <InstructionForm recipeInstructionalComponents={recipeData.recipe_instructional_components}/>
                 <NoteForm recipesNotes={recipeData.notes}/>
                 <br />
                 <div className="recipe-form-button-options-container">
-                    
-                    <Button color="success" variant="contained" onClick={() => onSave()}>
-                        Save
-                    </Button>
+                    {editting ? 
+                        <Button color="success" variant="contained" onClick={() => onEdit()}>
+                            Update
+                        </Button>
+                        :
+                        <Button color="success" variant="contained" onClick={() => onSave()}>
+                            Create
+                        </Button>
+                    }
                     <Button variant="contained" onClick={() => onPublish()}>
                         Publish
                     </Button>

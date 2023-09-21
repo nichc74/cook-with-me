@@ -13,7 +13,7 @@ const NoteItem = ({ provided, snapshot, item, deleteNotes, updateRecipeNotes})=>
         if (item.description) {
             setNoteInput(item.description)
         }
-    }, [])
+    }, [item])
 
     const handleNoteInput = (value: string) => {
         setNoteInput(value)

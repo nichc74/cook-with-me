@@ -24,7 +24,7 @@ class Recipe(models.Model):
     serves = models.IntegerField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE, default=None, null=True)
     source_link = models.TextField(default="", null=True)
-    is_published = models.BooleanField(default=False)
+    status = models.CharField(max_length=128, default="unpublished")
 
     def __str__(self):
         return "%s: %s" % (self.id, self.title)

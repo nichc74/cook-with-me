@@ -50,11 +50,13 @@ const RecipeMetadataForm = ({ recipeMetadata, recipeSummary }: RecipeMetadataFor
     useEffect(() => {
         if (recipeMetadata) {
             setMetadata(recipeMetadata);
+            dispatch(updateMetadata(recipeMetadata));
         }
         if (recipeSummary) {
-            setSummary(recipeSummary);
+            setSummary(recipeSummary[0].summary);
+            dispatch(updateSummary(recipeSummary));
         }
-    }, [recipeMetadata]);
+    }, [recipeMetadata, recipeSummary]);
 
     const handleMetadataInput = (field: keyof MetadataProps, value: string | number) => {
         setMetadata(prevMetadata => ({

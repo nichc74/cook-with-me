@@ -99,3 +99,21 @@ export async function getRecipe(url_slug, id) {
     console.log(recipe);
     return await recipe;
 }
+
+export async function updateRecipeStatus(id, status) {
+    var fetchRecipeEndpoint = `${endpoint}/updateRecipeStatus/${id}/`;
+
+    const options = {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify ({
+            status: status
+        })
+    };
+
+    var response = await fetch(fetchRecipeEndpoint, options);
+    return response;
+}

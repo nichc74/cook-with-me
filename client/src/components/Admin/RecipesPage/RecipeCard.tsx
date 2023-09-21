@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RecipeForm from '../RecipeForm/RecipeForm.tsx';
+import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js'
 
 interface RecipeObjectProp {
     id: number;
@@ -23,18 +23,20 @@ interface RecipeCardProps {
 
 const RecipeCard = ({recipe}: RecipeCardProps) => {
     const [selected, setSelected] = useState(false);
+    const [recipeStatus, setRecipeStatus] = useState(recipe.status);
     const navigate = useNavigate();
 
     const onClickSelected = () => {
         setSelected(!selected);
     }
-    const publishingOnClick = () => {
-
+    const publishingOnClick = async (status: string) => {
+        const result = await updateRecipeStatus(recipe.id, status);
+        if (result.status == 200) {
+            setRecipeStatus(status);
+        }
     }
 
     const onClickEdit = () => {
-        console.dir("onClickEdit");
-        console.dir(recipe);
         navigate(`/admin/recipe-form/edit/${recipe.id}`, { state: recipe });
     }
 
@@ -55,10 +57,10 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
                 </CardContent>
                 <CardActions disableSpacing style={{justifyContent:"center"}}>
                     {
-                        recipe.status === "published" ? 
-                        <Button color="success" size="small">unpublish</Button>
+                        recipeStatus === "published" ? 
+                        <Button color="success" size="small" onClick={() => publishingOnClick("unpublish")} >unpublish</Button>
                         :
-                        <Button color="success" size="small">Publish</Button>
+                        <Button color="success" size="small" onClick={() => publishingOnClick("published")}>Publish</Button>
                     }
                     <Button size="small" onClick={onClickEdit}>Edit</Button>
                     <Button color="error" size="small">Delete</Button>
