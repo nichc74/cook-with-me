@@ -86,8 +86,6 @@ export async function getAllRecipesInAdmin() {
 }
 
 export async function getRecipe(url_slug, id) {
-    console.log(url_slug);
-    console.log(id);
     var fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
     var response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',

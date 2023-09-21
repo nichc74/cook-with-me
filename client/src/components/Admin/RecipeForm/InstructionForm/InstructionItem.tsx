@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -12,9 +12,18 @@ import Tooltip from '@mui/material/Tooltip';
 import './instruction.css'
 
 const InstructionItem = ({ provided, snapshot, item, deleteInstruction, updateInstruction }) => {
-    const [instructionInput, setInstructionInput] = useState('');
-    const [instructionImage, setInstructionImage] = useState('')
+    const [instructionInput, setInstructionInput] = useState(item.description || '');
+    const [instructionImage, setInstructionImage] = useState(item.image || '');
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (item.description) {
+            setInstructionInput(item.description);
+        }
+        if (item.image) {
+            setInstructionImage(item.image);
+        }
+    }, [item])
     
     const handleInstructionInput = (value: string) => {
         setInstructionInput(value);

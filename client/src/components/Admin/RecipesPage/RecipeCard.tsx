@@ -9,8 +9,15 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecipeForm from '../RecipeForm/RecipeForm.tsx';
 
+interface RecipeObjectProp {
+    id: number;
+    image: string,
+    title: string,
+    status: string,
+}
+
 interface RecipeCardProps {
-    recipe: Object,
+    recipe: RecipeObjectProp,
 
 }
 
@@ -28,7 +35,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
     const onClickEdit = () => {
         console.dir("onClickEdit");
         console.dir(recipe);
-        navigate("/admin/recipe-form/edit", { state: recipe });
+        navigate(`/admin/recipe-form/edit/${recipe.id}`, { state: recipe });
     }
 
     return (

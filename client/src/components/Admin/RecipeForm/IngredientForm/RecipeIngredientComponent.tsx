@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Paper, TextField, Box } from '@mui/material';
 import IngredientItem from './IngredientItem.tsx';
@@ -8,10 +8,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import '../RecipeForm.css';
 
 const RecipeIngredientComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent, presets }) => {
-    const [recipeComponentName, setRecipeComponentName] = useState('');
-    const [recipeIngredients, setRecipeIngredients] = useState(
+    const [recipeComponentName, setRecipeComponentName] = useState( recipeComponent.component_name || '');
+    const [recipeIngredients, setRecipeIngredients] = useState(recipeComponent.ingredients ||
         new Array(5).fill({}).map((_, i) => ({ id: i + '', ingredient: "", metric: "", amount: null }))
     );
+
+    useEffect(() => {
+        console.log(recipeComponent)
+    }, [])
 
     const addIngredient = () => {
         setRecipeIngredients([...recipeIngredients, { id: (recipeIngredients.length ).toString(), ingredient: "", metric: "", amount: null }]);

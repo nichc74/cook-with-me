@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
@@ -6,17 +6,30 @@ import RecipeInstructionalComponent from './RecipeInstructionalCompnent.tsx';
 import { updateRecipeInstructionalComponent } from '../../../../store/actions/recipeActions.js';
 import '../RecipeForm.css';
 
-const IngredientForm = () => {
+interface RecipeInstructionalCompnentProps {
+    recipeInstructionalComponents: Array<object>
+}
+
+const IngredientForm = ({recipeInstructionalComponents}: RecipeInstructionalCompnentProps) => {
     const dispatch = useDispatch();
 
-    const [recipeComponents, setRecipeComponents] = useState([
-        {
-            id: '0',
-            component_name: '',
-            type: "instruction",
-            recipe_instructions: []
+    const [recipeComponents, setRecipeComponents] = useState(
+        recipeInstructionalComponents || 
+        [
+            {
+                id: '0',
+                component_name: '',
+                type: "instruction",
+                recipe_instructions: []
+            }
+        ]
+    );       
+
+    useEffect(() => {
+        if (recipeInstructionalComponents) {
+            setRecipeComponents(recipeInstructionalComponents.map((component, index) => ({ id: `${index}`, ...component })));
         }
-    ]);
+    }, [recipeInstructionalComponents]);
 
     const addRecipeComponent = () => {
         const newId = String(recipeComponents.length);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -7,7 +7,13 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ReorderIcon from '@mui/icons-material/Reorder';
 
 const NoteItem = ({ provided, snapshot, item, deleteNotes, updateRecipeNotes})=> {
-    const [note, setNoteInput] = useState("");
+    const [note, setNoteInput] = useState(item.description || "");
+
+    useEffect(() => {
+        if (item.description) {
+            setNoteInput(item.description)
+        }
+    }, [])
 
     const handleNoteInput = (value: string) => {
         setNoteInput(value)
@@ -17,7 +23,6 @@ const NoteItem = ({ provided, snapshot, item, deleteNotes, updateRecipeNotes})=>
     const updateNote = (description: string) => {
         const data = { 
             description: description,
-            // is_image: false
         };
         updateRecipeNotes(item.id, data);
     };

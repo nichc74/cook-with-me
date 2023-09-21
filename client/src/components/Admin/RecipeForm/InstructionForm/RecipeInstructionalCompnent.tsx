@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Paper, TextField, Box } from '@mui/material';
 import InstructionItem from './InstructionItem.tsx';
@@ -8,10 +8,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import '../RecipeForm.css';
 
 const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, deleteRecipeComponent, updateRecipeComponent }) => {
-    const [recipeComponentName, setRecipeComponentName] = useState('');
-    const [recipeInstructions, setRecipeInstructions] = useState(
-        new Array(3).fill({}).map((_, i) => ({ id: i + '', image: "", description: ""}))
-    );
+    const [recipeComponentName, setRecipeComponentName] = useState(recipeComponent.component_name || '');
+    const [recipeInstructions, setRecipeInstructions] = useState(recipeComponent.instructions || new Array(3).fill({}).map((_, i) => ({ id: i + '', image: "", description: ""})));
+
+    useEffect(() => {
+        if (recipeComponent.component_name) {
+            setRecipeComponentName(recipeComponent.component_name);
+        }
+        if (recipeComponent.instructions) {
+            setRecipeInstructions(recipeComponent.instructions.map((instruction: any, index: number) => ({ id: `${index}`, ...instruction })))
+        }
+    }, [recipeComponent])
 
     const addIntruction = () => {
         setRecipeInstructions([...recipeInstructions, { id: (recipeInstructions.length ).toString(), image: "", description: ""}]);
@@ -23,7 +30,7 @@ const RecipeInstructionalComponent = ({ provided, snapshot, recipeComponent, del
     };
 
     const deleteInstruction = (idToDelete: string) => {
-        const updatedComponents = recipeInstructions.filter(component => component.id !== idToDelete);
+        const updatedComponents = recipeInstructions.filter((component: { id: string; }) => component.id !== idToDelete);
         setRecipeInstructions(updatedComponents);
         updateComponent(recipeComponentName, updatedComponents);
     };

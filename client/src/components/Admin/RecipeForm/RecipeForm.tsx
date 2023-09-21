@@ -5,37 +5,76 @@ import InstructionForm from './InstructionForm/InstructionForm.tsx';
 import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux'; // Assuming you have a Redux store set up.
-import { createRecipe, getMetricsAndIngredients } from '../../../apis/AdminAPI/RecipeAPI';
+import { createRecipe, getMetricsAndIngredients, getRecipe } from '../../../apis/AdminAPI/RecipeAPI';
 import FormData from 'form-data';
 import './RecipeForm.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const RecipeForm = ({recipe}) => {
+interface RecipeFormProps {
+    recipe: Object; // Replace 'RecipeType' with the actual type of your recipe
+}
+
+interface RecipeData {
+    metadata: {
+        author: string,
+        category: string,
+        cook_time: Number,
+        cuisine: string,
+        id: Number,
+        image: string,
+        prep_time: Number,
+        serves: Number,
+        source_link: string,
+        status: string,
+        title: string,
+        url_slug: string
+    },
+    summary: string; 
+}
+
+interface State {
+    openSnackbar: boolean;
+    snackbarMessage: string;
+    severity: "success" | "error" | "";
+    recipeData: RecipeData | {};
+    metricsAndIngredients: Array<Object>; // Replace with the actual type
+}
+const RecipeForm = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [severity, setSeverity] = useState("");
+    const [recipeData, setRecipeData] = useState<RecipeData | {}>({});
+    const [loading, setLoading] = useState(false);
 
-    const metadata = useSelector((state) => state.recipeReducer.metadata);
-    const summary = useSelector((state) => state.recipeReducer.summary);
-    const recipeIngredientComponents = useSelector((state) => state.recipeReducer.recipeIngredientComponents);
-    const recipeInstructionalComponents = useSelector((state) => state.recipeReducer.recipeInstructionalComponents);
-    const notes = useSelector((state) => state.recipeReducer.notes);
+    const metadata = useSelector((state: any) => state.recipeReducer.metadata);
+    const summary = useSelector((state: any) => state.recipeReducer.summary);
+    const recipeIngredientComponents = useSelector((state: any) => state.recipeReducer.recipeIngredientComponents);
+    const recipeInstructionalComponents = useSelector((state: any) => state.recipeReducer.recipeInstructionalComponents);
+    const notes = useSelector((state: any) => state.recipeReducer.notes);
 
     const [metricsAndIngredients, setMetricsAndIngredients] = useState([]);
 
     useEffect(() => {
-        console.log(location.state);
-        // console.log(recipe);
+        if (location.state) {
+            fetchRecipeToEdit();
+            console.log(recipeData)
+        }
         fetchMetricsAndIngredients();
     }, []);
+
+    const fetchRecipeToEdit = async () => {
+        const data = await getRecipe(location.state.url_slug, location.state.id);
+        setRecipeData(data);
+    }
 
     const fetchMetricsAndIngredients = async () => {
         try {
             const presets = await getMetricsAndIngredients();
             console.log(presets);
             setMetricsAndIngredients(presets);
-        } catch (error) {
+        } catch (error: any) {
             handleApiError('fetching metrics and ingredients', error);
         }
     }
@@ -43,16 +82,15 @@ const RecipeForm = ({recipe}) => {
     const onSave = async () => {
         try {
             const formData = new FormData();
-
             formData.append('metadata', JSON.stringify(metadata));
-            formData.append('summary', JSON.stringify(summary));
+            formData.append('summary', summary);
             formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
             formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
             formData.append('notes', JSON.stringify(notes));
 
             const result = await createRecipe(formData);
             handleApiResult(result);
-        } catch (error) {
+        } catch (error: any) {
             handleApiError('saving recipe', error);
         }
     }
@@ -73,27 +111,41 @@ const RecipeForm = ({recipe}) => {
         setOpenSnackbar(false);
     };
 
-    const onPublish = () => {
-        // Implement publish functionality here
+    const onPublish = async () => {
+        try {
+            // Implement publish logic here
+            setOpenSnackbar(true);
+            setSnackbarMessage('Recipe published successfully');
+            setSeverity('success');
+        } catch (error) {
+            handleApiError('publishing recipe', error);
+        }
+    };
+    
+
+    function onBack(): void {
+        navigate('/admin');
     }
 
     return (
         <div className="recipe-form">
+            <Button color="error" variant="contained" onClick={() => onBack()}>
+                        Back
+                    </Button>
             <div className="recipe-form-container">
-                <RecipeMetadataForm />
-                <IngredientForm presets={metricsAndIngredients} />
-                <InstructionForm />
-                <NoteForm />
+                {/* <RecipeMetadataForm recipeMetadata={recipeData.metadata} recipeSummary={recipeData.recipe_summary[0].summary}/> */}
+                <RecipeMetadataForm recipeMetadata={recipeData.metadata} recipeSummary={"Hello World"}/>
+                <IngredientForm presets={metricsAndIngredients} recipeIngredientComponents={recipeData.recipe_ingredient_components} />
+                <InstructionForm recipeInstructionalComponents={recipeData.recipe_instructional_components}/>
+                <NoteForm recipesNotes={recipeData.notes}/>
                 <br />
                 <div className="recipe-form-button-options-container">
-                    <Button color="error" variant="contained" onClick={() => onDelete()}>
-                        Delete Recipe
-                    </Button>
+                    
                     <Button color="success" variant="contained" onClick={() => onSave()}>
-                        Save Draft
+                        Save
                     </Button>
                     <Button variant="contained" onClick={() => onPublish()}>
-                        Publish Recipe
+                        Publish
                     </Button>
                 </div>
             </div>

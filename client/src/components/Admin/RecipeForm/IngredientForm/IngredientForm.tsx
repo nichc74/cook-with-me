@@ -6,10 +6,27 @@ import RecipeIngredientComponent from './RecipeIngredientComponent.tsx';
 import { updateRecipeIngredientComponent } from '../../../../store/actions/recipeActions.js';
 import '../RecipeForm.css';
 
-const IngredientForm = ({presets}) => {
+interface PresetsProps {
+    metricsAndIngredients: {
+        metrics: Array<string>,
+        ingredients: Array<string>,
+    }
+}
+
+interface IngredientsFormProps {
+    presets: PresetsProps,
+    recipeIngredientComponents: Array<{
+        id: string
+        component_name: string,
+        type: string,
+        recipe_ingredients: Array<Object>
+    }>
+}
+
+const IngredientForm = ({presets, recipeIngredientComponents}: IngredientsFormProps) => {
     const dispatch = useDispatch();
 
-    const [recipeComponents, setRecipeComponents] = useState([
+    const [recipeComponents, setRecipeComponents] = useState(recipeIngredientComponents || [
         {
             id: '0',
             component_name: '',
@@ -18,6 +35,11 @@ const IngredientForm = ({presets}) => {
         }
     ]);
 
+    useEffect(() => {
+        if (recipeIngredientComponents) {
+            setRecipeComponents(recipeIngredientComponents);
+        }
+    }, [recipeIngredientComponents]);
 
     const addRecipeComponent = () => {
         const newId = String(recipeComponents.length);

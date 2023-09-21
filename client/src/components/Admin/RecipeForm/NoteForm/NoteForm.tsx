@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react';
 import { Button, Paper} from '@mui/material';
 import NoteItem from './NoteItem.tsx';
@@ -6,9 +6,19 @@ import { useDispatch } from 'react-redux';
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 import { updateNotes } from '../../../../store/actions/recipeActions.js';
 
-const NoteForm = () => {
+interface NoteFormProp {
+    recipesNotes: Array<Object>
+}
+
+const NoteForm = ({recipesNotes}: NoteFormProp) => {
     const dispatch = useDispatch();
-    const [notes, setNotes] = useState(Array(5).fill({}).map((_, i) => ({ id: i + "", description: "", is_image: false })));
+    const [notes, setNotes] = useState(recipesNotes || Array(5).fill({}).map((_, i) => ({ id: i + "", description: "", is_image: false })));
+
+    useEffect(() => {
+        if (recipesNotes) {
+            setNotes(recipesNotes);
+        }
+    }, [recipesNotes]);
 
     const onDragEnd = (result: any) => {
         const newItems = Array.from(notes);
