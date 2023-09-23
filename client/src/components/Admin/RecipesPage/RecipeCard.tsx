@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
+import { CardHeader } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -43,6 +44,8 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
     return (
         <div style={{padding: 10}}>
             <Card sx={{ width: 250}} style={{ border: selected ? '5px solid #8080ff' : 'none', cursor: "pointer" }}>
+                <CardHeader
+                    title={recipeStatus}/>
                 <CardMedia
                     component="img"
                     alt="recipe image"
@@ -51,19 +54,19 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
                     onClick={onClickSelected}
                 />
                 <CardContent>
-                    <Typography variant="h6" style={{ overflow: "hidden", whiteSpace: "nowrap"}} >
+                    <Typography style={{ overflow: "hidden", whiteSpace: "nowrap"}} >
                     {recipe.title}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing style={{justifyContent:"center"}}>
                     {
                         recipeStatus === "published" ? 
-                        <Button color="success" size="small" onClick={() => publishingOnClick("unpublish")} >unpublish</Button>
+                        <Button color="success" size="small" onClick={() => publishingOnClick("unpublished")}>Unpublish</Button>
                         :
                         <Button color="success" size="small" onClick={() => publishingOnClick("published")}>Publish</Button>
                     }
                     <Button size="small" onClick={onClickEdit}>Edit</Button>
-                    <Button color="error" size="small">Delete</Button>
+                    <Button color="error" size="small" onClick={() => publishingOnClick("archived")}>Archive</Button>
                 </CardActions>
             </Card>
         </div>

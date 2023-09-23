@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Recipes from "./Recipes.tsx";
-import { Button, MenuItem, Select, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import "./RecipeAdmin.css";
 import { useNavigate } from "react-router-dom";
 
@@ -10,10 +10,14 @@ interface RecipesPageProps {
 
 const RecipesPage = ({recipes}: RecipesPageProps) => {
     const navigate = useNavigate();
+    const [status, setStatus] = useState("");
+    const [category, setCategory] = useState("");
 
     const onClickAddRecipe = () => {
         navigate("recipe-form/create");
     }
+
+
     return (
         <div>
             <div className="admin-header">
@@ -26,27 +30,30 @@ const RecipesPage = ({recipes}: RecipesPageProps) => {
                     <TextField placeholder="Search Recipes" fullWidth/>
                 </div>
                 <div className="filters-container">   
-                    <Button>Select All</Button>   
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={" "}
-                        label="Status">
-                        <MenuItem value={" "}>Status</MenuItem>
-                        <MenuItem value={"Published"}>Published</MenuItem>
-                        <MenuItem value={"Draft"}>Draft</MenuItem>
-                        <MenuItem value={"Archived"}>Archived</MenuItem>
-                    </Select>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={" "}
-                        label="Category">
-                        <MenuItem value={" "}>Category</MenuItem>
-                        <MenuItem value={"Published"}>Published</MenuItem>
-                        <MenuItem value={"Draft"}>Draft</MenuItem>
-                        <MenuItem value={"Archived"}>Archived</MenuItem>
-                    </Select>
+                    <Button variant="contained" fullWidth>Select All</Button>   
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                        <Select
+                            value={status}
+                            label="Status">
+                            <MenuItem value={"published"}>Published</MenuItem>
+                            <MenuItem value={"unpublished"}>Unpublished</MenuItem>
+                            <MenuItem value={"draft"}>Draft</MenuItem>
+                            <MenuItem value={"archived"}>Archived</MenuItem>
+                        </Select>
+                    </FormControl>
+
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                        <Select
+                            value={category}
+                            label="Status">
+                            <MenuItem value={"published"}>Published</MenuItem>
+                            <MenuItem value={"unpublished"}>Unpublished</MenuItem>
+                            <MenuItem value={"Draft"}>Draft</MenuItem>
+                            <MenuItem value={"Archived"}>Archived</MenuItem>
+                        </Select>
+                    </FormControl>
                     <Button>Sort</Button>
                 </div>
             </div>
