@@ -63,13 +63,8 @@
     background-color: gray;
     /* opacity: 5; */
 }
-.image:hover {
+.image-button:hover {
     opacity: 0.5;
     background-color: rgb(143, 143, 143);
     width: 100%;
-}
-
-.image {
-    width: 100%;
-    margin: auto !important;
 }

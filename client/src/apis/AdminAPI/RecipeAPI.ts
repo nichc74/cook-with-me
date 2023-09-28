@@ -27,7 +27,7 @@ const endpoint = 'http://localhost:8000';
 //     return response;
 // }
 
-export async function createRecipe(formData) {
+export async function createRecipe(formData: any) {
     var createRecipeEndpoint = `${endpoint}/postRecipe`;
     
     const options = {
@@ -85,7 +85,7 @@ export async function getAllRecipesInAdmin() {
     return await recipe;
 }
 
-export async function getRecipe(url_slug, id) {
+export async function getRecipe(url_slug: string, id: number) {
     var fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
     var response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
@@ -100,7 +100,7 @@ export async function getRecipe(url_slug, id) {
     return await recipe;
 }
 
-export async function updateRecipeStatus(id, status) {
+export async function updateRecipeStatus(id: number, status: string) {
     var fetchRecipeEndpoint = `${endpoint}/updateRecipeStatus/${id}/`;
 
     const options = {

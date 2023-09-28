@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { updateMetadata, updateSummary, updateRecipeIngredientComponent, updateRecipeInstructionalComponent, updateNotes } from "../actions/recipeActions";
+import { updateMetadata, updateSummary, updateRecipeIngredientComponent, updateRecipeInstructionalComponent, updateRecipeNotes } from "../actions/recipeActions";
 
 const initialState = { 
     metadata: {},
     summary: "",
-    recipe_ingredient_components: [],
-    recipe_instructional_components: [],
+    recipeIngredientComponents: [],
+    recipeInstructionalComponents: [],
     notes: [],
 };
 
@@ -19,12 +19,12 @@ const recipeReducer = createReducer(initialState, (builder) => {
             state.summary = action.payload
         })
         .addCase(updateRecipeIngredientComponent, (state, action) => {
-            state.recipe_ingredient_components = action.payload
+            state.recipeIngredientComponents = action.payload
         })
         .addCase(updateRecipeInstructionalComponent, (state, action) => {
-           state.recipe_instructional_components = action.payload
+           state.recipeInstructionalComponents = action.payload
         })
-        .addCase(updateNotes, (state, action) => {
+        .addCase(updateRecipeNotes, (state, action) => {
             state.notes = action.payload
         })
 });

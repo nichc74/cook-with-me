@@ -6,7 +6,7 @@ import ReorderIcon from '@mui/icons-material/Reorder';
 
 
 const IngredientItem = ({ provided, snapshot, item, deleteIngredient, updateIngredient, presets }) => {
-    const [ingredientAmount, setIngredientAmount] = useState(item.amount||0);
+    const [ingredientAmount, setIngredientAmount] = useState(item.amount|| null);
     const [ingredientMetric, setIngredientMetric] = useState(item.metric || "");
     const [ingredientName, setIngredientName] = useState(item.name || "");
 
@@ -23,9 +23,11 @@ const IngredientItem = ({ provided, snapshot, item, deleteIngredient, updateIngr
     }, [])
 
     const handleInputChange = (type: string, event: any) => {
-        let value = event.target.value
+        let value = event.target.textContent;
+
         switch (type) {
             case 'amount':
+                value = event.target.value
                 setIngredientAmount(value);
                 updateData(value, ingredientMetric, ingredientName);
                 break;
