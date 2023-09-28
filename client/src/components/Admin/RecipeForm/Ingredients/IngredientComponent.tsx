@@ -7,7 +7,11 @@ interface IngredientComponentProps {
     updateComponent: Function,
     removeComponent: Function,
     key: Number,
-    index: Number
+    index: Number,
+    presets: {
+        metrics: Array<string>,
+        ingredients: Array<string>
+    }
 }
 
 interface IngredientProps {
@@ -16,7 +20,7 @@ interface IngredientProps {
     name: string,
 }
 
-const IngredientComponent = ({updateComponent, removeComponent, key, index}: IngredientComponentProps) => {
+const IngredientComponent = ({updateComponent, removeComponent, presets, key, index}: IngredientComponentProps) => {
     const[componentName, setComponentName] = useState("");
     const[ingredients, setIngredients] = useState([{}, {}, {}, {}, {}])
 
@@ -69,6 +73,7 @@ const IngredientComponent = ({updateComponent, removeComponent, key, index}: Ing
                         <IngredientItem 
                             key={index}
                             index={index}
+                            presets={presets}
                             removeIngredient={removeIngredient}
                             updateIngredientList={updateIngredientList}
                         />

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import '../RecipeForm.css'
 
-const MetadataForm = () => {
+const MetadataForm = ({}) => {
     const [image, setImage] = useState("");
     const [title, setTitle] = useState("");
     const [sourceLink, setSourceLink] = useState("");

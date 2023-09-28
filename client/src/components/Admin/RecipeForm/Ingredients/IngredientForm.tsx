@@ -3,15 +3,23 @@ import {updateRecipeIngredientComponent} from  '../../../../store/actions/recipe
 import IngredientComponent from "./IngredientComponent";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
+import { getMetricsAndIngredients } from "../../../../apis/AdminAPI/RecipeAPI.js";
 
 interface IngredientComponentProps {
     componentName: string
     ingredients: Array<Object>
 }
 
-const IngredientForm = () => {
+interface RecipeFormProps {
+    presets: {
+        metrics: Array<string>,
+        ingredients:  Array<string>,
+    }
+}
+
+const IngredientForm = ({presets}: RecipeFormProps) => {
     const dispatch = useDispatch();
-    const [ingredientComponents, setIngredientComponents] = useState([{}])
+    const [ingredientComponents, setIngredientComponents] = useState([{}]);
    
     useEffect(() => {
         dispatch(updateRecipeIngredientComponent(ingredientComponents));
@@ -50,6 +58,7 @@ const IngredientForm = () => {
                     <IngredientComponent
                         key={index}
                         index={index}
+                        presets={presets}
                         updateComponent={updateComponent}
                         removeComponent={removeComponent}
                     />
