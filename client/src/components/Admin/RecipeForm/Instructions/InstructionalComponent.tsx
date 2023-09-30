@@ -50,7 +50,7 @@ const InstructionalComponent = ({updateComponent, removeComponent, instructional
                     ...instruction,
                     image: updatedInstruction.image,
                     description: updatedInstruction.description,
-                    stepId: updatedInstruction.index
+                    stepId: updatedInstruction.index + 1
                 };
             }
             return instruction;

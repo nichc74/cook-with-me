@@ -24,7 +24,7 @@ const NoteForm = ({recipeNotes}: RecipeNotesProps) => {
     }, [recipeNotes, notes])
 
     const addNewNote = () => {
-        setNotes([...notes, {}]);
+        setNotes([...notes, {description: ""}]);
     }
 
     const removeNote = (index: Number) => {
