@@ -3,13 +3,20 @@ import { Box, Paper, TextField } from "@mui/material";
 import { updateSummary } from '../../../../store/actions/recipeActions.js';
 import { useDispatch } from 'react-redux';
 
-const SummaryForm = () => {
+interface SummaryProps {
+    recipeSummary: Array<string>
+}
+
+const SummaryForm = ({recipeSummary}: SummaryProps) => {
     const [summary, setSummary] = useState("");
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (recipeSummary[0]) {
+            setSummary(recipeSummary[0].summary);
+        }
         dispatch(updateSummary(summary));
-    }, [summary])
+    }, [recipeSummary, summary])
 
     const handleSummaryChange = (value: string) => {
         setSummary(value);

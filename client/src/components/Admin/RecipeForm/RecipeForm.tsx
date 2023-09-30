@@ -16,13 +16,10 @@ const RecipeForm = () => {
     const location = useLocation();
 
     const [metricsAndIngredients, setMetricsAndIngredients] = useState([]);
-    const [recipeData, setRecipeData] = useState({
-        metadata: {},
-        summary: "",
-        recipe_ingredient_components: [],
-        recipe_instructional_components: [],
-        notes: []
-    })
+    // const [recipeData, setRecipeData] = useState({});
+    const [recipeMetadata, setRecipeMetadata] = useState({});
+    const [recipeSummary, setRecipeSummary] = useState("");
+    const [recipeNotes, setRecipeNotes] = useState([]);
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
     const summary = useSelector((state: any) => state.recipeReducer.summary);
@@ -39,8 +36,16 @@ const RecipeForm = () => {
     }, []);
 
     const fetchRecipeToEdit = async () => {
-        const data = await getRecipe(location.state.url_slug, location.state.id);
-        setRecipeData(data);
+        try {
+            const data = await getRecipe(location.state.url_slug, location.state.id);
+            // setRecipeData(data);
+            setRecipeMetadata(data.metadata);
+            setRecipeSummary(data.recipe_summary);
+            setRecipeNotes(data.notes);
+            console.log(data);
+        } catch (error: any) {
+
+        }
     }
 
     const fetchMetricsAndIngredients = async () => {
@@ -86,13 +91,11 @@ const RecipeForm = () => {
             </Button>
             <div className="recipe-form-container">
                 <h1>Recipe Form</h1>
-                <MetadataForm metadata={recipeData.metadata}/>
-                <SummaryForm/>
-                <IngredientForm
-                    presets={metricsAndIngredients}
-                />
+                <MetadataForm metadata={recipeMetadata}/>
+                <SummaryForm recipeSummary={recipeSummary}/>
+                <IngredientForm presets={metricsAndIngredients}/>
                 <InstructionForm/>
-                <NoteForm/>
+                <NoteForm recipeNotes={recipeNotes}/>
                 {/* Gallery */}
                 <div className="recipe-form-button-options-container">
                     <Button variant="contained" onClick={checkData}>Create</Button>

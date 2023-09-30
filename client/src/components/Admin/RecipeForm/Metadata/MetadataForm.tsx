@@ -6,18 +6,34 @@ import { useDispatch } from 'react-redux';
 
 import '../RecipeForm.css'
 
-const MetadataForm = ({}) => {
-    const [image, setImage] = useState("");
-    const [title, setTitle] = useState("");
-    const [sourceLink, setSourceLink] = useState("");
-    const [author, setAuthor] = useState("");
-    const [cuisine, setCuisine] = useState("");
-    const [category, setCategory] = useState("");
-    const [prepTime, setPrepTime] = useState<number | undefined>(undefined);
-    const [cookTime, setCookTime] = useState<number | undefined>(undefined);
-    const [serves, setServes] = useState<number | undefined>(undefined);
+interface MetadataProps {
+    metadata: {
+        author: string,
+        category: string,
+        cook_time: number,
+        cuisine: string,
+        id: number,
+        image: string,
+        prep_time: number,
+        serves: number,
+        source_link: string,
+        status: string,
+        title: string
+    }
+}
 
-    const inputRef = useRef<HTMLInputElement | null>(null);
+const MetadataForm = ({metadata}: MetadataProps) => {
+    const [image, setImage] = useState(metadata.image || "");
+    const [title, setTitle] = useState(metadata.title || "");
+    const [sourceLink, setSourceLink] = useState(metadata.source_link || "");
+    const [author, setAuthor] = useState(metadata.author || "");
+    const [cuisine, setCuisine] = useState(metadata.cuisine || "");
+    const [category, setCategory] = useState(metadata.category || "");
+    const [prepTime, setPrepTime] = useState<number | undefined>(metadata.prep_time || undefined);
+    const [cookTime, setCookTime] = useState<number | undefined>(metadata.cook_time || undefined);
+    const [serves, setServes] = useState<number | undefined>(metadata.serves || undefined);
+  
+  
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -32,9 +48,8 @@ const MetadataForm = ({}) => {
             cookTime,
             serves,
         };
-
         dispatch(updateMetadata(metadataToUpdate));
-    }, [image, title, sourceLink, author, cuisine, category, prepTime, cookTime, serves]);
+    }, [metadata, image, title, sourceLink, author, cuisine, category, prepTime, cookTime, serves]);
     
     const handleMetadataInput = (field: string, value: any) => {
         switch(field) {
@@ -81,9 +96,6 @@ const MetadataForm = ({}) => {
     };
     const removeImage = () => {
         setImage('');
-        if (inputRef.current) {
-            inputRef.current.value = '';
-        }
     };
     
     return (

@@ -6,13 +6,20 @@ interface NoteItemProps {
     key: Number,
     index: Number,
     removeNote: Function
-    updateNotes:Function
+    updateNotes:Function,
+    note: {
+        description: string,
+        stepId: number
+    }
 }
 
-const NoteItem = ({key, index, removeNote, updateNotes}: NoteItemProps) => {
+const NoteItem = ({key, index, removeNote, updateNotes, note}: NoteItemProps) => {
     const [description, setDescription] = useState("");
 
     useEffect(() => {
+        if (note) {
+            setDescription(note.description);
+        }
         updateNotes({
             description,
             index
