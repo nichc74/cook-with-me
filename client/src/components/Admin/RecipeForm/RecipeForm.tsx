@@ -16,12 +16,12 @@ const RecipeForm = () => {
     const location = useLocation();
 
     const [metricsAndIngredients, setMetricsAndIngredients] = useState([]);
-    // const [recipeData, setRecipeData] = useState({});
+
     const [recipeMetadata, setRecipeMetadata] = useState({});
     const [recipeSummary, setRecipeSummary] = useState("");
-    const [ingredientElements, setIngredientElements] = useState([])
-    const [instructionalElements, setInstructionalElements] = useState([])
-    const [recipeNotes, setRecipeNotes] = useState([]);
+    const [ingredientElements, setIngredientElements] = useState<Array<object> | null>(null)
+    const [instructionalElements, setInstructionalElements] = useState<Array<object> | null>(null)
+    const [recipeNotes, setRecipeNotes] = useState<Array<object> | null>(null);
     const [loading, setLoading] = useState(false);
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
@@ -49,7 +49,6 @@ const RecipeForm = () => {
             setIngredientElements(data.recipe_ingredient_components);
             setInstructionalElements(data.recipe_instructional_components);
             setRecipeNotes(data.notes);
-            console.log(data.recipe_summary[0].summary);
             setLoading(false);
 
         } catch (error: any) {
@@ -67,7 +66,7 @@ const RecipeForm = () => {
     }
 
 
-    const checkData = () => {
+    const checkData = async () => {
         console.log(metadata);
         console.log(summary);
         console.log(recipeIngredientComponents);
@@ -81,8 +80,8 @@ const RecipeForm = () => {
             formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
             formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
             formData.append('notes', JSON.stringify(notes));
-            console.log(formData)
-            // const result = await createRecipe(formData);
+            const result = await createRecipe(formData);
+            console.log(result);
         } catch (error: any) {
             console.log(error);
         }
@@ -116,7 +115,7 @@ const RecipeForm = () => {
                     <NoteForm recipeNotes={recipeNotes}/>
                     {/* Gallery */}
                     <div className="recipe-form-button-options-container">
-                        <Button variant="contained" onClick={checkData}>Create</Button>
+                        <Button variant="contained" onClick={() => {checkData()}}>Create</Button>
                         <Button variant="contained" color="success" >Publish</Button>
                     </div>
                 </div>
