@@ -7,50 +7,61 @@ from cookbook.api.Cloudinary.Cloudinary import upload
 
 @transaction.atomic
 def parse_and_create_recipe(data):
-    metadata = data['metadata']
-    # print(data)
-    recipe = parse_and_create_recipe_metadata(metadata)
+    try:
+        print(data)
+        metadata = data['metadata']
+        # print(data)
+        recipe = parse_and_create_recipe_metadata(metadata)
+        
+        summary = data['summary']
+        parse_and_create_summary(summary, recipe)
+        
+        # # recipe_ingredient_component_data = data.pop("recipe_ingredient_components", [])
+        recipe_ingredient_components = data['recipe_ingredient_components'] 
+        parse_and_create_recipe_ingredient_components(recipe_ingredient_components, recipe)
+
+        # # # recipe_instructional_component_data = data.pop("recipe_instructional_components", [])
+        recipe_instructional_components = data['recipe_instructional_components']
+        parse_and_create_recipe_instructional_components(recipe_instructional_components, recipe)
+
+        # # # note_data = data.pop("notes", [])
+        notes = data['notes']
+        parse_and_create_notes(notes, recipe)
+
+        return data
     
-    summary = data['summary']
-    parse_and_create_summary(summary, recipe)
-    
-    # # recipe_ingredient_component_data = data.pop("recipe_ingredient_components", [])
-    recipe_ingredient_components = data['recipe_ingredient_components'] 
-    parse_and_create_recipe_ingredient_components(recipe_ingredient_components, recipe)
-
-    # # # recipe_instructional_component_data = data.pop("recipe_instructional_components", [])
-    recipe_instructional_components = data['recipe_instructional_components']
-    parse_and_create_recipe_instructional_components(recipe_instructional_components, recipe)
-
-    # # # note_data = data.pop("notes", [])
-    notes = data['notes']
-    parse_and_create_notes(notes, recipe)
-
-    return data
+    except Exception as error: 
+        print(error)
 
 def parse_and_create_recipe_metadata(data):
-    data = json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
-    category=Category.objects.get_or_create(category_name=data.category)
-    image = None
-    if data.recipeImage:
-        image = upload_image(data.recipeImage)
+    try:
+        data = json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
+        category=Category.objects.get_or_create(category_name=data.category)
+        image = None
+        if data.image:
+            image = upload_image(data.image)
 
-    return Recipe.objects.create(
-        title=data.title,
-        author=data.author,
-        url_slug=create_url_slug(data.title),
-        prep_time=data.prepTime,
-        cook_time=data.cookTime,
-        cuisine=data.cuisine,
-        serves=data.serves,
-        is_published=data.isPublished,
-        source_link=data.sourceLink,
-        image=image,
-        category=category[0],
-    )
+        return Recipe.objects.create(
+            title=data.title,
+            author=data.author,
+            url_slug=create_url_slug(data.title),
+            prep_time=data.prep_time,
+            cook_time=data.cook_time,
+            cuisine=data.cuisine,
+            serves=data.serves,
+            source_link=data.source_link,
+            image=image,
+            category=category[0],
+        )
+    except Exception as error:
+        print(error)
+
 
 def parse_and_create_summary(summary_data, recipe):
-    return RecipeSummary.objects.create(recipe=recipe, summary=summary_data)
+    try:
+        return RecipeSummary.objects.create(recipe=recipe, summary=summary_data)
+    except Exception as error:
+        print(error)
 
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
     print(recipe_ingredient_component_data)
@@ -63,9 +74,8 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
             recipe_ingredient_data = recipe_componet.recipe_ingredients
             parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
         return
-    except Exception as e: 
-        print(e)
-        print("parsing ingredient component")
+    except Exception as error: 
+        print(error)
 
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     try:
@@ -76,36 +86,41 @@ def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
             ingredient = Ingredient.objects.get_or_create(name=name)
             RecipeIngredient.objects.create(recipe_component=component, ingredient=ingredient[0], amount=recipe_ingredient.amount, metric=recipe_ingredient.metric )
         return 
-    except Exception as error:
-        print("An exception occurred:", error) 
-
+    except Exception as error: 
+        print(error)
 
 def parse_and_create_recipe_instructional_components(recipe_instructional_component_data, recipe):
-    recipe_instructional_component_data = json.loads(recipe_instructional_component_data, object_hook=lambda d: SimpleNamespace(**d))
-    # print(recipe_instructional_component_data)
-    for recipe_componet in recipe_instructional_component_data:
-        name = recipe_componet.component_name
-        type = recipe_componet.type
-        component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=type)
-        recipe_instructional_data = recipe_componet.recipe_instructions
-        parse_and_create_instructions(recipe_instructional_data, component)
-    return
+    try:
+        recipe_instructional_component_data = json.loads(recipe_instructional_component_data, object_hook=lambda d: SimpleNamespace(**d))
+        # print(recipe_instructional_component_data)
+        for recipe_componet in recipe_instructional_component_data:
+            name = recipe_componet.component_name
+            type = recipe_componet.type
+            component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=type)
+            recipe_instructional_data = recipe_componet.recipe_instructions
+            parse_and_create_instructions(recipe_instructional_data, component)
+        return
+    except Exception as error: 
+        print(error)
 
 
 def parse_and_create_instructions(recipe_instructional_data, component):
     # print(recipe_instructional_data)
-    for step in range(0, len(recipe_instructional_data)):
-        instruction = recipe_instructional_data[step]
-        if instruction.description == "":
-            continue
-        if instruction.image:
-            image = upload_image(instruction.image)
-            if image:
-                Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=image)
-                
-        else:
-            Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=None)
-    return 
+    try:
+        for step in range(0, len(recipe_instructional_data)):
+            instruction = recipe_instructional_data[step]
+            if instruction.description == "":
+                continue
+            if instruction.image:
+                image = upload_image(instruction.image)
+                if image:
+                    Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=image)
+                    
+            else:
+                Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=None)
+        return 
+    except Exception as error: 
+        print(error)
 
 def parse_and_create_notes(notes, recipe):
     notes = json.loads(notes, object_hook=lambda d: SimpleNamespace(**d))

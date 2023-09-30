@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js'
+import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.ts'
 
 interface RecipeObjectProp {
     id: number;
@@ -45,7 +45,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
         <div style={{padding: 10}}>
             <Card sx={{ width: 250}} style={{ border: selected ? '5px solid #8080ff' : 'none', cursor: "pointer" }}>
                 <CardHeader
-                    title={recipeStatus}/>
+                    title={recipe.title}/>
                 <CardMedia
                     component="img"
                     alt="recipe image"
@@ -55,7 +55,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
                 />
                 <CardContent>
                     <Typography style={{ overflow: "hidden", whiteSpace: "nowrap"}} >
-                    {recipe.title}
+                        {recipeStatus}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing style={{justifyContent:"center"}}>

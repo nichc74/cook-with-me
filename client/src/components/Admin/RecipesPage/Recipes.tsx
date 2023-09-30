@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard.tsx";
-import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
+import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.ts";
 
 const Recipes = ({}) => {
     const [recipes, setRecipes] = useState([]);
