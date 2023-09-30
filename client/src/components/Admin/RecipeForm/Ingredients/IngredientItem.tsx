@@ -11,12 +11,17 @@ interface IngredientItemProps {
         metrics: Array<string>,
         ingredients: Array<string>
     }
+    ingredient: {
+        amount: number | null,
+        metric: string,
+        name: string
+    }
 }
 
-const IngredientItem = ( {updateIngredientList, removeIngredient, presets, index, key}: IngredientItemProps) => {
-    const [amount, setAmount] = useState<number | null>(null);
-    const [metric, setMetric] = useState<string | null>("");
-    const [name, setName] = useState<string | null> ("");
+const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, presets, index, key}: IngredientItemProps) => {
+    const [amount, setAmount] = useState<number | null>(ingredient.amount || null);
+    const [metric, setMetric] = useState<string | null>(ingredient.metric || "");
+    const [name, setName] = useState<string | null> (ingredient.name || "");
 
     useEffect(() => {   
         updateIngredientList({

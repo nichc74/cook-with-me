@@ -17,12 +17,9 @@ interface RecipeNotesProps {
 const NoteForm = ({recipeNotes}: RecipeNotesProps) => {
     const dispatch = useDispatch();
 
-    const [notes, setNotes] = useState([{}, {}, {}, {}, {}])
+    const [notes, setNotes] = useState(recipeNotes || [{}, {}, {}, {}, {}])
 
     useEffect(() => {
-        if (recipeNotes) {
-            setNotes(recipeNotes);
-        }
         dispatch(updateRecipeNotes(notes));
     }, [recipeNotes, notes])
 

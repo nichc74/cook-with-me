@@ -7,7 +7,11 @@ interface InstructionalComponentProps {
     updateComponent: Function,
     removeComponent: Function,
     key: Number,
-    index: Number
+    index: Number,
+    instructionalComponent: {
+        componentName: string,
+        instructions: Array<InstructionProps>
+    }
 }
 
 interface InstructionProps {
@@ -15,9 +19,9 @@ interface InstructionProps {
     image: string,
 }
 
-const InstructionalComponent = ({updateComponent, removeComponent, key, index}:InstructionalComponentProps) => {
-    const [componentName, setComponentName] = useState("")
-    const [instructions, setInstructions] = useState([{}, {}, {}]);
+const InstructionalComponent = ({updateComponent, removeComponent, instructionalComponent, key, index}:InstructionalComponentProps) => {
+    const [componentName, setComponentName] = useState(instructionalComponent.componentName || "")
+    const [instructions, setInstructions] = useState(instructionalComponent.instructions || [{}, {}, {}]);
 
     useEffect(() => {
         updateComponent({
@@ -31,7 +35,7 @@ const InstructionalComponent = ({updateComponent, removeComponent, key, index}:I
     }
 
     const addNewInstruction = () => {
-        setInstructions([...instructions, {}]);
+        setInstructions([...instructions, {description: "", image: ""}]);
     }
 
     const removeInstruction = (index: number) => {
@@ -68,6 +72,7 @@ const InstructionalComponent = ({updateComponent, removeComponent, key, index}:I
                         <InstructionItem
                             key={index}
                             index={index}
+                            instruction={instruction}
                             removeInstruction={removeInstruction}
                             updateInstructions={updateInstructions}
                         />

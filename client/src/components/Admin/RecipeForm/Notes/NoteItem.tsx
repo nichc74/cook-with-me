@@ -14,12 +14,9 @@ interface NoteItemProps {
 }
 
 const NoteItem = ({key, index, removeNote, updateNotes, note}: NoteItemProps) => {
-    const [description, setDescription] = useState("");
+    const [description, setDescription] = useState(note.description || "");
 
     useEffect(() => {
-        if (note) {
-            setDescription(note.description);
-        }
         updateNotes({
             description,
             index

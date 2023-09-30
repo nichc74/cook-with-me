@@ -6,13 +6,17 @@ import './Instruction.css';
 interface InstructionItemProps {
     key: Number,
     index: Number,
+    instruction: {
+        description: string,
+        image: string
+    }
     removeInstruction: Function,
     updateInstructions: Function
 }
 
-const InstructionItem = ({removeInstruction, updateInstructions, key, index} : InstructionItemProps) => {
-    const [image, setImage] = useState("");
-    const [description, setDescription] = useState("");
+const InstructionItem = ({removeInstruction, updateInstructions, instruction, key, index} : InstructionItemProps) => {
+    const [image, setImage] = useState(instruction.image || "");
+    const [description, setDescription] = useState(instruction.description || "");
     
     useEffect(() => {
         updateInstructions({

@@ -10,9 +10,14 @@ interface InstructionalComponentProps {
     instructions: Array<Object>
 }
 
-const InstructionForm = () => {
+interface RecipeFormProps {
+    instructionalElements: Array<InstructionalComponentProps>
+}
+
+
+const InstructionForm = ({instructionalElements}: RecipeFormProps) => {
     const dispatch = useDispatch();
-    const [instructionalComponent, setInstructionalComponent] = useState([{}])
+    const [instructionalComponent, setInstructionalComponent] = useState(instructionalElements || [{}])
    
     useEffect(() => {
         dispatch(updateRecipeInstructionalComponent(instructionalComponent));
@@ -49,6 +54,7 @@ const InstructionForm = () => {
                     <InstructionalComponent
                         key={index}
                         index={index}
+                        instructionalComponent={component}
                         removeComponent={removeComponent}
                         updateComponent={updateComponent}
                     />

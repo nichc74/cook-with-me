@@ -8,13 +8,10 @@ interface SummaryProps {
 }
 
 const SummaryForm = ({recipeSummary}: SummaryProps) => {
-    const [summary, setSummary] = useState("");
+    const [summary, setSummary] = useState(recipeSummary || "");
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (recipeSummary[0]) {
-            setSummary(recipeSummary[0].summary);
-        }
         dispatch(updateSummary(summary));
     }, [recipeSummary, summary])
 

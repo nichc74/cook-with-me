@@ -19,7 +19,10 @@ const RecipeForm = () => {
     // const [recipeData, setRecipeData] = useState({});
     const [recipeMetadata, setRecipeMetadata] = useState({});
     const [recipeSummary, setRecipeSummary] = useState("");
+    const [ingredientElements, setIngredientElements] = useState([])
+    const [instructionalElements, setInstructionalElements] = useState([])
     const [recipeNotes, setRecipeNotes] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
     const summary = useSelector((state: any) => state.recipeReducer.summary);
@@ -36,13 +39,19 @@ const RecipeForm = () => {
     }, []);
 
     const fetchRecipeToEdit = async () => {
+        setLoading(true);
+
         try {
             const data = await getRecipe(location.state.url_slug, location.state.id);
             // setRecipeData(data);
             setRecipeMetadata(data.metadata);
-            setRecipeSummary(data.recipe_summary);
+            setRecipeSummary(data.recipe_summary[0].summary);
+            setIngredientElements(data.recipe_ingredient_components);
+            setInstructionalElements(data.recipe_instructional_components);
             setRecipeNotes(data.notes);
-            console.log(data);
+            console.log(data.recipe_summary[0].summary);
+            setLoading(false);
+
         } catch (error: any) {
 
         }
@@ -89,19 +98,29 @@ const RecipeForm = () => {
             <Button color="error" variant="contained" onClick={() => onBack()}>
                 Back
             </Button>
-            <div className="recipe-form-container">
-                <h1>Recipe Form</h1>
-                <MetadataForm metadata={recipeMetadata}/>
-                <SummaryForm recipeSummary={recipeSummary}/>
-                <IngredientForm presets={metricsAndIngredients}/>
-                <InstructionForm/>
-                <NoteForm recipeNotes={recipeNotes}/>
-                {/* Gallery */}
-                <div className="recipe-form-button-options-container">
-                    <Button variant="contained" onClick={checkData}>Create</Button>
-                    <Button variant="contained" color="success" >Publish</Button>
+
+            {loading ? (
+                "Loading ..."
+            ) : (
+                <div className="recipe-form-container">
+                    <h1>Recipe Form</h1>
+                    <MetadataForm metadata={recipeMetadata}/>
+                    <SummaryForm recipeSummary={recipeSummary}/>
+                    <IngredientForm 
+                        presets={metricsAndIngredients}
+                        ingredientElements={ingredientElements}
+                    />
+                    <InstructionForm
+                        instructionalElements={instructionalElements}
+                    />
+                    <NoteForm recipeNotes={recipeNotes}/>
+                    {/* Gallery */}
+                    <div className="recipe-form-button-options-container">
+                        <Button variant="contained" onClick={checkData}>Create</Button>
+                        <Button variant="contained" color="success" >Publish</Button>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     )
 }

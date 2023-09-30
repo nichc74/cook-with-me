@@ -12,6 +12,10 @@ interface IngredientComponentProps {
         metrics: Array<string>,
         ingredients: Array<string>
     }
+    ingredientComponent: {
+        component_name: string,
+        ingredients: Array<IngredientProps>
+    }
 }
 
 interface IngredientProps {
@@ -20,11 +24,12 @@ interface IngredientProps {
     name: string,
 }
 
-const IngredientComponent = ({updateComponent, removeComponent, presets, key, index}: IngredientComponentProps) => {
-    const[componentName, setComponentName] = useState("");
-    const[ingredients, setIngredients] = useState([{}, {}, {}, {}, {}])
+const IngredientComponent = ({updateComponent, removeComponent, ingredientComponent, presets, key, index}: IngredientComponentProps) => {
+    const[componentName, setComponentName] = useState(ingredientComponent.component_name || "");
+    const[ingredients, setIngredients] = useState(ingredientComponent.ingredients || [{}, {}, {}, {}, {}])
 
     useEffect(() => {
+        console.log()
         updateComponent({
             componentName,
             ingredients
@@ -36,7 +41,7 @@ const IngredientComponent = ({updateComponent, removeComponent, presets, key, in
     }
 
     const addNewIngredient = () => {
-        setIngredients([...ingredients, {}]);
+        setIngredients([...ingredients, {amount: null, metric: "", name: ""}]);
     }
 
     const removeIngredient = (index: number) => {
@@ -74,6 +79,7 @@ const IngredientComponent = ({updateComponent, removeComponent, presets, key, in
                             key={index}
                             index={index}
                             presets={presets}
+                            ingredient={ingredient}
                             removeIngredient={removeIngredient}
                             updateIngredientList={updateIngredientList}
                         />
