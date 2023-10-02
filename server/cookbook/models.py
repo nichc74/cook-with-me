@@ -5,6 +5,12 @@ class Category(models.Model):
 
     def __str__(self):
         return "%s: %s" % (self.id, self.category_name)
+    
+class Metric(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return "%s: %s" % (self.id, self.name)
 
 class Image(models.Model):
     path = models.TextField()
@@ -35,15 +41,20 @@ class RecipeSummary(models.Model):
 
     def __str__(self):
         return "%s: %s" % (self.id, self.summary)
-
-class RecipeComponent(models.Model):
+    
+class RecipeIngredientComponent(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     component_name = models.CharField(max_length=128)
-    type = models.CharField(max_length=128, default="")
 
     def __str__(self):
         return "%s: %s" % (self.id, self.component_name)
 
+class RecipeInstructionalComponent(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    component_name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return "%s: %s" % (self.id, self.component_name)
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=128)
@@ -52,16 +63,16 @@ class Ingredient(models.Model):
         return "%s: %s" % (self.id, self.name)
 
 class RecipeIngredient(models.Model):
-    recipe_component = models.ForeignKey(RecipeComponent, on_delete=models.CASCADE, default=None)
+    recipe_ingredient_component = models.ForeignKey(RecipeIngredientComponent, on_delete=models.CASCADE, default=None, null=True)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     amount = models.FloatField(default=None, null=True)
-    metric = models.CharField(max_length=64, default="")
+    metric = models.ForeignKey(Metric, on_delete=models.CASCADE, default=None, null=True)
 
     def __str__(self):
-        return "%s: %s" % (self.recipe_component, self.ingredient.name)   
+        return "%s: %s" % (self.recipe_ingredient_component, self.ingredient.name)   
     
 class Instruction(models.Model):
-    recipe_component = models.ForeignKey(RecipeComponent, on_delete=models.CASCADE, default=None)
+    recipe_instructional_component = models.ForeignKey(RecipeInstructionalComponent, on_delete=models.CASCADE, default=None, null=True)
     description = models.TextField(default="")
     image = models.ForeignKey(Image, default=None, on_delete=models.CASCADE, null=True)
     step_id = models.IntegerField(default=None)

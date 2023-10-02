@@ -1,4 +1,4 @@
-from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeComponent, RecipeIngredient, Instruction, Ingredient
+from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Instruction, Ingredient
 import re
 import json
 from types import SimpleNamespace
@@ -10,18 +10,18 @@ def parse_and_create_recipe(data):
     try:
         print(data)
         metadata = data['metadata']
-        # print(data)
+
         recipe = parse_and_create_recipe_metadata(metadata)
         
         summary = data['summary']
         parse_and_create_summary(summary, recipe)
         
         # # recipe_ingredient_component_data = data.pop("recipe_ingredient_components", [])
-        recipe_ingredient_components = data['recipe_ingredient_components'] 
+        recipe_ingredient_components = data['recipeIngredientComponents'] 
         parse_and_create_recipe_ingredient_components(recipe_ingredient_components, recipe)
 
         # # # recipe_instructional_component_data = data.pop("recipe_instructional_components", [])
-        recipe_instructional_components = data['recipe_instructional_components']
+        recipe_instructional_components = data['recipeInstructionalComponents']
         parse_and_create_recipe_instructional_components(recipe_instructional_components, recipe)
 
         # # # note_data = data.pop("notes", [])
@@ -42,15 +42,15 @@ def parse_and_create_recipe_metadata(data):
             image = upload_image(data.image)
 
         return Recipe.objects.create(
+            image=image,
             title=data.title,
             author=data.author,
             url_slug=create_url_slug(data.title),
-            prep_time=data.prep_time,
-            cook_time=data.cook_time,
+            prep_time=data.prepTime,
+            cook_time=data.cookTime,
             cuisine=data.cuisine,
             serves=data.serves,
-            source_link=data.source_link,
-            image=image,
+            source_link=data.sourceLink,
             category=category[0],
         )
     except Exception as error:
@@ -59,6 +59,8 @@ def parse_and_create_recipe_metadata(data):
 
 def parse_and_create_summary(summary_data, recipe):
     try:
+        if summary_data == "":
+            return
         return RecipeSummary.objects.create(recipe=recipe, summary=summary_data)
     except Exception as error:
         print(error)
@@ -68,9 +70,8 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
     try:
         recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
         for recipe_componet in recipe_ingredient_component_data:
-            name = recipe_componet.component_name
-            recipe_type = recipe_componet.type
-            component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=recipe_type)
+            name = recipe_componet.componentName
+            component = RecipeIngredientComponent.objects.create(recipe=recipe, component_name=name)
             recipe_ingredient_data = recipe_componet.recipe_ingredients
             parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
         return
@@ -95,8 +96,7 @@ def parse_and_create_recipe_instructional_components(recipe_instructional_compon
         # print(recipe_instructional_component_data)
         for recipe_componet in recipe_instructional_component_data:
             name = recipe_componet.component_name
-            type = recipe_componet.type
-            component = RecipeComponent.objects.create(recipe=recipe, component_name=name, type=type)
+            component = RecipeInstructionalComponent.objects.create(recipe=recipe, component_name=name)
             recipe_instructional_data = recipe_componet.recipe_instructions
             parse_and_create_instructions(recipe_instructional_data, component)
         return

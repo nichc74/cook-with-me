@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import Recipe, RecipeSummary, RecipeComponent, Ingredient, RecipeIngredient, Instruction, Note, Category, Image
+from .models import Recipe, RecipeSummary, RecipeIngredientComponent, RecipeInstructionalComponent, Ingredient, RecipeIngredient, Instruction, Note, Category, Image, Metric
 
 class RecipeSummarySerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,6 +10,16 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = ['name']
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Image
+        fields = '__all__'
+
+class MetricSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Metric
+        fields = '__all__'
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='ingredient.name', read_only=True)
@@ -34,16 +44,14 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RecipeIngredientComponentSerializer(serializers.ModelSerializer):
-    ingredients = RecipeIngredientSerializer(many=True, read_only=True, source='recipeingredient_set')
     class Meta:
-        model = RecipeComponent
+        model = RecipeIngredientComponent
         fields = ['component_name', 'ingredients']
         # fields = '__all__'
 
 class RecipeInstructionalComponentSerializer(serializers.ModelSerializer):
-    instructions = InstructionSerializer(many=True, read_only=True, source='instruction_set')
     class Meta:
-        model = RecipeComponent
+        model = RecipeInstructionalComponent
         fields = ['component_name', 'instructions']
         # fields = '__all__'
 
@@ -66,13 +74,13 @@ class RecipeWithDataSerializer(serializers.ModelSerializer):
 
     def get_recipe_ingredient_components(self, instance):
         # Filter Recipe Ingredients based on specific criteria
-        filtered_components = instance.recipecomponent_set.filter(type="ingredient")  # Add your filtering logic here
-        return RecipeIngredientComponentSerializer(filtered_components, many=True).data
+        # filtered_components = instance.recipecomponent_set.filter(type="ingredient")  # Add your filtering logic here
+        return RecipeIngredientComponentSerializer(many=True).data
     
     def get_recipe_instructional_components(self, instance):
         # Filter Recipe Instructions based on specific criteria
-        filtered_components = instance.recipecomponent_set.filter(type="instruction")  # Add your filtering logic here
-        return RecipeInstructionalComponentSerializer(filtered_components, many=True).data
+        # filtered_components = instance.recipecomponent_set.filter(type="instruction")  # Add your filtering logic here
+        return RecipeInstructionalComponentSerializer(many=True).data
 
     def get_metadata(self, instance):
         return RecipeSerializer(instance).data
