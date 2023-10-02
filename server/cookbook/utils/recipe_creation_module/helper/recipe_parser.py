@@ -1,4 +1,4 @@
-from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeIngredientComponent, RecipeComponent, RecipeInstructionalComponent, RecipeIngredient, Instruction, Ingredient
+from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Instruction, Ingredient
 import re
 import json
 from types import SimpleNamespace
