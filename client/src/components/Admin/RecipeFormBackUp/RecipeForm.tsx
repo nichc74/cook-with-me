@@ -5,7 +5,7 @@ import InstructionForm from './InstructionForm/InstructionForm.tsx';
 import NoteForm from './NoteForm/NoteForm.tsx';
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux'; // Assuming you have a Redux store set up.
-import { createRecipe, getMetricsAndIngredients, getRecipe, updateRecipeStatus} from '../../../apis/AdminAPI/RecipeAPI.js';
+import { createRecipe, getRecipe, updateRecipeStatus} from '../../../apis/AdminAPI/RecipeAPI';
 import FormData from 'form-data';
 import './RecipeForm.css';
 import { useLocation, useNavigate } from 'react-router-dom';

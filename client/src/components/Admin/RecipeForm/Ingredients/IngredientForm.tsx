@@ -10,15 +10,13 @@ interface IngredientComponentProps {
 }
 
 interface RecipeFormProps {
-    presets: {
-        metrics: Array<string>,
-        ingredients:  Array<string>,
-    },
+    metricPresets: Array<string>,
+    ingredientPresets:  Array<string>,
 
     ingredientElements: Array<IngredientComponentProps>
 }
 
-const IngredientForm = ({presets, ingredientElements}: RecipeFormProps) => {
+const IngredientForm = ({metricPresets, ingredientPresets, ingredientElements}: RecipeFormProps) => {
     const dispatch = useDispatch();
     const [ingredientComponents, setIngredientComponents] = useState(ingredientElements || [{}]);
    
@@ -58,7 +56,8 @@ const IngredientForm = ({presets, ingredientElements}: RecipeFormProps) => {
                     <IngredientComponent
                         key={index}
                         index={index}
-                        presets={presets}
+                        metricPresets={metricPresets}
+                        ingredientPresets={ingredientPresets}
                         ingredientComponent={component}
                         updateComponent={updateComponent}
                         removeComponent={removeComponent}

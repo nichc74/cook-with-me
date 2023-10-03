@@ -7,10 +7,8 @@ interface IngredientItemProps {
     updateIngredientList: Function,
     index: Number,
     key: Number,
-    presets: {
-        metrics: Array<string>,
-        ingredients: Array<string>
-    }
+    metricPresets: Array<string>,
+    ingredientPresets: Array<string>,
     ingredient: {
         amount: number | null,
         metric: string,
@@ -18,7 +16,7 @@ interface IngredientItemProps {
     }
 }
 
-const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, presets, index, key}: IngredientItemProps) => {
+const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, metricPresets, ingredientPresets, index, key}: IngredientItemProps) => {
     const [amount, setAmount] = useState<number | null>(ingredient.amount || null);
     const [metric, setMetric] = useState<string | null>(ingredient.metric || "");
     const [name, setName] = useState<string | null> (ingredient.name || "");
@@ -45,7 +43,7 @@ const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, pr
                     }}
                 />
                 <Autocomplete
-                    options={presets.metrics}
+                    options={metricPresets}
                     sx={{ width: '100%' }}
                     freeSolo
                     value={metric}
@@ -58,7 +56,7 @@ const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, pr
                     renderInput={(params) => <TextField {...params} id="metric" fullWidth label="Metric" variant="outlined"/>}
                 />
                 <Autocomplete
-                    options={presets.ingredients}
+                    options={ingredientPresets}
                     sx={{ width: '100%' }}
                     freeSolo
                     value={name}

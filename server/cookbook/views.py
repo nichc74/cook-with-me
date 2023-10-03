@@ -1,15 +1,14 @@
 from .models import Recipe
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Recipe, RecipeIngredient, Ingredient
-from .serializers import RecipeWithDataSerializer, RecipeSerializer
+from .models import Recipe, RecipeIngredient, Ingredient, Metric, Category
+from .serializers import RecipeWithDataSerializer, RecipeSerializer, MetricSerializer, IngredientSerializer, CategorySerializer
 from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_recipe
 
 # Create your views here.
 @api_view(['GET'])
 def getRecipes(request):
     recipes = Recipe.objects.filter(status='published')
-    # recipes = Recipe.objects.all()  # You can filter this as needed
     return Response(RecipeSerializer(recipes, many = True).data)
 
 @api_view(['GET'])
@@ -26,17 +25,16 @@ def getRecipe(request, id):
     except Recipe.DoesNotExist:
         return Response({"message": "Recipe not found"}, status=404)
     
-@api_view(['GET'])
-def getMetricsAndIngredients(request):
-    try:
-        metrics = RecipeIngredient.objects.values('metric').distinct()
-        ingredients = Ingredient.objects.all()
-        metric_array = [item['metric'] for item in metrics if item['metric']]
-        ingredient_names_array = [ingredient.name for ingredient in ingredients]
-        print(ingredient_names_array)
-        return Response({"metrics": metric_array, "ingredients": ingredient_names_array})
-    except Recipe.DoesNotExist:
-        return Response({"message": "Metrics not found"}, status=404)
+# @api_view(['GET'])
+# def getIngredients(request):
+#     try:
+#         ingredients = Ingredient.objects.all()
+#         metric_array = [item['metric'] for item in metrics if item['metric']]
+#         ingredient_names_array = [ingredient.name for ingredient in ingredients]
+#         print(ingredient_names_array)
+#         return Response({"metrics": metric_array, "ingredients": ingredient_names_array})
+#     except Recipe.DoesNotExist:
+#         return Response({"message": "Metrics not found"}, status=404)
 
 @api_view(['POST'])
 def postRecipe(request):
@@ -56,6 +54,47 @@ def updateRecipeStatus(request, id):
         return Response({"success"}, status=200)
     except:
         return Response({"Message": "Error Occurred"}, status=500)
+
+@api_view(['GET'])
+def getFormPresets(request):
+    metrics = Metric.objects.all()
+    ingredients = Ingredient.objects.all()
+    categories = Category.objects.all()
+
+    data = {
+        "categories": CategorySerializer(categories, many=True).data,
+        "metrics": MetricSerializer(metrics, many=True).data,
+        "ingredients": IngredientSerializer(ingredients, many=True).data,
+    }
+
+    return Response(data)
+
+
+@api_view(['GET'])
+def getMetrics(request):
+    try:
+        metrics = Metric.objects.all()
+        return Response(MetricSerializer(metrics, many=True).data)
+    except:
+        return Response({"message": "Metrics not found"}, status=404)
+
+@api_view(['GET'])
+def getIngredients(request):
+    try:
+        ingredients = Ingredient.objects.all()
+        return Response(IngredientSerializer(ingredients, many=True).data)
+    except:
+        return Response({"message": "ingredients not found"}, status=404)
+
+@api_view(['GET'])
+def getCategories(request):
+    try:
+        categories = Category.objects.all()
+        return Response(CategorySerializer(categories, many=True).data)
+    except:
+        return Response({"message": "ingredients not found"}, status=404)
+
+
 
 # def createRecipe(request):
 #     print("==============================================")
