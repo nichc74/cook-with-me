@@ -47,6 +47,7 @@ def parse_and_create_recipe_metadata(data, status):
             url_slug=create_url_slug(data.title),
             prep_time=data.prepTime,
             cook_time=data.cookTime,
+            total_time=data.totalTime,
             cuisine=data.cuisine,
             serves=data.serves,
             source_link=data.sourceLink,

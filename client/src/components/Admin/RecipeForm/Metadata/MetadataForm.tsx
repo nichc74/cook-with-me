@@ -33,6 +33,7 @@ const MetadataForm = ({metadata, categoryPresets}: MetadataProps) => {
     const [category, setCategory] = useState<string | null>(metadata.category || "");
     const [prepTime, setPrepTime] = useState<number | undefined>(metadata.prep_time || undefined);
     const [cookTime, setCookTime] = useState<number | undefined>(metadata.cook_time || undefined);
+    const [totalTime, setTotalTime] = useState<number | undefined>(metadata.total_time || undefined);
     const [serves, setServes] = useState<number | undefined>(metadata.serves || undefined);
   
   
@@ -75,6 +76,9 @@ const MetadataForm = ({metadata, categoryPresets}: MetadataProps) => {
                 break;
             case "cookTime": 
                 setCookTime(value);
+                break;
+            case "totalTime": 
+                setTotalTime(value);
                 break;
             case "serves":
                 setServes(value);
@@ -213,6 +217,17 @@ const MetadataForm = ({metadata, categoryPresets}: MetadataProps) => {
                     }}
                     value={cookTime}
                     onChange={(e) => handleMetadataInput('cookTime', e.target.value)}
+                />
+                <TextField
+                    id="outlined-number"
+                    label="Total Time (minutes)"
+                    type="number"
+                    style={{ width: 150 }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    value={totalTime}
+                    onChange={(e) => handleMetadataInput('totalTime', e.target.value)}
                 />
                 <TextField
                     id="outlined-number"

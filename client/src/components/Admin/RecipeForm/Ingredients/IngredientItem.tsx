@@ -10,14 +10,14 @@ interface IngredientItemProps {
     metricPresets: Array<string>,
     ingredientPresets: Array<string>,
     ingredient: {
-        amount: number | null,
+        amount: string,
         metric: string,
         name: string
     }
 }
 
 const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, metricPresets, ingredientPresets, index, key}: IngredientItemProps) => {
-    const [amount, setAmount] = useState<number | null>(ingredient.amount || null);
+    const [amount, setAmount] = useState<string | null>(ingredient.amount || "");
     const [metric, setMetric] = useState<string | null>(ingredient.metric || "");
     const [name, setName] = useState<string | null> (ingredient.name || "");
 
@@ -36,10 +36,10 @@ const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, me
     return (
         <Box className="ingredients-container">
             <Paper elevation={3} style={{width: "100%", display: "flex", padding: 10, justifyContent: "left", background: "white"}} >
-                <TextField id="amount" sx={{ width: '100%' }} fullWidth type="number" label="Amount" variant="outlined"
+                <TextField id="amount" sx={{ width: '100%' }} fullWidth label="Amount" variant="outlined"
                     value={amount === null ? "" : amount}
                     onChange={(e) => {
-                        setAmount(Number(e.target.value))
+                        setAmount(e.target.value)
                     }}
                 />
                 <Autocomplete

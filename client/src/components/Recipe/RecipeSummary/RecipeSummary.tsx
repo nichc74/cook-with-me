@@ -6,7 +6,7 @@ interface SummaryProps {
 }
 
 const RecipeSummary = ({summary}: SummaryProps) => {
-    let summaryObj = summary.substring(1, summary.length - 1).replace(/\\n/g, "<br/>");
+    let summaryObj = summary.replace(/\\n/g, "<br/>");
     console.log(summaryObj);
     const theObj = {__html:summaryObj};
 
