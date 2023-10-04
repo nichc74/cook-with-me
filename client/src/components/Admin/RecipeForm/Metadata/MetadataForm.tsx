@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Paper, TextField, Tooltip } from "@mui/material";
+import { Button, Paper, TextField, Tooltip, Autocomplete } from "@mui/material";
 import {Image, Add} from '@mui/icons-material';
 import { updateMetadata } from '../../../../store/actions/recipeActions.js';
 import { useDispatch } from 'react-redux';
@@ -20,15 +20,17 @@ interface MetadataProps {
         status: string,
         title: string
     }
+
+    categoryPresets: Array<string>
 }
 
-const MetadataForm = ({metadata}: MetadataProps) => {
+const MetadataForm = ({metadata, categoryPresets}: MetadataProps) => {
     const [image, setImage] = useState(metadata.image || "");
     const [title, setTitle] = useState(metadata.title || "");
     const [sourceLink, setSourceLink] = useState(metadata.source_link || "");
     const [author, setAuthor] = useState(metadata.author || "");
     const [cuisine, setCuisine] = useState(metadata.cuisine || "");
-    const [category, setCategory] = useState(metadata.category || "");
+    const [category, setCategory] = useState<string | null>(metadata.category || "");
     const [prepTime, setPrepTime] = useState<number | undefined>(metadata.prep_time || undefined);
     const [cookTime, setCookTime] = useState<number | undefined>(metadata.cook_time || undefined);
     const [serves, setServes] = useState<number | undefined>(metadata.serves || undefined);
@@ -168,14 +170,25 @@ const MetadataForm = ({metadata}: MetadataProps) => {
                     value={cuisine}
                     onChange={(e) => handleMetadataInput('cuisine', e.target.value)}
                 />
-                <TextField
-                    label="Category"
-                    type="search"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
+                <Autocomplete
+                    options={categoryPresets}
+                    sx={{ width: '25%' }}
+                    freeSolo
                     value={category}
-                    onChange={(e) => handleMetadataInput('category', e.target.value)}
+
+                    onChange={(event: any, newValue: string | null) => {
+                        setCategory(newValue)
+                    }}
+                    onInputChange={(event: any, newValue: string | null) => {
+                        setCategory(newValue)
+                    }}
+                    renderInput={(params) => 
+                        <TextField {...params}                
+                        InputLabelProps={{
+                            shrink: true,
+                        }} 
+                        label="Category" variant="outlined"/>
+                    }
                 />
             </div>
             <div className="recipe-form-metadata">

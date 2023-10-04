@@ -2,118 +2,85 @@
 
 const endpoint = 'http://localhost:8000';
 
-// export async function createRecipe(metadata, summary, recipe_ingredient_components, recipe_instructional_components, notes) {
-//     var recipe_data = {
-//         metadata: metadata, 
-//         summary: summary, 
-//         recipe_ingredient_components: recipe_ingredient_components, 
-//         recipe_instructional_components: recipe_instructional_components, 
-//         notes: notes
-//     }
-//     console.log(recipe_data);
-    
-//     var createRecipeEndpoint = endpoint + 'postRecipe';
-    
-//     var response = await fetch((createRecipeEndpoint), {
-//         method: 'POST',
-//         headers: {
-//             Accept: 'application/json',
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify ({
-//             recipe_data: recipe_data
-//         })
-//     }) 
-//     return response;
-// }
+const headers = 
+    {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    };
 
 export async function createRecipe(formData: any) {
-    var createRecipeEndpoint = `${endpoint}/postRecipe`;
+    let createRecipeEndpoint = `${endpoint}/postRecipe`;
     
     const options = {
         method: 'POST',
         body: formData,
     };
-    var response = await fetch(createRecipeEndpoint, options);
+    let response = await fetch(createRecipeEndpoint, options);
     return response;
 } 
 
-
-export async function getMetricsAndIngredients() {
-    var getMetricsEndpoint = `${endpoint}/metrics`;
-
-    var response = await fetch(getMetricsEndpoint, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-    });
-
-    var metrics = await response.json();
-    console.log(metrics);
-    return await metrics;
-}
-
 export async function getRecipes() {
-    var fetchRecipesEndpoint = `${endpoint}/recipes`;
-    var response = await fetch(fetchRecipesEndpoint, {
+    let fetchRecipesEndpoint = `${endpoint}/recipes`;
+    let response = await fetch(fetchRecipesEndpoint, {
         method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
+        headers: headers
     });
 
-    var recipes = await response.json();
+    let recipes = await response.json();
     console.log(recipes);
     return await recipes;
 }
 
 export async function getAllRecipesInAdmin() {
-    var fetchRecipeEndpoint = `${endpoint}/adminRecipes`;
-    var response = await fetch(fetchRecipeEndpoint, {
+    let fetchRecipeEndpoint = `${endpoint}/adminRecipes`;
+    let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
+        headers: headers
     });
 
-    var recipe = await response.json();
+    let recipe = await response.json();
     console.log(recipe);
     return await recipe;
 }
 
 export async function getRecipe(url_slug: string, id: number) {
-    var fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
-    var response = await fetch(fetchRecipeEndpoint, {
+    let fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
+    let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
+        headers: headers
     });
 
-    var recipe = await response.json();
+    let recipe = await response.json();
     console.log(recipe);
     return await recipe;
 }
 
 export async function updateRecipeStatus(id: number, status: string) {
-    var fetchRecipeEndpoint = `${endpoint}/updateRecipeStatus/${id}/`;
+    let fetchRecipeEndpoint = `${endpoint}/updateRecipeStatus/${id}/`;
 
     const options = {
         method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
+        headers: headers,
         body: JSON.stringify ({
             status: status
         })
     };
 
-    var response = await fetch(fetchRecipeEndpoint, options);
+    let response = await fetch(fetchRecipeEndpoint, options);
     return response;
+}
+
+export function hi() {
+    console.log("HI")
+}
+
+export async function getFormPresets() {
+    let formPresets = `${endpoint}/presets`;
+
+    let response = await fetch(formPresets, {
+        method: 'GET',
+        headers: headers
+    });
+    let presets = response.json();
+    return await presets;
 }

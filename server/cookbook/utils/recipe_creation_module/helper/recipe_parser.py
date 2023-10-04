@@ -1,4 +1,4 @@
-from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Instruction, Ingredient
+from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Instruction, Ingredient, Metric
 import re
 import json
 from types import SimpleNamespace
@@ -10,17 +10,16 @@ def parse_and_create_recipe(data):
     try:
         print(data)
         metadata = data['metadata']
+        status = data['status']
 
-        recipe = parse_and_create_recipe_metadata(metadata)
+        recipe = parse_and_create_recipe_metadata(metadata, status)
         
         summary = data['summary']
         parse_and_create_summary(summary, recipe)
         
-        # # recipe_ingredient_component_data = data.pop("recipe_ingredient_components", [])
         recipe_ingredient_components = data['recipeIngredientComponents'] 
         parse_and_create_recipe_ingredient_components(recipe_ingredient_components, recipe)
 
-        # # # recipe_instructional_component_data = data.pop("recipe_instructional_components", [])
         recipe_instructional_components = data['recipeInstructionalComponents']
         parse_and_create_recipe_instructional_components(recipe_instructional_components, recipe)
 
@@ -33,7 +32,7 @@ def parse_and_create_recipe(data):
     except Exception as error: 
         print(error)
 
-def parse_and_create_recipe_metadata(data):
+def parse_and_create_recipe_metadata(data, status):
     try:
         data = json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
         category=Category.objects.get_or_create(category_name=data.category)
@@ -52,6 +51,8 @@ def parse_and_create_recipe_metadata(data):
             serves=data.serves,
             source_link=data.sourceLink,
             category=category[0],
+            status=status
+            
         )
     except Exception as error:
         print(error)
@@ -66,13 +67,12 @@ def parse_and_create_summary(summary_data, recipe):
         print(error)
 
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
-    print(recipe_ingredient_component_data)
     try:
         recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
         for recipe_componet in recipe_ingredient_component_data:
-            name = recipe_componet.componentName
+            name = recipe_componet.componentName.upper()
             component = RecipeIngredientComponent.objects.create(recipe=recipe, component_name=name)
-            recipe_ingredient_data = recipe_componet.recipe_ingredients
+            recipe_ingredient_data = recipe_componet.ingredients
             parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
         return
     except Exception as error: 
@@ -81,11 +81,13 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     try:
         for recipe_ingredient in recipe_ingredient_data:
-            if recipe_ingredient.ingredient == "":
+            if recipe_ingredient == None or recipe_ingredient.name == "":
                 continue
-            name = recipe_ingredient.ingredient.lower()
-            ingredient = Ingredient.objects.get_or_create(name=name)
-            RecipeIngredient.objects.create(recipe_component=component, ingredient=ingredient[0], amount=recipe_ingredient.amount, metric=recipe_ingredient.metric )
+            ingredient_name = recipe_ingredient.name.lower()
+            metric_name = recipe_ingredient.metric.lower()
+            ingredient = Ingredient.objects.get_or_create(name=ingredient_name)
+            metric = Metric.objects.get_or_create(name=metric_name)
+            RecipeIngredient.objects.create(recipe_ingredient_component=component, ingredient=ingredient[0], amount=recipe_ingredient.amount, metric=metric[0] )
         return 
     except Exception as error: 
         print(error)
@@ -93,11 +95,10 @@ def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
 def parse_and_create_recipe_instructional_components(recipe_instructional_component_data, recipe):
     try:
         recipe_instructional_component_data = json.loads(recipe_instructional_component_data, object_hook=lambda d: SimpleNamespace(**d))
-        # print(recipe_instructional_component_data)
         for recipe_componet in recipe_instructional_component_data:
-            name = recipe_componet.component_name
+            name = recipe_componet.componentName.upper()
             component = RecipeInstructionalComponent.objects.create(recipe=recipe, component_name=name)
-            recipe_instructional_data = recipe_componet.recipe_instructions
+            recipe_instructional_data = recipe_componet.instructions
             parse_and_create_instructions(recipe_instructional_data, component)
         return
     except Exception as error: 
@@ -105,7 +106,6 @@ def parse_and_create_recipe_instructional_components(recipe_instructional_compon
 
 
 def parse_and_create_instructions(recipe_instructional_data, component):
-    # print(recipe_instructional_data)
     try:
         for step in range(0, len(recipe_instructional_data)):
             instruction = recipe_instructional_data[step]
@@ -114,10 +114,10 @@ def parse_and_create_instructions(recipe_instructional_data, component):
             if instruction.image:
                 image = upload_image(instruction.image)
                 if image:
-                    Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=image)
+                    Instruction.objects.create(recipe_instructional_component=component, description=instruction.description, step_id=step+1, image=image)
                     
             else:
-                Instruction.objects.create(recipe_component=component, description=instruction.description, step_id=step+1, image=None)
+                Instruction.objects.create(recipe_instructional_component=component, description=instruction.description, step_id=step+1, image=None)
         return 
     except Exception as error: 
         print(error)
@@ -139,8 +139,8 @@ def upload_image(file):
 
 def create_url_slug(title):
     url_slug = ""
-    title = re.sub('[^0-9a-zA-Z]+', ' ', title)
     title = title.lower()
+    title = re.sub('[^0-9a-zA-Z]+', ' ', title)
     title_array = title.split()
     for idx in range(0, len(title_array)):
         if idx == len(title_array)-1:

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Snackbar, Alert } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux'; // Assuming you have a Redux store set up.
-import { createRecipe, getMetricsAndIngredients, getRecipe, updateRecipeStatus} from '../../../apis/AdminAPI/RecipeAPI';
+import { useSelector, useDispatch } from 'react-redux';
+import { createRecipe, getRecipe, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.ts';
 import FormData from 'form-data';
 import './RecipeForm.css';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,7 +15,11 @@ const RecipeForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [metricsAndIngredients, setMetricsAndIngredients] = useState([]);
+    const [formPresets, setFormPresets] = useState({
+        categories: [],
+        metrics: [],
+        ingredients: []
+    });
 
     const [recipeMetadata, setRecipeMetadata] = useState({});
     const [recipeSummary, setRecipeSummary] = useState("");
@@ -23,6 +27,7 @@ const RecipeForm = () => {
     const [instructionalElements, setInstructionalElements] = useState<Array<object> | null>(null)
     const [recipeNotes, setRecipeNotes] = useState<Array<object> | null>(null);
     const [loading, setLoading] = useState(false);
+    const [editing, setEditing] = useState(false);
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
     const summary = useSelector((state: any) => state.recipeReducer.summary);
@@ -30,12 +35,14 @@ const RecipeForm = () => {
     const recipeInstructionalComponents = useSelector((state: any) => state.recipeReducer.recipeInstructionalComponents);
     const notes = useSelector((state: any) => state.recipeReducer.notes);
 
+    const formData = new FormData();
    
     useEffect(() => {
         if (location.state) {
             fetchRecipeToEdit();
+            setEditing(true);
         }
-        fetchMetricsAndIngredients();
+        fetchFormPresets();
     }, []);
 
     const fetchRecipeToEdit = async () => {
@@ -56,35 +63,39 @@ const RecipeForm = () => {
         }
     }
 
-    const fetchMetricsAndIngredients = async () => {
+    const fetchFormPresets = async () => {
         try {
-            const presets = await getMetricsAndIngredients();
-            setMetricsAndIngredients(presets);
+            const presets = await getFormPresets();
+            console.log(presets);
+            setFormPresets(presets);
         } catch (error: any) {
             // handleApiError('fetching metrics and ingredients', error);
         }
     }
 
 
-    const checkData = async () => {
-        console.log(metadata);
-        console.log(summary);
-        console.log(recipeIngredientComponents);
-        console.log(recipeInstructionalComponents);
-        console.log(notes);
-
+    const createRecipeData = async () => {
         try {
-            const formData = new FormData();
-            formData.append('metadata', JSON.stringify(metadata));
-            formData.append('summary', summary);
-            formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
-            formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
-            formData.append('notes', JSON.stringify(notes));
+            prepFormData();
+            formData.append('status',  "unpublished");
             const result = await createRecipe(formData);
-            console.log(result);
         } catch (error: any) {
             console.log(error);
         }
+    }
+
+    const publishRecipeData = async () => {
+        prepFormData();
+        formData.append('status',  "published");
+        const result = await createRecipe(formData);
+    }
+
+    const prepFormData = () => {
+        formData.append('metadata', JSON.stringify(metadata));
+        formData.append('summary', summary);
+        formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
+        formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
+        formData.append('notes', JSON.stringify(notes));
     }
 
     const onBack = () => {
@@ -103,10 +114,11 @@ const RecipeForm = () => {
             ) : (
                 <div className="recipe-form-container">
                     <h1>Recipe Form</h1>
-                    <MetadataForm metadata={recipeMetadata}/>
+                    <MetadataForm categoryPresets={formPresets.categories} metadata={recipeMetadata}/>
                     <SummaryForm recipeSummary={recipeSummary}/>
                     <IngredientForm 
-                        presets={metricsAndIngredients}
+                        metricPresets={formPresets.metrics}
+                        ingredientPresets={formPresets.ingredients}
                         ingredientElements={ingredientElements}
                     />
                     <InstructionForm
@@ -115,8 +127,12 @@ const RecipeForm = () => {
                     <NoteForm recipeNotes={recipeNotes}/>
                     {/* Gallery */}
                     <div className="recipe-form-button-options-container">
-                        <Button variant="contained" onClick={() => {checkData()}}>Create</Button>
-                        <Button variant="contained" color="success" >Publish</Button>
+                        {editing ? 
+                            <Button variant="contained" onClick={() => {createRecipeData()}}>Update</Button>
+                            :
+                            <Button variant="contained" onClick={() => {createRecipeData()}}>Create</Button>
+                        }
+                        <Button variant="contained" color="success" onClick={() => {publishRecipeData()}} >Publish</Button>
                     </div>
                 </div>
             )}

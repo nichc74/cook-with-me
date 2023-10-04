@@ -7,6 +7,10 @@ urlpatterns = [
     path('adminRecipes', views.getAllRecipes),
     path('recipe/<id>/', views.getRecipe),
     path('postRecipe', views.postRecipe),
-    path('metrics', views.getMetricsAndIngredients),
+    path('metrics', views.getMetrics),
+    path('presets', views.getFormPresets),
+    path('ingredients', views.getIngredients),
+    path('categories', views.getCategories),
     path('updateRecipeStatus/<id>/', views.updateRecipeStatus),
+
 ]
