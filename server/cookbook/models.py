@@ -25,6 +25,7 @@ class Recipe(models.Model):
     url_slug = models.CharField(max_length=128, default="", null=True)
     prep_time = models.IntegerField()
     cook_time = models.IntegerField()
+    total_time = models.IntegerField(default=0, null=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default="", null=True)
     cuisine = models.CharField(max_length=128, default="")
     serves = models.IntegerField()
@@ -65,7 +66,7 @@ class Ingredient(models.Model):
 class RecipeIngredient(models.Model):
     recipe_ingredient_component = models.ForeignKey(RecipeIngredientComponent, on_delete=models.CASCADE, default=None, null=True)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    amount = models.FloatField(default=None, null=True)
+    amount = models.TextField(default="", null=True)
     metric = models.ForeignKey(Metric, on_delete=models.CASCADE, default=None, null=True)
 
     def __str__(self):
