@@ -70,7 +70,7 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
     try:
         recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
         for recipe_componet in recipe_ingredient_component_data:
-            name = recipe_componet.componentName
+            name = recipe_componet.componentName.upper()
             component = RecipeIngredientComponent.objects.create(recipe=recipe, component_name=name)
             recipe_ingredient_data = recipe_componet.ingredients
             parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
@@ -81,7 +81,7 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     try:
         for recipe_ingredient in recipe_ingredient_data:
-            if recipe_ingredient.name == "":
+            if recipe_ingredient == None or recipe_ingredient.name == "":
                 continue
             ingredient_name = recipe_ingredient.name.lower()
             metric_name = recipe_ingredient.metric.lower()
@@ -96,7 +96,7 @@ def parse_and_create_recipe_instructional_components(recipe_instructional_compon
     try:
         recipe_instructional_component_data = json.loads(recipe_instructional_component_data, object_hook=lambda d: SimpleNamespace(**d))
         for recipe_componet in recipe_instructional_component_data:
-            name = recipe_componet.componentName
+            name = recipe_componet.componentName.upper()
             component = RecipeInstructionalComponent.objects.create(recipe=recipe, component_name=name)
             recipe_instructional_data = recipe_componet.instructions
             parse_and_create_instructions(recipe_instructional_data, component)
@@ -139,8 +139,8 @@ def upload_image(file):
 
 def create_url_slug(title):
     url_slug = ""
-    title = re.sub('[^0-9a-zA-Z]+', ' ', title)
     title = title.lower()
+    title = re.sub('[^0-9a-zA-Z]+', ' ', title)
     title_array = title.split()
     for idx in range(0, len(title_array)):
         if idx == len(title_array)-1:

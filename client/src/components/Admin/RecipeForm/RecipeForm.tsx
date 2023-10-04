@@ -27,6 +27,7 @@ const RecipeForm = () => {
     const [instructionalElements, setInstructionalElements] = useState<Array<object> | null>(null)
     const [recipeNotes, setRecipeNotes] = useState<Array<object> | null>(null);
     const [loading, setLoading] = useState(false);
+    const [editing, setEditing] = useState(false);
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
     const summary = useSelector((state: any) => state.recipeReducer.summary);
@@ -39,6 +40,7 @@ const RecipeForm = () => {
     useEffect(() => {
         if (location.state) {
             fetchRecipeToEdit();
+            setEditing(true);
         }
         fetchFormPresets();
     }, []);
@@ -125,7 +127,11 @@ const RecipeForm = () => {
                     <NoteForm recipeNotes={recipeNotes}/>
                     {/* Gallery */}
                     <div className="recipe-form-button-options-container">
-                        <Button variant="contained" onClick={() => {createRecipeData()}}>Create</Button>
+                        {editing ? 
+                            <Button variant="contained" onClick={() => {createRecipeData()}}>Update</Button>
+                            :
+                            <Button variant="contained" onClick={() => {createRecipeData()}}>Create</Button>
+                        }
                         <Button variant="contained" color="success" onClick={() => {publishRecipeData()}} >Publish</Button>
                     </div>
                 </div>
