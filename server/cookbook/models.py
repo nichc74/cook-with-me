@@ -5,7 +5,14 @@ class Category(models.Model):
 
     def __str__(self):
         return "%s: %s" % (self.id, self.category_name)
+
+class Cuisine(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return "%s: %s" % (self.id, self.name)
     
+
 class Metric(models.Model):
     name = models.CharField(max_length=128)
 
@@ -27,7 +34,7 @@ class Recipe(models.Model):
     cook_time = models.IntegerField()
     total_time = models.IntegerField(default=0, null=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default="", null=True)
-    cuisine = models.CharField(max_length=128, default="")
+    cuisine = models.ForeignKey(Cuisine, on_delete=models.PROTECT, default="", null=True)
     serves = models.IntegerField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE, default=None, null=True)
     source_link = models.TextField(default="", null=True)
