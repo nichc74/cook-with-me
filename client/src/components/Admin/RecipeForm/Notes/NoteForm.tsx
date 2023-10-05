@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 interface NoteItemProps {
-    stepId: string,
+    stepId: number,
     description: string
 }
 
@@ -17,14 +17,14 @@ interface RecipeNotesProps {
 const NoteForm = ({recipeNotes}: RecipeNotesProps) => {
     const dispatch = useDispatch();
 
-    const [notes, setNotes] = useState(recipeNotes || [{}, {}, {}, {}, {}])
+    const [notes, setNotes] = useState(recipeNotes || [{description: "", stepId: 1}, {description: "", stepId: 2}, {description: "", stepId: 3}, {description: "", stepId: 4}, {description: "", stepId: 5}])
 
     useEffect(() => {
         dispatch(updateRecipeNotes(notes));
     }, [recipeNotes, notes])
 
     const addNewNote = () => {
-        setNotes([...notes, {description: ""}]);
+        setNotes([...notes, {description: "", stepId: notes.length }]);
     }
 
     const removeNote = (index: Number) => {
@@ -51,7 +51,7 @@ const NoteForm = ({recipeNotes}: RecipeNotesProps) => {
         <div>
             <h1> Notes </h1>
             {
-                notes.map((note, index) => (
+                notes.map((note: NoteItemProps, index) => (
                     <NoteItem
                         removeNote={removeNote}
                         index={index}

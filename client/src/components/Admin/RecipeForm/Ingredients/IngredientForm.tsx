@@ -26,7 +26,7 @@ const IngredientForm = ({metricPresets, ingredientPresets, ingredientElements}: 
     }, [ingredientComponents]);
 
     const addNewComponent = () => {
-        setIngredientComponents([...ingredientComponents, { componentName: "", ingredients: []}]);
+        setIngredientComponents([...ingredientComponents, { componentName: "", ingredients: new Array(5).fill({amount: "", metric: "", name: ""}) }]);
     }
 
     const removeComponent = (index: Number) => {

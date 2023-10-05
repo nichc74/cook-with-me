@@ -25,16 +25,6 @@ def getRecipe(request, id):
     except Recipe.DoesNotExist:
         return Response({"message": "Recipe not found"}, status=404)
     
-# @api_view(['GET'])
-# def getIngredients(request):
-#     try:
-#         ingredients = Ingredient.objects.all()
-#         metric_array = [item['metric'] for item in metrics if item['metric']]
-#         ingredient_names_array = [ingredient.name for ingredient in ingredients]
-#         print(ingredient_names_array)
-#         return Response({"metrics": metric_array, "ingredients": ingredient_names_array})
-#     except Recipe.DoesNotExist:
-#         return Response({"message": "Metrics not found"}, status=404)
 
 @api_view(['POST'])
 def postRecipe(request):
@@ -67,7 +57,6 @@ def getFormPresets(request):
         "metrics": MetricSerializer(metrics, many=True).data,
         "ingredients": IngredientSerializer(ingredients, many=True).data,
     }
-
     return Response(data)
 
 

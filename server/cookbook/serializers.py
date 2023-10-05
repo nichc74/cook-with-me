@@ -33,7 +33,7 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeIngredient
-        fields = ['amount', 'metric', 'name']
+        fields = ['id', 'amount', 'metric', 'name']
 
 class InstructionSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='image.path', read_only=True)
@@ -45,7 +45,7 @@ class InstructionSerializer(serializers.ModelSerializer):
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ['description', 'step_id']
+        fields = ['id', 'description', 'step_id']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,7 +82,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='image.path', read_only=True)
     category = serializers.CharField(source='category.category_name', read_only=True)
     cuisine = serializers.CharField(source='cuisine.name', read_only=True)
-    
+
     class Meta:
         model = Recipe
         fields = '__all__'
