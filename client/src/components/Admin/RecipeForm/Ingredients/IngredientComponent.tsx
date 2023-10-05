@@ -17,14 +17,14 @@ interface IngredientComponentProps {
 }
 
 interface IngredientProps {
-    amount: Number | null;
+    amount: string;
     metric: string,
     name: string,
 }
 
 const IngredientComponent = ({updateComponent, removeComponent, ingredientComponent, metricPresets, ingredientPresets, key, index}: IngredientComponentProps) => {
     const[componentName, setComponentName] = useState(ingredientComponent.component_name || "");
-    const[ingredients, setIngredients] = useState(ingredientComponent.ingredients || [{}, {}, {}, {}, {}])
+    const[ingredients, setIngredients] = useState(ingredientComponent.ingredients || new Array(5).fill({amount: "", metric: "", name: ""}))
 
     useEffect(() => {
         console.log()
@@ -39,7 +39,7 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
     }
 
     const addNewIngredient = () => {
-        setIngredients([...ingredients, {amount: null, metric: "", name: ""}]);
+        setIngredients([...ingredients, {amount: "", metric: "", name: ""}]);
     }
 
     const removeIngredient = (index: number) => {

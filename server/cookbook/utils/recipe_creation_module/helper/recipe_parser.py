@@ -8,7 +8,6 @@ from cookbook.api.Cloudinary.Cloudinary import upload
 @transaction.atomic
 def parse_and_create_recipe(data):
     try:
-        print(data)
         metadata = data['metadata']
         status = data['status']
 

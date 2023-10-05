@@ -24,7 +24,7 @@ const InstructionForm = ({instructionalElements}: RecipeFormProps) => {
     }, [instructionalComponent]);
 
     const addNewComponent = () => {
-        setInstructionalComponent([...instructionalComponent, { componentName: "", instructions: []}]);
+        setInstructionalComponent([...instructionalComponent, { componentName: "", instructions: new Array(3).fill({description: "", image: ""})}]);
     }
 
     const removeComponent = (index: Number) => {
@@ -50,7 +50,7 @@ const InstructionForm = ({instructionalElements}: RecipeFormProps) => {
         <div>
             <h1> Instructions </h1>
             {
-                instructionalComponent.map((component, index) => (
+                instructionalComponent.map((component: InstructionalComponentProps, index) => (
                     <InstructionalComponent
                         key={index}
                         index={index}
