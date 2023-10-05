@@ -21,12 +21,11 @@ const IngredientForm = ({metricPresets, ingredientPresets, ingredientElements}: 
     const [ingredientComponents, setIngredientComponents] = useState(ingredientElements || [{}]);
    
     useEffect(() => {
-        console.log(ingredientComponents);
         dispatch(updateRecipeIngredientComponent(ingredientComponents));
     }, [ingredientComponents]);
 
     const addNewComponent = () => {
-        setIngredientComponents([...ingredientComponents, { componentName: "", ingredients: new Array(5).fill({amount: "", metric: "", name: ""}) }]);
+        setIngredientComponents([...ingredientComponents, { componentName: "", ingredients: new Array(5).fill({id: null, amount: "", metric: "", name: ""}) }]);
     }
 
     const removeComponent = (index: Number) => {

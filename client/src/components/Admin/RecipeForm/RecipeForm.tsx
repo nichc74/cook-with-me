@@ -23,7 +23,7 @@ const RecipeForm = () => {
     });
 
     const [recipeMetadata, setRecipeMetadata] = useState({});
-    const [recipeSummary, setRecipeSummary] = useState("");
+    const [recipeSummary, setRecipeSummary] = useState({});
     const [ingredientElements, setIngredientElements] = useState<Array<object> | null>(null)
     const [instructionalElements, setInstructionalElements] = useState<Array<object> | null>(null)
     const [recipeNotes, setRecipeNotes] = useState<Array<object> | null>(null);
@@ -53,7 +53,7 @@ const RecipeForm = () => {
             const data = await getRecipe(location.state.url_slug, location.state.id);
             // setRecipeData(data);
             setRecipeMetadata(data.metadata);
-            setRecipeSummary(data.recipe_summary[0].summary);
+            setRecipeSummary(data.recipe_summary[0]);
             setIngredientElements(data.recipe_ingredient_components);
             setInstructionalElements(data.recipe_instructional_components);
             setRecipeNotes(data.notes);
@@ -67,7 +67,6 @@ const RecipeForm = () => {
     const fetchFormPresets = async () => {
         try {
             const presets = await getFormPresets();
-            console.log(presets);
             setFormPresets(presets);
         } catch (error: any) {
             // handleApiError('fetching metrics and ingredients', error);
@@ -78,7 +77,12 @@ const RecipeForm = () => {
     const createRecipeData = async () => {
         try {
             prepFormData();
-            formData.append('status',  "unpublished");
+            formData.append('status', "unpublished");
+            console.dir(metadata);
+            console.dir(summary);
+            console.dir(recipeIngredientComponents);
+            console.dir(recipeInstructionalComponents);
+            console.dir(notes);
             const result = await createRecipe(formData);
         } catch (error: any) {
             console.log(error);
@@ -93,7 +97,7 @@ const RecipeForm = () => {
 
     const prepFormData = () => {
         formData.append('metadata', JSON.stringify(metadata));
-        formData.append('summary', summary);
+        formData.append('summary', JSON.stringify(summary));
         formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
         formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
         formData.append('notes', JSON.stringify(notes));

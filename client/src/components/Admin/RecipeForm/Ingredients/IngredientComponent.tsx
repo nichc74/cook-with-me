@@ -6,10 +6,10 @@ import { Add, Delete } from "@mui/icons-material";
 interface IngredientComponentProps {
     updateComponent: Function,
     removeComponent: Function,
-    key: Number,
-    index: Number,
+    key: number,
+    index: number,
     metricPresets: Array<string>,
-    ingredientPresets: Array<string>
+    ingredientPresets: Array<string>,
     ingredientComponent: {
         component_name: string,
         ingredients: Array<IngredientProps>
@@ -17,17 +17,17 @@ interface IngredientComponentProps {
 }
 
 interface IngredientProps {
-    amount: string;
+    id: number | null,
+    amount: string,
     metric: string,
     name: string,
 }
 
 const IngredientComponent = ({updateComponent, removeComponent, ingredientComponent, metricPresets, ingredientPresets, key, index}: IngredientComponentProps) => {
     const[componentName, setComponentName] = useState(ingredientComponent.component_name || "");
-    const[ingredients, setIngredients] = useState(ingredientComponent.ingredients || new Array(5).fill({amount: "", metric: "", name: ""}))
+    const[ingredients, setIngredients] = useState(ingredientComponent.ingredients || new Array(5).fill({amount: "", metric: "", name: ""}));
 
     useEffect(() => {
-        console.log()
         updateComponent({
             componentName,
             ingredients
@@ -39,7 +39,7 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
     }
 
     const addNewIngredient = () => {
-        setIngredients([...ingredients, {amount: "", metric: "", name: ""}]);
+        setIngredients([...ingredients, {id: null, amount: "", metric: "", name: ""}]);
     }
 
     const removeIngredient = (index: number) => {
@@ -52,6 +52,7 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
             if (index === idx) {
                 return {
                     ...ingredient,
+                    id: updatedIngredient.id,
                     amount: updatedIngredient.amount,
                     metric: updatedIngredient.metric,
                     name: updatedIngredient.name
@@ -74,12 +75,12 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
                 {
                     ingredients.map((ingredient, index) => (
                         <IngredientItem 
-                            key={index}
+                            key={ingredient.id || index}
                             index={index}
                             ingredientPresets={ingredientPresets}
                             metricPresets={metricPresets}
                             ingredient={ingredient}
-                            removeIngredient={removeIngredient}
+                            removeIngredient={() => removeIngredient(index)}
                             updateIngredientList={updateIngredientList}
                         />
                     ))

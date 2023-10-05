@@ -26,6 +26,7 @@ interface MetadataProps {
 }
 
 const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps) => {
+    const [id, setId] = useState(metadata.id || null)
     const [image, setImage] = useState(metadata.image || "");
     const [title, setTitle] = useState(metadata.title || "");
     const [sourceLink, setSourceLink] = useState(metadata.source_link || "");
@@ -42,6 +43,7 @@ const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps
 
     useEffect(() => {
         const metadataToUpdate = {
+            id,
             image,
             title,
             sourceLink,
@@ -50,10 +52,11 @@ const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps
             category,
             prepTime,
             cookTime,
+            totalTime,
             serves,
         };
         dispatch(updateMetadata(metadataToUpdate));
-    }, [metadata, image, title, sourceLink, author, cuisine, category, prepTime, cookTime, serves]);
+    }, [metadata, image, title, sourceLink, author, cuisine, category, prepTime, cookTime, totalTime, serves]);
     
     const handleMetadataInput = (field: string, value: any) => {
         switch(field) {

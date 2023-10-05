@@ -59,7 +59,6 @@ def getFormPresets(request):
     }
     return Response(data)
 
-
 @api_view(['GET'])
 def getMetrics(request):
     try:
