@@ -1,4 +1,4 @@
-from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Instruction, Ingredient, Metric
+from cookbook.models import Recipe, Category, Image, RecipeSummary, Note, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Instruction, Ingredient, Metric, Cuisine
 import re
 import json
 from types import SimpleNamespace
@@ -36,6 +36,8 @@ def parse_and_create_recipe_metadata(data, status):
     try:
         data = json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
         category=Category.objects.get_or_create(category_name=data.category)
+        cuisine=Cuisine.objects.get_or_create(category_name=data.cuisine)
+
         image = None
         if data.image:
             image = upload_image(data.image)
@@ -48,7 +50,7 @@ def parse_and_create_recipe_metadata(data, status):
             prep_time=data.prepTime,
             cook_time=data.cookTime,
             total_time=data.totalTime,
-            cuisine=data.cuisine,
+            cuisine=cuisine[0],
             serves=data.serves,
             source_link=data.sourceLink,
             category=category[0],

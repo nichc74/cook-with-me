@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import Recipe, RecipeSummary, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Ingredient, Instruction, Note, Category, Image, Metric
+from .models import Recipe, RecipeSummary, RecipeIngredientComponent, RecipeInstructionalComponent, RecipeIngredient, Ingredient, Instruction, Note, Category, Image, Metric, Cuisine
 
 class RecipeSummarySerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,6 +54,15 @@ class CategorySerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         return instance.category_name  
+    
+class CuisineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cuisine
+        fields = '__all__'
+    
+    def to_representation(self, instance):
+        return instance.name  
+
 
 class RecipeIngredientComponentSerializer(serializers.ModelSerializer):
     ingredients = RecipeIngredientSerializer(many=True, read_only=True, source='recipeingredient_set')
@@ -72,7 +81,8 @@ class RecipeInstructionalComponentSerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     image = serializers.CharField(source='image.path', read_only=True)
     category = serializers.CharField(source='category.category_name', read_only=True)
-
+    cuisine = serializers.CharField(source='cuisine.name', read_only=True)
+    
     class Meta:
         model = Recipe
         fields = '__all__'

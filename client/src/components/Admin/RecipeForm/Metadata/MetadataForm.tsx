@@ -15,21 +15,22 @@ interface MetadataProps {
         id: number,
         image: string,
         prep_time: number,
+        total_time: number
         serves: number,
         source_link: string,
         status: string,
         title: string
     }
-
+    cuisinePresets: Array<string>
     categoryPresets: Array<string>
 }
 
-const MetadataForm = ({metadata, categoryPresets}: MetadataProps) => {
+const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps) => {
     const [image, setImage] = useState(metadata.image || "");
     const [title, setTitle] = useState(metadata.title || "");
     const [sourceLink, setSourceLink] = useState(metadata.source_link || "");
     const [author, setAuthor] = useState(metadata.author || "");
-    const [cuisine, setCuisine] = useState(metadata.cuisine || "");
+    const [cuisine, setCuisine] = useState<string | null>(metadata.cuisine || "");
     const [category, setCategory] = useState<string | null>(metadata.category || "");
     const [prepTime, setPrepTime] = useState<number | undefined>(metadata.prep_time || undefined);
     const [cookTime, setCookTime] = useState<number | undefined>(metadata.cook_time || undefined);
@@ -64,12 +65,6 @@ const MetadataForm = ({metadata, categoryPresets}: MetadataProps) => {
                 break;
             case "author": 
                 setAuthor(value);
-                break;
-            case "cuisine": 
-                setCuisine(value);
-                break;
-            case "category": 
-                setCategory(value);
                 break;
             case "prepTime": 
                 setPrepTime(value);
@@ -165,15 +160,27 @@ const MetadataForm = ({metadata, categoryPresets}: MetadataProps) => {
                     value={author}
                     onChange={(e) => handleMetadataInput('author', e.target.value)}
                 />
-                <TextField
-                    label="Cuisine"
-                    type="search"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
+                 <Autocomplete
+                    options={cuisinePresets}
+                    sx={{ width: '25%' }}
+                    freeSolo
                     value={cuisine}
-                    onChange={(e) => handleMetadataInput('cuisine', e.target.value)}
+
+                    onChange={(event: any, newValue: string | null) => {
+                        setCuisine(newValue)
+                    }}
+                    onInputChange={(event: any, newValue: string | null) => {
+                        setCuisine(newValue)
+                    }}
+                    renderInput={(params) => 
+                        <TextField {...params}                
+                        InputLabelProps={{
+                            shrink: true,
+                        }} 
+                        label="Cuisine" variant="outlined"/>
+                    }
                 />
+
                 <Autocomplete
                     options={categoryPresets}
                     sx={{ width: '25%' }}
