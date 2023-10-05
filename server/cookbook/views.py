@@ -1,8 +1,8 @@
 from .models import Recipe
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Recipe, RecipeIngredient, Ingredient, Metric, Category
-from .serializers import RecipeWithDataSerializer, RecipeSerializer, MetricSerializer, IngredientSerializer, CategorySerializer
+from .models import Recipe, Cuisine, Ingredient, Metric, Category
+from .serializers import RecipeWithDataSerializer, RecipeSerializer, MetricSerializer, IngredientSerializer, CategorySerializer, CuisineSerializer
 from .utils.recipe_creation_module.helper.recipe_parser import parse_and_create_recipe
 
 # Create your views here.
@@ -60,8 +60,9 @@ def getFormPresets(request):
     metrics = Metric.objects.all()
     ingredients = Ingredient.objects.all()
     categories = Category.objects.all()
-
+    cuisines = Cuisine.objects.all()
     data = {
+        "cuisines": CuisineSerializer(cuisines, many=True).data,
         "categories": CategorySerializer(categories, many=True).data,
         "metrics": MetricSerializer(metrics, many=True).data,
         "ingredients": IngredientSerializer(ingredients, many=True).data,

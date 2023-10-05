@@ -18,7 +18,8 @@ const RecipeForm = () => {
     const [formPresets, setFormPresets] = useState({
         categories: [],
         metrics: [],
-        ingredients: []
+        ingredients: [],
+        cuisines: []
     });
 
     const [recipeMetadata, setRecipeMetadata] = useState({});
@@ -114,7 +115,7 @@ const RecipeForm = () => {
             ) : (
                 <div className="recipe-form-container">
                     <h1>Recipe Form</h1>
-                    <MetadataForm categoryPresets={formPresets.categories} metadata={recipeMetadata}/>
+                    <MetadataForm categoryPresets={formPresets.categories} cuisinePresets={formPresets.cuisines} metadata={recipeMetadata}/>
                     <SummaryForm recipeSummary={recipeSummary}/>
                     <IngredientForm 
                         metricPresets={formPresets.metrics}
