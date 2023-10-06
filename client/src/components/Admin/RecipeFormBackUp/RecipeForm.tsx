@@ -74,7 +74,6 @@ const RecipeForm = () => {
     const fetchMetricsAndIngredients = async () => {
         try {
             const presets = await getMetricsAndIngredients();
-            console.log(presets);
             setMetricsAndIngredients(presets);
         } catch (error: any) {
             handleApiError('fetching metrics and ingredients', error);

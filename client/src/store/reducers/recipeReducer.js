@@ -3,7 +3,7 @@ import { updateMetadata, updateSummary, updateRecipeIngredientComponent, updateR
 
 const initialState = { 
     metadata: {},
-    summary: "",
+    summary: {},
     recipeIngredientComponents: [],
     recipeInstructionalComponents: [],
     notes: [],

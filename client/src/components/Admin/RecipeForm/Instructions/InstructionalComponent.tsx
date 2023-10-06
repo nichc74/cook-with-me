@@ -6,25 +6,25 @@ import { Add, Delete } from "@mui/icons-material";
 interface InstructionalComponentProps {
     updateComponent: Function,
     removeComponent: Function,
-    key: Number,
-    index: Number,
+    key: number,
+    index: number,
     instructionalComponent: {
-        componentName: string,
+        component_name: string,
         instructions: Array<InstructionProps>
     }
 }
 
 interface InstructionProps {
+    id: string
     description: string;
     image: string,
 }
 
-const InstructionalComponent = ({updateComponent, removeComponent, instructionalComponent, key, index}:InstructionalComponentProps) => {
-    const [componentName, setComponentName] = useState(instructionalComponent.componentName || "")
+const InstructionalComponent = ({updateComponent, removeComponent, instructionalComponent, index}:InstructionalComponentProps) => {
+    const [componentName, setComponentName] = useState(instructionalComponent.component_name || "")
     const [instructions, setInstructions] = useState(instructionalComponent.instructions || new Array(3).fill({description: "", image: ""}));
 
     useEffect(() => {
-        console.log(instructions)
         updateComponent({
             componentName,
             instructions
@@ -36,7 +36,7 @@ const InstructionalComponent = ({updateComponent, removeComponent, instructional
     }
 
     const addNewInstruction = () => {
-        setInstructions([...instructions, {description: "", image: ""}]);
+        setInstructions([...instructions, {id: "", description: "", image: ""}]);
     }
 
     const removeInstruction = (index: number) => {
@@ -71,7 +71,7 @@ const InstructionalComponent = ({updateComponent, removeComponent, instructional
                 {
                     instructions.map((instruction, index) => (
                         <InstructionItem
-                            key={instruction.id}
+                            key={instruction.id || index}
                             index={index}
                             instruction={instruction}
                             removeInstruction={removeInstruction}

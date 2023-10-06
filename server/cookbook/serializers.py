@@ -4,7 +4,7 @@ from .models import Recipe, RecipeSummary, RecipeIngredientComponent, RecipeInst
 class RecipeSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeSummary
-        fields = ['summary']
+        fields = ['id', 'summary']
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:

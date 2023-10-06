@@ -16,7 +16,8 @@ export async function createRecipe(formData: any) {
         body: formData,
     };
     let response = await fetch(createRecipeEndpoint, options);
-    return response;
+    // console.log(await response.json());
+    return await response.json();
 } 
 
 export async function getRecipes() {
@@ -27,7 +28,6 @@ export async function getRecipes() {
     });
 
     let recipes = await response.json();
-    console.log(recipes);
     return await recipes;
 }
 
@@ -39,7 +39,6 @@ export async function getAllRecipesInAdmin() {
     });
 
     let recipe = await response.json();
-    console.log(recipe);
     return await recipe;
 }
 
@@ -51,7 +50,6 @@ export async function getRecipe(url_slug: string, id: number) {
     });
 
     let recipe = await response.json();
-    console.log(recipe);
     return await recipe;
 }
 
@@ -68,10 +66,6 @@ export async function updateRecipeStatus(id: number, status: string) {
 
     let response = await fetch(fetchRecipeEndpoint, options);
     return response;
-}
-
-export function hi() {
-    console.log("HI")
 }
 
 export async function getFormPresets() {

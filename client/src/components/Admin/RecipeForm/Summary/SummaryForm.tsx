@@ -4,15 +4,22 @@ import { updateSummary } from '../../../../store/actions/recipeActions.js';
 import { useDispatch } from 'react-redux';
 
 interface SummaryProps {
-    recipeSummary: Array<string>
+    recipeSummary: {
+        id: number,
+        summary: Array<string>
+    }
 }
 
 const SummaryForm = ({recipeSummary}: SummaryProps) => {
-    const [summary, setSummary] = useState(recipeSummary || "");
+    const [summary, setSummary] = useState(recipeSummary.summary || "");
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(updateSummary(summary));
+        let summaryData = {
+            id: recipeSummary.id,
+            summary: summary
+        }
+        dispatch(updateSummary(summaryData));
     }, [recipeSummary, summary])
 
     const handleSummaryChange = (value: string) => {

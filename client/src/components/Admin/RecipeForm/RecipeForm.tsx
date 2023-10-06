@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { createRecipe, getRecipe, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.ts';
-import FormData from 'form-data';
-import './RecipeForm.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MetadataForm from "./Metadata/MetadataForm";
 import SummaryForm from "./Summary/SummaryForm";
 import IngredientForm from "./Ingredients/IngredientForm";
 import InstructionForm from "./Instructions/InstructionForm";
 import NoteForm from "./Notes/NoteForm";
+import FormData from 'form-data';
+import './RecipeForm.css';
 
 const RecipeForm = () => {
     const navigate = useNavigate();
@@ -23,12 +23,15 @@ const RecipeForm = () => {
     });
 
     const [recipeMetadata, setRecipeMetadata] = useState({});
-    const [recipeSummary, setRecipeSummary] = useState("");
+    const [recipeSummary, setRecipeSummary] = useState({});
     const [ingredientElements, setIngredientElements] = useState<Array<object> | null>(null)
     const [instructionalElements, setInstructionalElements] = useState<Array<object> | null>(null)
     const [recipeNotes, setRecipeNotes] = useState<Array<object> | null>(null);
+
     const [loading, setLoading] = useState(false);
     const [editing, setEditing] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
     const summary = useSelector((state: any) => state.recipeReducer.summary);
@@ -53,7 +56,7 @@ const RecipeForm = () => {
             const data = await getRecipe(location.state.url_slug, location.state.id);
             // setRecipeData(data);
             setRecipeMetadata(data.metadata);
-            setRecipeSummary(data.recipe_summary[0].summary);
+            setRecipeSummary(data.recipe_summary[0]);
             setIngredientElements(data.recipe_ingredient_components);
             setInstructionalElements(data.recipe_instructional_components);
             setRecipeNotes(data.notes);
@@ -67,7 +70,6 @@ const RecipeForm = () => {
     const fetchFormPresets = async () => {
         try {
             const presets = await getFormPresets();
-            console.log(presets);
             setFormPresets(presets);
         } catch (error: any) {
             // handleApiError('fetching metrics and ingredients', error);
@@ -78,22 +80,29 @@ const RecipeForm = () => {
     const createRecipeData = async () => {
         try {
             prepFormData();
-            formData.append('status',  "unpublished");
+            formData.append('status', "unpublished");
             const result = await createRecipe(formData);
+            handleApiResult(result);
         } catch (error: any) {
             console.log(error);
         }
     }
 
     const publishRecipeData = async () => {
-        prepFormData();
-        formData.append('status',  "published");
-        const result = await createRecipe(formData);
+        try {
+            prepFormData();
+            formData.append('status',  "published");
+            const result = await createRecipe(formData);
+            handleApiResult(result);
+        }   
+        catch (error : any) {
+        
+        }
     }
 
     const prepFormData = () => {
         formData.append('metadata', JSON.stringify(metadata));
-        formData.append('summary', summary);
+        formData.append('summary', JSON.stringify(summary));
         formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
         formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
         formData.append('notes', JSON.stringify(notes));
@@ -103,6 +112,14 @@ const RecipeForm = () => {
         navigate('/admin');
     }
 
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+
+    const handleApiResult = (result: any) => {
+        setOpenSnackbar(true);
+        setSnackbarMessage(result.Message);
+    }
 
     return (
         <div className="recipe-form">
@@ -137,6 +154,15 @@ const RecipeForm = () => {
                     </div>
                 </div>
             )}
+            
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}>
+                <Alert>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

@@ -10,7 +10,6 @@ def parse_and_create_recipe(data):
     try:
         metadata = data['metadata']
         status = data['status']
-
         recipe = parse_and_create_recipe_metadata(metadata, status)
         
         summary = data['summary']
@@ -22,116 +21,230 @@ def parse_and_create_recipe(data):
         recipe_instructional_components = data['recipeInstructionalComponents']
         parse_and_create_recipe_instructional_components(recipe_instructional_components, recipe)
 
-        # # # note_data = data.pop("notes", [])
         notes = data['notes']
         parse_and_create_notes(notes, recipe)
 
-        return data
+        return "Success"
     
     except Exception as error: 
         print(error)
 
+
 def parse_and_create_recipe_metadata(data, status):
     try:
-        data = json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
-        category=Category.objects.get_or_create(category_name=data.category)
-        cuisine=Cuisine.objects.get_or_create(category_name=data.cuisine)
+        parsed_data = json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
+        
+        category, _ = Category.objects.get_or_create(category_name=parsed_data.category)
+        cuisine, _ = Cuisine.objects.get_or_create(name=parsed_data.cuisine)
 
-        image = None
-        if data.image:
-            image = upload_image(data.image)
+        try:
+            image = Image.objects.get(path=parsed_data.image)
+        except Image.DoesNotExist:
+            image = upload_image(parsed_data.image)
 
-        return Recipe.objects.create(
-            image=image,
-            title=data.title,
-            author=data.author,
-            url_slug=create_url_slug(data.title),
-            prep_time=data.prepTime,
-            cook_time=data.cookTime,
-            total_time=data.totalTime,
-            cuisine=cuisine[0],
-            serves=data.serves,
-            source_link=data.sourceLink,
-            category=category[0],
-            status=status
-            
-        )
-    except Exception as error:
+        if hasattr(parsed_data, 'id'):
+            recipe, _ = Recipe.objects.get_or_create(pk=parsed_data.id)
+        else:
+            recipe = Recipe()
+
+        recipe.image = image
+        recipe.title = parsed_data.title
+        recipe.author = parsed_data.author
+        recipe.url_slug = create_url_slug(parsed_data.title)
+        recipe.prep_time = parsed_data.prepTime
+        recipe.cook_time = parsed_data.cookTime
+        recipe.total_time = parsed_data.totalTime
+        recipe.cuisine = cuisine
+        recipe.serves = parsed_data.serves
+        recipe.source_link = parsed_data.sourceLink
+        recipe.category = category
+        recipe.status = status
+        recipe.save()
+
+        return recipe
+    
+    except (json.JSONDecodeError, Exception) as error:
         print(error)
-
-
+        return {"recipe_error": error }
+        # return None  # Handle the exception gracefully and return None or another suitable value
+    
 def parse_and_create_summary(summary_data, recipe):
     try:
-        if summary_data == "":
+        parsed_data = json.loads(summary_data, object_hook=lambda d: SimpleNamespace(**d))
+
+        if parsed_data.summary == "":
             return
-        return RecipeSummary.objects.create(recipe=recipe, summary=summary_data)
+        
+        if hasattr(parsed_data, 'id'):
+            recipe_summary, _ = RecipeSummary.objects.get_or_create(pk=parsed_data.id)
+        else:
+            recipe_summary = RecipeSummary()
+
+        if recipe:
+            recipe_summary.recipe = recipe
+        
+        if recipe_summary.summary != parsed_data.summary:
+            recipe_summary.summary = parsed_data.summary
+        
+        recipe_summary.save()
+
     except Exception as error:
-        print(error)
+        return {"summary_error": error }
 
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
     try:
+        recipe_ingredient_component_ids = list(RecipeIngredientComponent.objects.filter(recipe_id=recipe.id).values_list('id', flat=True))
+
         recipe_ingredient_component_data = json.loads(recipe_ingredient_component_data, object_hook=lambda d: SimpleNamespace(**d))
+        
         for recipe_componet in recipe_ingredient_component_data:
-            name = recipe_componet.componentName.upper()
-            component = RecipeIngredientComponent.objects.create(recipe=recipe, component_name=name)
+            if hasattr(recipe_componet, 'id'):
+                recipe_ingredient_component, _ = RecipeIngredientComponent.objects.get_or_create(pk=recipe_componet.id)
+                recipe_ingredient_component_ids.remove(recipe_componet.id)
+            else:
+                recipe_ingredient_component = RecipeIngredientComponent()
+            
+            if hasattr(recipe_componet, 'componentName'):
+                name = recipe_componet.componentName.upper()
+                if recipe_ingredient_component.component_name != name:
+                    recipe_ingredient_component.component_name = name
+            
+            recipe_ingredient_component.recipe_id = recipe.id
+            recipe_ingredient_component.save()
+
             recipe_ingredient_data = recipe_componet.ingredients
-            parse_and_create_recipe_ingredient(recipe_ingredient_data, component)
+            parse_and_create_recipe_ingredient(recipe_ingredient_data, recipe_ingredient_component)
+        
+        RecipeIngredientComponent.objects.filter(pk__in=recipe_ingredient_component_ids).delete()
         return
+    
     except Exception as error: 
-        print(error)
+        return {"Message": f"recipe_ingredient_component_error: {error}"}
 
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     try:
+        ingredient_ids = list(RecipeIngredient.objects.filter(recipe_ingredient_component_id=component.id).values_list('id', flat=True))
         for recipe_ingredient in recipe_ingredient_data:
             if recipe_ingredient == None or recipe_ingredient.name == "":
                 continue
+            
+            ingredientObj = None
+            if hasattr(recipe_ingredient, 'id') and recipe_ingredient.id != '':
+                ingredientObj, _ = RecipeIngredient.objects.get_or_create(pk=recipe_ingredient.id)
+                ingredient_ids.remove(recipe_ingredient.id)
+            else:
+                ingredientObj = RecipeIngredient()
+
             ingredient_name = recipe_ingredient.name.lower()
-            metric_name = recipe_ingredient.metric.lower()
+            
+            if hasattr(recipe_ingredient, 'metric') and recipe_ingredient.metric != None:
+                metric_name = recipe_ingredient.metric.lower()
+                metric = Metric.objects.get_or_create(name=metric_name)
+                ingredientObj.metric = metric[0]
+
+
             ingredient = Ingredient.objects.get_or_create(name=ingredient_name)
-            metric = Metric.objects.get_or_create(name=metric_name)
-            RecipeIngredient.objects.create(recipe_ingredient_component=component, ingredient=ingredient[0], amount=recipe_ingredient.amount, metric=metric[0] )
+           
+            ingredientObj.recipe_ingredient_component_id = component.id
+            ingredientObj.amount = recipe_ingredient.amount
+            ingredientObj.ingredient = ingredient[0]
+            ingredientObj.save()
+
+        RecipeIngredient.objects.filter(pk__in=ingredient_ids).delete()
         return 
+    
     except Exception as error: 
         print(error)
+        return {"Message": f"recipe_ingredients_error: {error}"}
 
 def parse_and_create_recipe_instructional_components(recipe_instructional_component_data, recipe):
     try:
+        recipe_instructional_component_ids = list(RecipeInstructionalComponent.objects.filter(recipe_id=recipe.id).values_list('id', flat=True))
         recipe_instructional_component_data = json.loads(recipe_instructional_component_data, object_hook=lambda d: SimpleNamespace(**d))
-        for recipe_componet in recipe_instructional_component_data:
-            name = recipe_componet.componentName.upper()
-            component = RecipeInstructionalComponent.objects.create(recipe=recipe, component_name=name)
+        
+        for recipe_componet in recipe_instructional_component_data:   
+            if hasattr(recipe_componet, 'id') :
+                recipe_instructional_component, _ = RecipeInstructionalComponent.objects.get_or_create(pk=recipe_componet.id)
+                recipe_instructional_component_ids.remove(recipe_componet.id)
+            else:
+                recipe_instructional_component = RecipeInstructionalComponent()
+            
+            if hasattr(recipe_componet, 'componentName'):
+                name = recipe_componet.componentName.upper()
+                if recipe_instructional_component.component_name != name:
+                    recipe_instructional_component.component_name = name
+            
+            recipe_instructional_component.recipe_id = recipe.id
+            recipe_instructional_component.save()
+
             recipe_instructional_data = recipe_componet.instructions
-            parse_and_create_instructions(recipe_instructional_data, component)
+            parse_and_create_instructions(recipe_instructional_data, recipe_instructional_component)
+
+        RecipeInstructionalComponent.objects.filter(pk__in=recipe_instructional_component_ids).delete()
         return
+    
     except Exception as error: 
         print(error)
-
+        return {"Message": f"instructional_component_error: {error}"}
 
 def parse_and_create_instructions(recipe_instructional_data, component):
     try:
+        instructional_ids = list(Instruction.objects.filter(recipe_instructional_component_id=component.id).values_list('id', flat=True))
         for step in range(0, len(recipe_instructional_data)):
             instruction = recipe_instructional_data[step]
-            if instruction.description == "":
-                continue
-            if instruction.image:
-                image = upload_image(instruction.image)
-                if image:
-                    Instruction.objects.create(recipe_instructional_component=component, description=instruction.description, step_id=step+1, image=image)
-                    
+
+            if hasattr(instruction, 'id') and instruction.id != '':
+                recipe_instruction, _ = Instruction.objects.get_or_create(pk=instruction.id)
+                instructional_ids.remove(recipe_instruction.id)
             else:
-                Instruction.objects.create(recipe_instructional_component=component, description=instruction.description, step_id=step+1, image=None)
+                recipe_instruction = Instruction()
+           
+            if instruction.description == "" and instruction.image == "":
+                continue
+        
+            recipe_instruction.step_id = step + 1
+            if recipe_instruction.description != instruction.description:
+                recipe_instruction.description = instruction.description
+            recipe_instruction.recipe_instructional_component_id = component.id
+            recipe_instruction.save()
+        
+        Instruction.objects.filter(pk__in=instructional_ids).delete()
         return 
+    
     except Exception as error: 
         print(error)
+        return {"Message": f"instructions_error: {error}"}
 
 def parse_and_create_notes(notes, recipe):
-    notes = json.loads(notes, object_hook=lambda d: SimpleNamespace(**d))
-    for step in range(0, len(notes)):
-        note=notes[step]
-        if note.description == "":
-            continue
-        Note.objects.create(recipe=recipe, description=note.description, step_id=step+1)
-    return
+    try:
+        notes = json.loads(notes, object_hook=lambda d: SimpleNamespace(**d))
+        notes_ids = list(Note.objects.filter(recipe_id=recipe.id).values_list('id', flat=True))
+
+        for step in range(0, len(notes)):
+            note=notes[step]
+
+            if hasattr(note, 'id') and note.id != '':
+                recipe_note, _ = Note.objects.get_or_create(pk=note.id)
+                notes_ids.remove(recipe_note.id)
+            else:
+                recipe_note = Note()
+
+            if note.description == "":
+                continue
+
+            recipe_note.step_id = step + 1
+            recipe_note.description = note.description
+            recipe_note.recipe_id = recipe.id
+            recipe_note.save()
+
+        Note.objects.filter(pk__in=notes_ids).delete()
+        return
+    except Exception as error: 
+        print(error)
+        return {"Message": f"notes_error: {error}"}
+   
+
+# HELPER FUNCTIONS
 
 def upload_image(file):
     response = upload(file)
