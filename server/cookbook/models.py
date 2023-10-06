@@ -30,12 +30,12 @@ class Recipe(models.Model):
     title = models.CharField(max_length=128, null=False)
     author = models.CharField(max_length=128, null=True)
     url_slug = models.CharField(max_length=128, default="", null=True)
-    prep_time = models.IntegerField()
-    cook_time = models.IntegerField()
-    total_time = models.IntegerField(default=0, null=True)
+    prep_time = models.CharField(max_length=128, default="", null=True)
+    cook_time = models.CharField(max_length=128, default="", null=True)
+    total_time = models.CharField(max_length=128, default="", null=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default="", null=True)
     cuisine = models.ForeignKey(Cuisine, on_delete=models.PROTECT, default="", null=True)
-    serves = models.IntegerField()
+    serves = models.IntegerField(null=True)
     image = models.ForeignKey(Image, on_delete=models.CASCADE, default=None, null=True)
     source_link = models.TextField(default="", null=True)
     status = models.CharField(max_length=128, default="unpublished")
@@ -95,4 +95,3 @@ class Note(models.Model):
 
     def __str__(self):
         return "%s: %s" % (self.id, self.description)
-
