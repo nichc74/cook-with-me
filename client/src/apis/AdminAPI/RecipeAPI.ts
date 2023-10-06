@@ -16,7 +16,8 @@ export async function createRecipe(formData: any) {
         body: formData,
     };
     let response = await fetch(createRecipeEndpoint, options);
-    return response;
+    // console.log(await response.json());
+    return await response.json();
 } 
 
 export async function getRecipes() {

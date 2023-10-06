@@ -19,7 +19,6 @@ const SummaryForm = ({recipeSummary}: SummaryProps) => {
             id: recipeSummary.id,
             summary: summary
         }
-        console.log(summaryData);
         dispatch(updateSummary(summaryData));
     }, [recipeSummary, summary])
 

@@ -8,7 +8,6 @@ from cookbook.api.Cloudinary.Cloudinary import upload
 @transaction.atomic
 def parse_and_create_recipe(data):
     try:
-        # print(data)
         metadata = data['metadata']
         status = data['status']
         recipe = parse_and_create_recipe_metadata(metadata, status)
@@ -25,7 +24,7 @@ def parse_and_create_recipe(data):
         notes = data['notes']
         parse_and_create_notes(notes, recipe)
 
-        return data
+        return "Success"
     
     except Exception as error: 
         print(error)
@@ -66,9 +65,9 @@ def parse_and_create_recipe_metadata(data, status):
     
     except (json.JSONDecodeError, Exception) as error:
         print(error)
-        return None  # Handle the exception gracefully and return None or another suitable value
+        return {"recipe_error": error }
+        # return None  # Handle the exception gracefully and return None or another suitable value
     
-
 def parse_and_create_summary(summary_data, recipe):
     try:
         parsed_data = json.loads(summary_data, object_hook=lambda d: SimpleNamespace(**d))
@@ -90,7 +89,7 @@ def parse_and_create_summary(summary_data, recipe):
         recipe_summary.save()
 
     except Exception as error:
-        print(error)
+        return {"summary_error": error }
 
 def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_data, recipe):
     try:
@@ -120,7 +119,7 @@ def parse_and_create_recipe_ingredient_components(recipe_ingredient_component_da
         return
     
     except Exception as error: 
-        print(error)
+        return {"Message": f"recipe_ingredient_component_error: {error}"}
 
 def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     try:
@@ -156,6 +155,7 @@ def parse_and_create_recipe_ingredient(recipe_ingredient_data, component):
     
     except Exception as error: 
         print(error)
+        return {"Message": f"recipe_ingredients_error: {error}"}
 
 def parse_and_create_recipe_instructional_components(recipe_instructional_component_data, recipe):
     try:
@@ -185,7 +185,7 @@ def parse_and_create_recipe_instructional_components(recipe_instructional_compon
     
     except Exception as error: 
         print(error)
-
+        return {"Message": f"instructional_component_error: {error}"}
 
 def parse_and_create_instructions(recipe_instructional_data, component):
     try:
@@ -213,30 +213,36 @@ def parse_and_create_instructions(recipe_instructional_data, component):
     
     except Exception as error: 
         print(error)
+        return {"Message": f"instructions_error: {error}"}
 
 def parse_and_create_notes(notes, recipe):
-    notes = json.loads(notes, object_hook=lambda d: SimpleNamespace(**d))
-    notes_ids = list(Note.objects.filter(recipe_id=recipe.id).values_list('id', flat=True))
+    try:
+        notes = json.loads(notes, object_hook=lambda d: SimpleNamespace(**d))
+        notes_ids = list(Note.objects.filter(recipe_id=recipe.id).values_list('id', flat=True))
 
-    for step in range(0, len(notes)):
-        note=notes[step]
+        for step in range(0, len(notes)):
+            note=notes[step]
 
-        if hasattr(note, 'id') and note.id != '':
-            recipe_note, _ = Note.objects.get_or_create(pk=note.id)
-            notes_ids.remove(recipe_note.id)
-        else:
-            recipe_note = Note()
+            if hasattr(note, 'id') and note.id != '':
+                recipe_note, _ = Note.objects.get_or_create(pk=note.id)
+                notes_ids.remove(recipe_note.id)
+            else:
+                recipe_note = Note()
 
-        if note.description == "":
-            continue
+            if note.description == "":
+                continue
 
-        recipe_note.step_id = step + 1
-        recipe_note.description = note.description
-        recipe_note.recipe_id = recipe.id
-        recipe_note.save()
+            recipe_note.step_id = step + 1
+            recipe_note.description = note.description
+            recipe_note.recipe_id = recipe.id
+            recipe_note.save()
 
-    Note.objects.filter(pk__in=notes_ids).delete()
-    return
+        Note.objects.filter(pk__in=notes_ids).delete()
+        return
+    except Exception as error: 
+        print(error)
+        return {"Message": f"notes_error: {error}"}
+   
 
 # HELPER FUNCTIONS
 

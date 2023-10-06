@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { createRecipe, getRecipe, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.ts';
-import FormData from 'form-data';
-import './RecipeForm.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MetadataForm from "./Metadata/MetadataForm";
 import SummaryForm from "./Summary/SummaryForm";
 import IngredientForm from "./Ingredients/IngredientForm";
 import InstructionForm from "./Instructions/InstructionForm";
 import NoteForm from "./Notes/NoteForm";
+import FormData from 'form-data';
+import './RecipeForm.css';
 
 const RecipeForm = () => {
     const navigate = useNavigate();
@@ -27,8 +27,11 @@ const RecipeForm = () => {
     const [ingredientElements, setIngredientElements] = useState<Array<object> | null>(null)
     const [instructionalElements, setInstructionalElements] = useState<Array<object> | null>(null)
     const [recipeNotes, setRecipeNotes] = useState<Array<object> | null>(null);
+
     const [loading, setLoading] = useState(false);
     const [editing, setEditing] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const metadata = useSelector((state: any) => state.recipeReducer.metadata);
     const summary = useSelector((state: any) => state.recipeReducer.summary);
@@ -78,21 +81,23 @@ const RecipeForm = () => {
         try {
             prepFormData();
             formData.append('status', "unpublished");
-            console.dir(metadata);
-            console.dir(summary);
-            console.dir(recipeIngredientComponents);
-            console.dir(recipeInstructionalComponents);
-            console.dir(notes);
             const result = await createRecipe(formData);
+            handleApiResult(result);
         } catch (error: any) {
             console.log(error);
         }
     }
 
     const publishRecipeData = async () => {
-        prepFormData();
-        formData.append('status',  "published");
-        const result = await createRecipe(formData);
+        try {
+            prepFormData();
+            formData.append('status',  "published");
+            const result = await createRecipe(formData);
+            handleApiResult(result);
+        }   
+        catch (error : any) {
+        
+        }
     }
 
     const prepFormData = () => {
@@ -107,6 +112,14 @@ const RecipeForm = () => {
         navigate('/admin');
     }
 
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+
+    const handleApiResult = (result: any) => {
+        setOpenSnackbar(true);
+        setSnackbarMessage(result.Message);
+    }
 
     return (
         <div className="recipe-form">
@@ -141,6 +154,15 @@ const RecipeForm = () => {
                     </div>
                 </div>
             )}
+            
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}>
+                <Alert>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

@@ -30,9 +30,9 @@ def getRecipe(request, id):
 def postRecipe(request):
     try:
         response = parse_and_create_recipe(request.data)
-        return Response((response), status=200)
-    except:
-        return Response({"Message": "Error Occurred"}, status=500)
+        return Response({"Message": response}, status=200)
+    except Exception as error:
+        return Response({"Error": {error}}, status=500)
 
 @api_view(['POST'])
 def updateRecipeStatus(request, id):
