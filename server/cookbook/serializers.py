@@ -89,13 +89,23 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 class RecipeWithDataSerializer(serializers.ModelSerializer):
     metadata = serializers.SerializerMethodField()
-    recipe_summary = RecipeSummarySerializer(many=True, read_only=True, source='recipesummary_set')
+    recipe_summary = serializers.SerializerMethodField()
     recipe_ingredient_components = RecipeIngredientComponentSerializer(many=True, source='recipeingredientcomponent_set')
     recipe_instructional_components = RecipeInstructionalComponentSerializer(many=True, source='recipeinstructionalcomponent_set')
     notes = NoteSerializer(many=True, read_only=True, source='note_set')
 
     def get_metadata(self, instance):
         return RecipeSerializer(instance).data
+    
+    def get_recipe_summary(self, instance):
+        # Assuming 'recipesummary_set' is a related manager for RecipeSummary
+        summary_queryset = instance.recipesummary_set.all()
+        if summary_queryset.exists():
+            first_summary = summary_queryset[0]
+            return {'id': first_summary.id, 'summary': first_summary.summary}
+
+            
+        return None  # Handle the case where there's no summary
     
 
     class Meta:
