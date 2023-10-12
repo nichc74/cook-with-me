@@ -56,7 +56,7 @@ const RecipeForm = () => {
             const data = await getRecipe(location.state.url_slug, location.state.id);
             // setRecipeData(data);
             setRecipeMetadata(data.metadata);
-            setRecipeSummary(data.recipe_summary[0]);
+            setRecipeSummary(data.recipe_summary);
             setIngredientElements(data.recipe_ingredient_components);
             setInstructionalElements(data.recipe_instructional_components);
             setRecipeNotes(data.notes);

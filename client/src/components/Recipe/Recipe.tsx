@@ -33,7 +33,7 @@ const Recipe = ({ slug, recipe_id }: RecipeProps) => {
         {recipeDetails ? (
             <div>
                 <RecipeMetadata metadata={recipeDetails.metadata} />
-                <RecipeSummary summary={recipeDetails.recipe_summary[0].summary}/>
+                <RecipeSummary summary={recipeDetails.recipe_summary.summary}/>
                 <div className="RecipeDetailPage-body">
                     <div className="RecipeDetailPage-ingredient-body">
                       <RecipeIngredients recipeIngredientComponents={recipeDetails.recipe_ingredient_components} />
