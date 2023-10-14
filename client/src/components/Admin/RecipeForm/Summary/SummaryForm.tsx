@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 interface SummaryProps {
     recipeSummary: {
         id: number,
-        summary: Array<string>
+        summary: string
     }
 }
 
