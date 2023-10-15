@@ -24,7 +24,7 @@ def parse_and_create_recipe(data):
         notes = data['notes']
         parse_and_create_notes(notes, recipe)
 
-        return "Success"
+        return {'url_slug': recipe.url_slug, 'id': recipe.id}
     
     except Exception as error: 
         print(error)

@@ -10,12 +10,12 @@ interface MetadataProps {
     metadata: {
         author: string,
         category: string,
-        cook_time: number,
         cuisine: string,
         id: number,
         image: string,
-        prep_time: number,
-        total_time: number
+        prep_time: string,
+        cook_time: string,
+        total_time: string
         serves: number,
         source_link: string,
         status: string,
@@ -33,9 +33,9 @@ const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps
     const [author, setAuthor] = useState(metadata.author || "");
     const [cuisine, setCuisine] = useState<string | null>(metadata.cuisine || "");
     const [category, setCategory] = useState<string | null>(metadata.category || "");
-    const [prepTime, setPrepTime] = useState<number | undefined>(metadata.prep_time || undefined);
-    const [cookTime, setCookTime] = useState<number | undefined>(metadata.cook_time || undefined);
-    const [totalTime, setTotalTime] = useState<number | undefined>(metadata.total_time || undefined);
+    const [prepTime, setPrepTime] = useState<string | undefined>(metadata.prep_time || "");
+    const [cookTime, setCookTime] = useState<string | undefined>(metadata.cook_time || "");
+    const [totalTime, setTotalTime] = useState<string | undefined>(metadata.total_time || "");
     const [serves, setServes] = useState<number | undefined>(metadata.serves || undefined);
   
   
@@ -208,8 +208,7 @@ const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps
             <div className="recipe-form-metadata">
                 <TextField
                     id="outlined-number"
-                    label="Prep Time (minutes)"
-                    type="number"
+                    label="Prep Time"
                     style={{ width: 150 }}
                     InputLabelProps={{
                         shrink: true,
@@ -219,8 +218,7 @@ const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps
                 />
                 <TextField
                     id="outlined-number"
-                    label="Cook Time (minutes)"
-                    type="number"
+                    label="Cook Time"
                     style={{ width: 150 }}
                     InputLabelProps={{
                         shrink: true,
@@ -230,8 +228,7 @@ const MetadataForm = ({metadata, categoryPresets, cuisinePresets}: MetadataProps
                 />
                 <TextField
                     id="outlined-number"
-                    label="Total Time (minutes)"
-                    type="number"
+                    label="Total Time"
                     style={{ width: 150 }}
                     InputLabelProps={{
                         shrink: true,

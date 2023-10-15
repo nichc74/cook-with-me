@@ -13,7 +13,7 @@ def getRecipes(request):
 
 @api_view(['GET'])
 def getAllRecipes(request):
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.exclude(status='archived')
     return Response(RecipeSerializer(recipes, many = True).data)
 
 @api_view(['GET'])
@@ -30,7 +30,7 @@ def getRecipe(request, id):
 def postRecipe(request):
     try:
         response = parse_and_create_recipe(request.data)
-        return Response({"Message": response}, status=200)
+        return Response(response, status=200)
     except Exception as error:
         return Response({"Error": {error}}, status=500)
 

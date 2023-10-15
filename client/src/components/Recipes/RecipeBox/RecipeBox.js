@@ -2,17 +2,16 @@ import React from 'react';
 import './RecipeBox.css'
 import {useNavigate } from 'react-router-dom';
 // import Recipe from '../Recipe/Recipe';
-interface RecipeProps {
-    recipe: object,
-    togglePage: Number
-}
+// interface RecipeProps {
+//     recipe: object,
+//     togglePage: Number
+// }
 
 const RecipeBox = ({togglePage, recipe}) => {
     const navigate = useNavigate();
 
     function handleClick() {
-        navigate(recipe.url_slug)
-        console.log(recipe.id);
+        navigate(`/recipes${recipe.url_slug}`)
         togglePage(recipe.id);
     }
   
