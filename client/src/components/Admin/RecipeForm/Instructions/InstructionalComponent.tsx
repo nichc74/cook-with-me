@@ -22,7 +22,7 @@ interface InstructionProps {
 
 const InstructionalComponent = ({updateComponent, removeComponent, instructionalComponent, index}:InstructionalComponentProps) => {
     const [componentName, setComponentName] = useState(instructionalComponent.component_name || "")
-    const [instructions, setInstructions] = useState(instructionalComponent.instructions || new Array(3).fill({description: "", image: ""}));
+    const [instructions, setInstructions] = useState(instructionalComponent.instructions || new Array(6).fill({description: "", image: ""}));
 
     useEffect(() => {
         updateComponent({

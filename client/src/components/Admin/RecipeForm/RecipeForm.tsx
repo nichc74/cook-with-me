@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { createRecipe, getRecipe, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.ts';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MetadataForm from "./Metadata/MetadataForm";
 import SummaryForm from "./Summary/SummaryForm";
 import IngredientForm from "./Ingredients/IngredientForm";
 import InstructionForm from "./Instructions/InstructionForm";
 import NoteForm from "./Notes/NoteForm";
 import FormData from 'form-data';
+import Recipe from '../../Recipe/Recipe';
 import './RecipeForm.css';
 
 const RecipeForm = () => {
@@ -83,6 +84,7 @@ const RecipeForm = () => {
             formData.append('status', "unpublished");
             const result = await createRecipe(formData);
             handleApiResult(result);
+            navigate('/admin');
         } catch (error: any) {
             console.log(error);
         }
@@ -93,7 +95,9 @@ const RecipeForm = () => {
             prepFormData();
             formData.append('status',  "published");
             const result = await createRecipe(formData);
-            handleApiResult(result);
+            console.log(result);
+            handleApiResult(result.url_slug);
+            navigate(`/recipes${result.url_slug}/${result.id}`);
         }   
         catch (error : any) {
         

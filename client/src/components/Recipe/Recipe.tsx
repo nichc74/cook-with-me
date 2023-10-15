@@ -5,13 +5,16 @@ import RecipeSummary from "./RecipeSummary/RecipeSummary.tsx";
 import RecipeIngredients from "./RecipeIngredients/RecipeIngredients.tsx";
 import RecipeInstructions from "./RecipeInstructions/RecipeInstrunctions.tsx";
 import RecipeNotes from "./RecipeNotes/RecipeNotes.tsx";
+import { useParams } from "react-router-dom";
+import './Recipe.css';
 
 interface RecipeProps {
-  slug: string,
-  recipe_id: Number
+  slug: string 
+  recipe_id: number
 }
 
 const Recipe = ({ slug, recipe_id }: RecipeProps) => {
+  const params = useParams();
   const [recipeDetails, setRecipeDetails] = useState(null);
 
   useEffect(() => {
@@ -19,17 +22,24 @@ const Recipe = ({ slug, recipe_id }: RecipeProps) => {
   }, [recipe_id]);
 
   const fetchRecipeDetails = async () => {
+    let recipeDetail;
     try {
-      const recipeDetail = await getRecipe(slug, recipe_id);
+      if (Object.keys(params).length !== 0) {
+        recipeDetail = await getRecipe(params.slug, params.id);
+      }
+      else {
+        console.log('non-param?')
+        recipeDetail = await getRecipe(slug, recipe_id);
+      }
       setRecipeDetails(recipeDetail);
-      console.log(recipeDetail);
+
     } catch (error) {
       console.error("Error fetching recipe details:", error);
     }
   };
 
   return (
-    <div style={{display: "flex"}}>
+    <div className="recipe-detail-page">
         {recipeDetails ? (
             <div>
                 <RecipeMetadata metadata={recipeDetails.metadata} />

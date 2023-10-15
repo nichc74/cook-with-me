@@ -53,37 +53,37 @@ const InstructionItem = ({removeInstruction, updateInstructions, instruction, ke
                             </Tooltip>
                         </Button>
                     }
+                    <div style={{marginLeft: "auto", flexDirection: "row"}}>
+                        <label>
+                            <Button variant="contained" component="span">
+                                <Image/><Add/>
+                                <input
+                                    accept="image/*"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={handleImageUpload}
+                                />
+                            </Button>
+                        </label>                    
+                    </div>
                     <br/>
-                    <TextField
-                        multiline
-                        size="small"
-                        label="Instruction"
-                        variant="outlined"
-                        fullWidth
-                        rows={3} 
-                        value={description}
-                        onChange={(e) => {
-                            setDescription(e.target.value);
-                        }}
-                    />
-                    <br/>
-                 <div style={{display: 'flex', flexDirection: "row", justifyContent: "space-evenly"}}>
-                    <label>
-                        <Button style={{width: "100%"}} variant="contained" component="span">
-                            <Image/><Add/>
-                            <input
-                                accept="image/*"
-                                type="file"
-                                style={{ display: 'none' }}
-                                onChange={handleImageUpload}
-                            />
+                    <div style={{ display: "flex", flexDirection: "row"}}>
+                        <TextField
+                            multiline
+                            size="small"
+                            label="Instruction"
+                            variant="outlined"
+                            fullWidth
+                            value={description}
+                            onChange={(e) => {
+                                setDescription(e.target.value);
+                            }}
+                        />
+                        <Button color="error" style={{marginLeft: "auto"}} variant="contained" onClick={() => {removeInstruction(index)}}>
+                            <Remove/>
                         </Button>
-                    </label>
-                    <Button color="error" style={{marginLeft: "auto"}} variant="contained" onClick={() => {removeInstruction(index)}}>
-                        <Remove/>
-                    </Button>
-                    
-                </div>
+                    </div>
+                    <br/>
             </Paper>
         </Box>
     )

@@ -38,9 +38,11 @@ function App() {
             <Route exact path="/admin/recipe-form/create" element={<RecipeForm/> }/>
             <Route path="/admin/recipe-form/edit/*" element={<RecipeForm/>} />
             <Route exact path="/" element={<Recipes recipes={recipes}/> }/>
+            <Route path="/recipes/:slug/:id" element={<Recipe/>}/>
+            
             {
               recipes.map((recipe) => (
-                <Route key={recipe.id} exact path={recipe.url_slug} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
+                <Route key={recipe.id} path={`recipes${recipe.url_slug}`} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
               ))
             }
           </Routes>
