@@ -11,7 +11,7 @@ const RecipeMetadata = ({metadata}) => {
                 <div className="RecipeDetailPage-header-top">
                 <img
                     className="RecipeDetailPage-image"
-                    alt="something alt"
+                    alt="No Image Found"
                     src={metadata.image}
                 />
                 <div className="RecipeDetailPage-recipeTitle">

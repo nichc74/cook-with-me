@@ -23,7 +23,6 @@ def parse_and_create_recipe(data):
 
         notes = data['notes']
         parse_and_create_notes(notes, recipe)
-
         return {'url_slug': recipe.url_slug, 'id': recipe.id}
     
     except Exception as error: 
@@ -36,7 +35,8 @@ def parse_and_create_recipe_metadata(data, status):
         
         category, _ = Category.objects.get_or_create(category_name=parsed_data.category)
         cuisine, _ = Cuisine.objects.get_or_create(name=parsed_data.cuisine)
-
+        print(parsed_data.image)
+        # if (parsed_data.image == None):
         try:
             image = Image.objects.get(path=parsed_data.image)
         except Image.DoesNotExist:
@@ -245,12 +245,13 @@ def parse_and_create_notes(notes, recipe):
    
 
 # HELPER FUNCTIONS
-
 def upload_image(file):
-    response = upload(file)
-    image = Image.objects.create(path=response)
+    if (file):
+        response = upload(file)
+        image = Image.objects.create(path=response)
+    else:
+        image = Image.objects.get_or_create(path="https://res.cloudinary.com/dufsumsmb/image/upload/v1697333727/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb_sjnw93.jpg")
     return image
-
 
 def create_url_slug(title):
     url_slug = ""

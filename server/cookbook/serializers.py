@@ -103,11 +103,7 @@ class RecipeWithDataSerializer(serializers.ModelSerializer):
         if summary_queryset.exists():
             first_summary = summary_queryset[0]
             return {'id': first_summary.id, 'summary': first_summary.summary}
-        else:
-             return {'summary': ""}
-
-            
-        return None  # Handle the case where there's no summary
+        return {'summary': ""}
     
 
     class Meta:
