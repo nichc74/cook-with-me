@@ -1,7 +1,6 @@
 import React from "react";
 
 const Ingredient = ({ingredient}) => {
-    console.log(ingredient);
     let conversions = new Map();
     conversions.set(0.25, "1/4");
     conversions.set(0.5, "1/2");

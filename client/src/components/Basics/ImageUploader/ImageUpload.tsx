@@ -24,7 +24,6 @@ const ImageUpload = () => {
         }
 
         dispatch(updateImages(file));
-        console.log("path: " + file.name);
     };
 
     const removeImage = () => {

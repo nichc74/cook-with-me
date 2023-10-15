@@ -1,7 +1,7 @@
 
 
+// const endpoint = 'http://13.57.96.24:8000';
 const endpoint = 'http://localhost:8000';
-
 const headers = 
     {
         Accept: 'application/json',
@@ -9,7 +9,6 @@ const headers =
     };
 
 export async function createRecipe(formData: any) {
- 
     let createRecipeEndpoint = `${endpoint}/postRecipe`;
     
     const options = {
@@ -17,8 +16,6 @@ export async function createRecipe(formData: any) {
         body: formData,
     };
     let response = await fetch(createRecipeEndpoint, options);
-    // console.log(await response.json());
-    console.log(response);
     return await response.json();
 } 
 

@@ -2,7 +2,6 @@ import React from "react";
 import Ingredient from './Ingredient.tsx'
 
 const RecipeIngredients = ({recipeIngredientComponents}) => {
-    console.log(recipeIngredientComponents);
     return (
         <div style={{borderRight: "1px solid lightgray"}}>
             <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">

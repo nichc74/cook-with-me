@@ -8,6 +8,7 @@ import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
 import { getRecipes } from './apis/AdminAPI/RecipeAPI';
 import Header from './components/Basics/Header/Header.tsx';
 import RecipesPage from './components/Admin/RecipesPage/RecipesPage.tsx';
+import PageNotFound from './components/Pages/NotFound/PageNotFound.tsx';
 function App() {
   const [recipes, setRecipes] = useState([]);
 
@@ -18,7 +19,6 @@ function App() {
   const fetchRecipes = async () => { // Make fetchRecipes async
     try {
       const fetchedRecipes = await getRecipes();
-      console.log(fetchedRecipes);
       setRecipes(fetchedRecipes);
     } catch (error) {
       console.error('Error fetching recipes:', error);
@@ -39,12 +39,12 @@ function App() {
             <Route path="/admin/recipe-form/edit/*" element={<RecipeForm/>} />
             <Route exact path="/" element={<Recipes recipes={recipes}/> }/>
             <Route path="/recipes/:slug/:id" element={<Recipe/>}/>
-            
             {
               recipes.map((recipe) => (
                 <Route key={recipe.id} path={`recipes${recipe.url_slug}`} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
               ))
             }
+            <Route exact path="/*" element={<PageNotFound/>}/>
           </Routes>
         </div>
       </div>

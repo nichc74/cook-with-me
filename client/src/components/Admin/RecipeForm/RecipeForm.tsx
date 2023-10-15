@@ -109,8 +109,6 @@ const RecipeForm = () => {
         formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
         formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
         formData.append('notes', JSON.stringify(notes));
-        console.log(metadata);
-        console.log(formData.get('metadata'));
     }
 
     const onBack = () => {
