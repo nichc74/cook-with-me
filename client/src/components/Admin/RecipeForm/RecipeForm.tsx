@@ -84,7 +84,7 @@ const RecipeForm = () => {
             formData.append('status', "unpublished");
             const result = await createRecipe(formData);
             handleApiResult(result);
-            navigate('/admin');
+            navigate(`/recipes${result.url_slug}/${result.id}`);
         } catch (error: any) {
             console.log(error);
         }
@@ -95,12 +95,11 @@ const RecipeForm = () => {
             prepFormData();
             formData.append('status',  "published");
             const result = await createRecipe(formData);
-            console.log(result);
             handleApiResult(result.url_slug);
             navigate(`/recipes${result.url_slug}/${result.id}`);
         }   
         catch (error : any) {
-        
+            console.log(error);
         }
     }
 
@@ -110,6 +109,8 @@ const RecipeForm = () => {
         formData.append('recipeIngredientComponents', JSON.stringify(recipeIngredientComponents));
         formData.append('recipeInstructionalComponents', JSON.stringify(recipeInstructionalComponents));
         formData.append('notes', JSON.stringify(notes));
+        console.log(metadata);
+        console.log(formData.get('metadata'));
     }
 
     const onBack = () => {

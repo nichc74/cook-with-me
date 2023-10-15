@@ -9,6 +9,7 @@ const headers =
     };
 
 export async function createRecipe(formData: any) {
+ 
     let createRecipeEndpoint = `${endpoint}/postRecipe`;
     
     const options = {
@@ -17,6 +18,7 @@ export async function createRecipe(formData: any) {
     };
     let response = await fetch(createRecipeEndpoint, options);
     // console.log(await response.json());
+    console.log(response);
     return await response.json();
 } 
 
