@@ -2,15 +2,16 @@ from django.urls import path
 from . import views
 from django.conf import settings
 
-urlpatterns = [
-    path('recipes', views.getRecipes),
-    path('adminRecipes', views.getAllRecipes),
-    path('recipe/<id>/', views.getRecipe),
-    path('postRecipe', views.postRecipe),
-    path('metrics', views.getMetrics),
-    path('presets', views.getFormPresets),
-    path('ingredients', views.getIngredients),
-    path('categories', views.getCategories),
-    path('updateRecipeStatus/<id>/', views.updateRecipeStatus),
+pre_api_path = 'api/v1/'
 
+urlpatterns = [
+    path(f'{pre_api_path}recipes', views.getRecipes),
+    path(f'{pre_api_path}adminRecipes', views.getAllRecipes),
+    path(f'{pre_api_path}recipe/<id>/', views.getRecipe),
+    path(f'{pre_api_path}postRecipe', views.postRecipe),
+    path(f'{pre_api_path}metrics', views.getMetrics),
+    path(f'{pre_api_path}presets', views.getFormPresets),
+    path(f'{pre_api_path}ingredients', views.getIngredients),
+    path(f'{pre_api_path}categories', views.getCategories),
+    path(f'{pre_api_path}updateRecipeStatus/<id>/', views.updateRecipeStatus),
 ]

@@ -1,7 +1,9 @@
 
 
-// const endpoint = 'http://13.57.96.24:8000';
-const endpoint = 'http://localhost:8000';
+// const endpoint = 'http://13.57.96.24:8000'; 
+const endpoint = 'http://localhost:8000/api/v1';
+// const endpoint = 'https://api.foodbaby.qvinyl.com/orm_service/data-sync/';
+
 const headers = 
     {
         Accept: 'application/json',

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { createRecipe, getRecipe, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.ts';
+import { createRecipe, getRecipe, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.js';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MetadataForm from "./Metadata/MetadataForm";
 import SummaryForm from "./Summary/SummaryForm";

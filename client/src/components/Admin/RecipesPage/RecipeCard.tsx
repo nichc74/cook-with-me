@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.ts'
+import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js'
 
 interface RecipeObjectProp {
     id: number;

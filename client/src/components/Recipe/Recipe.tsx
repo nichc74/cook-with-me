@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getRecipe } from "../../apis/AdminAPI/RecipeAPI";
+import { getRecipe } from "../../apis/AdminAPI/RecipeAPI.js";
 import RecipeMetadata from "./RecipeMetadata/RecipeMetadata.tsx";
 import RecipeSummary from "./RecipeSummary/RecipeSummary.tsx";
 import RecipeIngredients from "./RecipeIngredients/RecipeIngredients.tsx";
@@ -28,7 +28,6 @@ const Recipe = ({ slug, recipe_id }: RecipeProps) => {
         recipeDetail = await getRecipe(params.slug, params.id);
       }
       else {
-        console.log('non-param?')
         recipeDetail = await getRecipe(slug, recipe_id);
       }
       setRecipeDetails(recipeDetail);
