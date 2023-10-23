@@ -12,10 +12,11 @@
     min-width: 50px;
     min-height: 50px;
     border-radius: 50%;
+    display: flex;
 }
 
 .IconTag-icon {
-    font-size: 40px;
+    font-size: 40px !important;
     margin: auto;
     display: flex;
     margin-top: 5px;
