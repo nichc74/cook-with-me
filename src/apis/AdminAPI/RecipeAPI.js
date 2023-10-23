@@ -2,7 +2,7 @@
 
 // const endpoint = 'http://13.57.96.24:8000'; 
 const endpoint = 'http://localhost:8000/api/v1';
-// const endpoint = 'https://api.foodbaby.qvinyl.com/orm_service/data-sync/';
+// const endpoint = 'https://api.foodbaby.qvinyl.app/data-sync/';
 
 const headers = 
     {

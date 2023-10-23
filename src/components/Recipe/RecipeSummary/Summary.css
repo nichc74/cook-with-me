@@ -3,3 +3,9 @@
     font-size: 20px;
     font-family: serif;
 }
+
+@media (max-width: 500px) {
+    .summary-container {
+        padding: 5%;
+    }
+}

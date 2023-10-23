@@ -37,8 +37,13 @@
 
 .RecipeDetailPage-header-bottom {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.Recipe-detail-top-border {
+    border-right: "1px solid lightgray";
 }
 
 .RecipeDetailPage-body-label {
@@ -70,6 +75,7 @@
     display: flex;
     flex-direction: row;
     border-top: 1px solid lightgray;
+
     /* background-color: grey; */
 }
 
@@ -85,15 +91,75 @@
     padding: 10px;
 } */
 
+.RecipeDetailPage-image-container {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 65%;
+    /* height: 100%; */
+}
+
 .RecipeDetailPage-recipeTitle {
     display: flex;
     align-items: center;
-    font-size: 72px;
-    margin-left: 64px;
+    font-size: 5vw;
+    width: 50%;
+    /* margin-left: 64px; */
     font-family: serif;
 }
 
 .RecipeDetailPage-image {
-    width: 40%;
+    /* width: 40%; */
     height: 100%;
 }
+
+@media (max-width: 500px) {
+    .RecipeDetailPage-header-top {
+      flex-direction: column;
+    }
+  
+    .RecipeDetailPage-image  {
+        justify-content: center;
+        display: block;
+        width: 100%;
+        /* border-radius: 50%; */
+        position: relative;
+        overflow: hidden;
+    }
+    /* .circular--portrait { position: relative; width: 200px; height: 200px; overflow: hidden; border-radius: 50%; } 
+    .circular--portrait img { width: 100%; height: auto; } */
+
+    .RecipeDetailPage-recipeTitle {
+        font-size: 36px;
+        margin: auto;
+        margin-top: 24px;
+        overflow-wrap: break-word;
+        width: 100%;
+        text-align: center;
+    }
+
+    .RecipeDetailPage-header {
+        padding: 36px;
+    }
+    
+    .RecipeDetailPage-body {
+        display: flex;
+        flex-direction: column;
+        padding: 5%;
+    }
+
+    .RecipeDetailPage-ingrs {
+        width: 100%;
+    }
+    
+    .RecipeDetailPage-instruction-body{
+        width: 100%;
+    }
+    
+    .RecipeDetailPage-ingredient-body {
+        width: 100%;
+    }
+    .instructions-container {
+        padding: 0px !important;
+    }
+  }
