@@ -50,7 +50,7 @@ const Recipe = ({ slug, recipe_id }: RecipeProps) => {
                     <div className="RecipeDetailPage-instruction-body">
                       <RecipeInstructions recipeComponentInstructions={recipeDetails.recipe_instructional_components} />
                     </div>
-                </div>
+                </div> 
                 <RecipeNotes notes={recipeDetails.notes} />
             </div>
         ) : (

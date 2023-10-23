@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom'; 
+import { Routes, Route, HashRouter } from 'react-router-dom'; 
 import './App.css';
 import Recipes from './components/Recipes/Recipes.tsx';
 import Recipe from './components/Recipe/Recipe.tsx';
@@ -11,6 +11,8 @@ import RecipesPage from './components/Admin/RecipesPage/RecipesPage.tsx';
 import PageNotFound from './components/Pages/NotFound/PageNotFound.tsx';
 function App() {
   const [recipes, setRecipes] = useState([]);
+
+  const path = '';
 
   useEffect(() => {
     fetchRecipes();
@@ -29,23 +31,25 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Header/>
-        <div style={{height: 16, width: "100%", background: "black"}}/>
+        {/* <div style={{height: 16, width: "100%", background: "black"}}/> */}
       </header>
       <div className="App-main-body">
         <div className="App-recipeBoxes">
-          <Routes>
-            <Route exact path="/admin" element={<RecipesPage recipes={recipes}/>}/>
-            <Route exact path="/admin/recipe-form/create" element={<RecipeForm/> }/>
-            <Route path="/admin/recipe-form/edit/*" element={<RecipeForm/>} />
-            <Route exact path="/" element={<Recipes recipes={recipes}/> }/>
-            <Route path="/recipes/:slug/:id" element={<Recipe/>}/>
-            {
-              recipes.map((recipe) => (
-                <Route key={recipe.id} path={`recipes${recipe.url_slug}`} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
-              ))
-            }
-            <Route exact path="/*" element={<PageNotFound/>}/>
-          </Routes>
+          {/* <HashRouter> */}
+            <Routes>
+              <Route exact path={`${path}admin`} element={<RecipesPage recipes={recipes}/>}/>
+              <Route exact path={`${path}admin/recipe-form/create`} element={<RecipeForm/> }/>
+              <Route path={`${path}admin/recipe-form/edit/*`} element={<RecipeForm/>} />
+              <Route exact path={`${path}`} element={<Recipes recipes={recipes}/> }/>
+              <Route path={`${path}recipes/:slug/:id`} element={<Recipe/>}/>
+              {
+                recipes.map((recipe) => (
+                  <Route key={recipe.id} path={`${path}recipes${recipe.url_slug}`} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
+                ))
+              }
+              <Route exact path="/*" element={<PageNotFound/>}/>
+            </Routes>
+          {/* </HashRouter> */}
         </div>
       </div>
       <footer className="App-footer">

@@ -1,13 +1,24 @@
 .IconTag-main {
     display: flex;
     flex-direction: row;
+    padding: 5px;
+    width: 120px;
 }
 
-.IconTag-icon {
+.IconTag-icon-container {
     background-color: #ababab;
     height: 50px;
     width: 50px;
+    min-width: 50px;
+    min-height: 50px;
     border-radius: 50%;
+}
+
+.IconTag-icon {
+    font-size: 40px;
+    margin: auto;
+    display: flex;
+    margin-top: 5px;
 }
 
 .IconTag-info {

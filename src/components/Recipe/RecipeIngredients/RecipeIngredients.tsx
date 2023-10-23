@@ -3,7 +3,7 @@ import Ingredient from './Ingredient.tsx'
 
 const RecipeIngredients = ({recipeIngredientComponents}) => {
     return (
-        <div style={{borderRight: "1px solid lightgray"}}>
+        <div className="Recipe-detail-top-border">
             <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
                 Ingredients
             </div>
