@@ -1,20 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Recipes from "./Recipes.tsx";
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Pagination, Select, TextField } from "@mui/material";
 import "./RecipeAdmin.css";
+import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
 import { useNavigate } from "react-router-dom";
 
-interface RecipesPageProps {
-    recipes: Array<Object>
-}
+// interface RecipesPageProps {
+//     recipes: Array<Object>
+// }
 
-const RecipesPage = ({recipes}: RecipesPageProps) => {
+const RecipesPage = ({}) => {
     const navigate = useNavigate();
+
+    const [page, setPage] = React.useState(1);
     const [status, setStatus] = useState("");
     const [category, setCategory] = useState("");
+    const [recipes, setRecipes] = useState([]);
+    const [numPages, setNumPages] = useState(0);
+    
+    useEffect(() => {
+        fetchRecipes();
+    }, []);
 
     const onClickAddRecipe = () => {
         navigate("recipe-form/create");
+    }
+
+    const fetchRecipes = async () => { // Make fetchRecipes async
+        try {
+            fetchRecipePage(1);
+        } catch (error) {
+          console.error('Error fetching recipes:', error);
+        }
+      };
+
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+        fetchRecipePage(value);
+    };
+
+    const fetchRecipePage = async (pageNumber: number) => {
+        if (pageNumber === page) {
+            return;
+        }
+        const fetchedRecipes = await getAllRecipesInAdmin(pageNumber);
+        setRecipes(fetchedRecipes.recipes);
+        setNumPages(fetchedRecipes.numPages);
     }
 
 
@@ -60,7 +92,12 @@ const RecipesPage = ({recipes}: RecipesPageProps) => {
             <div className="applied-filters-container">
                 <Button>Clear Filter</Button>
             </div>
-            <Recipes/>
+            
+            <Recipes recipes={recipes} />
+
+            <div className="AdminPage-pagination-container">
+                <Pagination page={page} onChange={handleChange} count={numPages}/>
+            </div>
         </div>
     )
 }
