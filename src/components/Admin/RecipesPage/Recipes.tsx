@@ -32,11 +32,11 @@ const Recipes = ({}) => {
                         <TableCell align="left"><b>Status</b></TableCell>
                         <TableCell align="left"><b>Category</b></TableCell>
                         <TableCell align="left"><b>Date</b></TableCell>
-                        <TableCell align="left"><b>Options</b></TableCell>
+                        <TableCell align="center"><b>Options</b></TableCell>
                     </TableRow>
                 </TableHead>
-            <TableBody>
-                {recipes.map((recipe: any) => (
+                <TableBody>
+                    {recipes.map((recipe: any) => (
                     <TableRow
                         key={recipe.title}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -48,14 +48,14 @@ const Recipes = ({}) => {
                             {recipe.title}
                         </TableCell>
                     
-                    <TableCell align="left">{recipe.status}</TableCell>
-                    <TableCell align="left">{recipe.category}</TableCell>
-                    <TableCell align="left"></TableCell>
-                    <TableCell align="left"><RecipeAdminOptions key={recipe.id} recipe={recipe} /></TableCell>
+                        <TableCell align="left">{recipe.status}</TableCell>
+                        <TableCell align="left">{recipe.category}</TableCell>
+                        <TableCell align="left"></TableCell>
+                        <TableCell align="left"><RecipeAdminOptions key={recipe.id} recipe={recipe} /></TableCell>
                     </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     )
 }

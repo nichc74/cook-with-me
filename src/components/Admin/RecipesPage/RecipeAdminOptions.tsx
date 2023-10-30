@@ -32,7 +32,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
     }
 
     return (
-        <div style={{padding: 10}}>
+        <div style={{padding: 10, display: "flex", justifyContent: "space-evenly", overflowWrap: "normal", flexWrap: "wrap"}}>
             {
                 recipeStatus === "published" ? 
                 <Button color="success" size="small" onClick={() => publishingOnClick("unpublished")}>Unpublish</Button>
