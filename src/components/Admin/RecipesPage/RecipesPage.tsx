@@ -36,14 +36,15 @@ const RecipesPage = ({}) => {
 
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        setPage(value);
-        fetchRecipePage(value);
+        if (value !== page) {
+            setPage(value);
+            fetchRecipePage(value);
+        }
     };
 
     const fetchRecipePage = async (pageNumber: number) => {
-        if (pageNumber === page) {
-            return;
-        }
+        console.log("pageNumber: " + pageNumber);
+        console.log("page: " + page);
         const fetchedRecipes = await getAllRecipesInAdmin(pageNumber);
         setRecipes(fetchedRecipes.recipes);
         setNumPages(fetchedRecipes.numPages);
