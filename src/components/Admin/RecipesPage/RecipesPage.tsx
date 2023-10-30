@@ -26,7 +26,7 @@ const RecipesPage = ({}) => {
         navigate("recipe-form/create");
     }
 
-    const fetchRecipes = async () => { // Make fetchRecipes async
+    const fetchRecipes = async () => {
         try {
             fetchRecipePage(1);
         } catch (error) {
@@ -43,8 +43,6 @@ const RecipesPage = ({}) => {
     };
 
     const fetchRecipePage = async (pageNumber: number) => {
-        console.log("pageNumber: " + pageNumber);
-        console.log("page: " + page);
         const fetchedRecipes = await getAllRecipesInAdmin(pageNumber);
         setRecipes(fetchedRecipes.recipes);
         setNumPages(fetchedRecipes.numPages);
