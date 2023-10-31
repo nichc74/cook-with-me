@@ -50,7 +50,7 @@ const RecipesPage = ({}) => {
 
 
     return (
-        <div>
+        <div style={{width: '100%'}}>
             <div className="admin-header">
                 <h1>Recipes</h1>
                 <Button style={{height: 50, margin: "auto 0px"}} onClick={onClickAddRecipe} size="small" variant="contained">Add Recipe</Button>
