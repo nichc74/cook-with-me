@@ -27,11 +27,12 @@ const Recipes = ({}) => {
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
+                        <TableCell align="left"><b>ID</b></TableCell>
                         <TableCell/>
                         <TableCell><b>Recipe</b></TableCell>
                         <TableCell align="left"><b>Status</b></TableCell>
                         <TableCell align="left"><b>Category</b></TableCell>
-                        <TableCell align="left"><b>Date</b></TableCell>
+                        <TableCell align="left"><b>Last Updated</b></TableCell>
                         <TableCell align="center"><b>Options</b></TableCell>
                     </TableRow>
                 </TableHead>
@@ -41,6 +42,7 @@ const Recipes = ({}) => {
                         key={recipe.title}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
+                        <TableCell>{recipe.id}</TableCell>
                         <TableCell component="th" scope="row">
                             <img style={{width: 100, height: 100, objectFit: "cover"}} src={recipe.image}/>
                         </TableCell>
