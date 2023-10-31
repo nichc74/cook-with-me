@@ -2,7 +2,7 @@
 
 // const endpoint = 'http://13.57.96.24:8000'; 
 const endpoint = 'http://localhost:8000/api/v1';
-// const endpoint = 'https://api.foodbaby.qvinyl.app/data-sync/';
+// const endpoint = 'https://api.foodbaby.qvinyl.app/data-sync';
 
 const headers = 
     {
@@ -55,7 +55,7 @@ export async function getRecipe(url_slug: string, id: number) {
     return await recipe;
 }
 
-export async function updateRecipeStatus(id: number, status: string) {
+export async function updateRecipeStatus(id, status) {
     let fetchRecipeEndpoint = `${endpoint}/updateRecipeStatus/${id}/`;
 
     const options = {

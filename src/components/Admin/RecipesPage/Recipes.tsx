@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RecipeAdminOptions from "./RecipeAdminOptions.tsx";
+import RecipeDataRow from "./RecipeDataRow.tsx";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -28,23 +28,7 @@ const Recipes = ({recipes}: RecipesPageProps) => {
                 </TableHead>
                 <TableBody>
                     {recipes.map((recipe: any) => (
-                    <TableRow
-                        key={recipe.title}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                        <TableCell>{recipe.id}</TableCell>
-                        <TableCell component="th" scope="row">
-                            <img style={{width: 100, height: 100, objectFit: "cover"}} src={recipe.image}/>
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                            {recipe.title}
-                        </TableCell>
-                    
-                        <TableCell align="left">{recipe.status}</TableCell>
-                        <TableCell align="left">{recipe.category}</TableCell>
-                        <TableCell align="left"></TableCell>
-                        <TableCell align="left"><RecipeAdminOptions key={recipe.id} recipe={recipe} /></TableCell>
-                    </TableRow>
+                        <RecipeDataRow key={recipe.id} recipe={recipe}/>
                     ))}
                 </TableBody>
             </Table>
