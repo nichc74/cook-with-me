@@ -37,7 +37,7 @@ function App() {
         <div className="App-recipeBoxes">
           {/* <HashRouter> */}
             <Routes>
-              <Route exact path={`${path}admin`} element={<RecipesPage recipes={recipes}/>}/>
+              <Route exact path={`${path}admin`} element={<RecipesPage/>}/>
               <Route exact path={`${path}admin/recipe-form/create`} element={<RecipeForm/> }/>
               <Route path={`${path}admin/recipe-form/edit/*`} element={<RecipeForm/>} />
               <Route exact path={`${path}`} element={<Recipes recipes={recipes}/> }/>

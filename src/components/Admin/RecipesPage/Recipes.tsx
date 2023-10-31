@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard.tsx";
-import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
+// import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
 
-const Recipes = ({}) => {
-    const [recipes, setRecipes] = useState([]);
-    useEffect(() => {
-        fetchRecipes();
-    }, []);
+interface RecipesPageProps {
+    recipes: Array<Object>
+}
 
-    const fetchRecipes = async () => { // Make fetchRecipes async
-        try {
-          const fetchedRecipes = await getAllRecipesInAdmin();
-          setRecipes(fetchedRecipes);
-        } catch (error) {
-          console.error('Error fetching recipes:', error);
-        }
-      };
-
+const Recipes = ({recipes}: RecipesPageProps) => {
     return (
         <div style={{display: "flex", flexWrap: "wrap", justifyContent:"space-evenly"}}>
-        {
-            recipes.map((recipe: any) => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
-            ))
-        }
+          {
+              recipes.map((recipe: any) => (
+                  <RecipeCard key={recipe.id} recipe={recipe} />
+              ))
+          }
         </div>
     )
 }

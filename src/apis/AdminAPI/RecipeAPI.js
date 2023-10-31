@@ -32,15 +32,16 @@ export async function getRecipes() {
     return await recipes;
 }
 
-export async function getAllRecipesInAdmin() {
-    let fetchRecipeEndpoint = `${endpoint}/adminRecipes`;
+export async function getAllRecipesInAdmin(pageNumber) {
+    // let fetchRecipeEndpoint = `${endpoint}/adminRecipes`;
+    let fetchRecipeEndpoint = `${endpoint}/recipes/page/${pageNumber}`;
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
         headers: headers
     });
 
-    let recipe = await response.json();
-    return await recipe;
+    let results = await response.json();
+    return await results;
 }
 
 export async function getRecipe(url_slug: string, id: number) {
