@@ -7,21 +7,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
 
-const Recipes = ({}) => {
-    const [recipes, setRecipes] = useState([]);
-    useEffect(() => {
-        fetchRecipes();
-    }, []);
+interface RecipesPageProps {
+    recipes: Array<Object>
+}
 
-    const fetchRecipes = async () => { // Make fetchRecipes async
-        try {
-          const fetchedRecipes = await getAllRecipesInAdmin();
-          setRecipes(fetchedRecipes);
-        } catch (error) {
-          console.error('Error fetching recipes:', error);
-        }
-      };
-
+const Recipes = ({recipes}: RecipesPageProps) => {
     return (
         <div style={{display: "block", flexWrap: "wrap", width:"100%"}}>
             <Table aria-label="simple table">
