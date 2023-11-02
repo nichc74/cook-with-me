@@ -4,8 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import './Instruction.css';
 
 interface InstructionItemProps {
-    key: Number,
-    index: Number,
+    index: number,
     instruction: {
         description: string,
         image: string
@@ -14,7 +13,7 @@ interface InstructionItemProps {
     updateInstructions: Function
 }
 
-const InstructionItem = ({removeInstruction, updateInstructions, instruction, key, index} : InstructionItemProps) => {
+const InstructionItem = ({removeInstruction, updateInstructions, instruction, index} : InstructionItemProps) => {
     const [image, setImage] = useState(instruction.image || "");
     const [description, setDescription] = useState(instruction.description || "");
     

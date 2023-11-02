@@ -3,29 +3,33 @@ import {updateRecipeIngredientComponent} from  '../../../../store/actions/recipe
 import IngredientComponent from "./IngredientComponent";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
+import {newId, createNewItems} from '../../../../helpers/generateNewItems.js';
 
 interface IngredientComponentProps {
-    componentName: string
+    id: string,
+    componentName: string,
     ingredients: Array<Object>
 }
 
 interface RecipeFormProps {
     metricPresets: Array<string>,
     ingredientPresets:  Array<string>,
-
     ingredientElements: Array<IngredientComponentProps>
 }
 
+
+
 const IngredientForm = ({metricPresets, ingredientPresets, ingredientElements}: RecipeFormProps) => {
     const dispatch = useDispatch();
-    const [ingredientComponents, setIngredientComponents] = useState(ingredientElements || [{}]);
+    const [ingredientComponents, setIngredientComponents] = useState(ingredientElements || [ {id: newId(),  componentName: "", ingredients: createNewItems(5, {id: "", amount: "", metric: "", name: ""}) }]);
+
    
     useEffect(() => {
         dispatch(updateRecipeIngredientComponent(ingredientComponents));
     }, [ingredientComponents]);
 
     const addNewComponent = () => {
-        setIngredientComponents([...ingredientComponents, { componentName: "", ingredients: new Array(5).fill({id: null, amount: "", metric: "", name: ""}) }]);
+        setIngredientComponents([...ingredientComponents, { id: newId(), componentName: "", ingredients: createNewItems(5, {id: "", amount: "", metric: "", name: ""}) }]);
     }
 
     const removeComponent = (index: Number) => {
@@ -44,6 +48,7 @@ const IngredientForm = ({metricPresets, ingredientPresets, ingredientElements}: 
             }
             return component;
         })
+        
         setIngredientComponents(updatedIngredients);
     }
 

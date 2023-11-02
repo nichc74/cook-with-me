@@ -6,10 +6,10 @@ interface IngredientItemProps {
     removeIngredient: Function,
     updateIngredientList: Function,
     index: Number,
-    key: Number,
     metricPresets: Array<string>,
     ingredientPresets: Array<string>,
     ingredient: {
+        id: number | null,
         amount: string,
         metric: string,
         name: string
@@ -17,7 +17,7 @@ interface IngredientItemProps {
 }
 
 const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, metricPresets, ingredientPresets, index}: IngredientItemProps) => {
-    const [id, setId] = useState<string | null>(ingredient.id || "");
+    const [id, setId] = useState<number | null>(ingredient.id || null );
     const [amount, setAmount] = useState<string | null>(ingredient.amount || "");
     const [metric, setMetric] = useState<string | null>(ingredient.metric || "");
     const [name, setName] = useState<string | null> (ingredient.name || "");
@@ -71,7 +71,7 @@ const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, me
                     renderInput={(params) => <TextField {...params} id="ingredient" fullWidth label="Ingredient" variant="outlined" />
                 }
                 />
-                <Button color="error" variant="contained" onClick={() => {deleteItem()}}><Remove/></Button>
+                <Button color="error" variant="contained" onClick={deleteItem}><Remove/></Button>
             </Paper>
         </Box>
     )

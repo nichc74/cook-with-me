@@ -77,6 +77,7 @@ export async function getFormPresets() {
         method: 'GET',
         headers: headers
     });
+    
     let presets = response.json();
     return await presets;
 }

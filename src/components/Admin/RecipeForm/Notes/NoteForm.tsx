@@ -4,8 +4,12 @@ import {updateRecipeNotes} from  '../../../../store/actions/recipeActions.js';
 import { useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import {newId, createNewItems} from '../../../../helpers/generateNewItems.js';
+
 
 interface NoteItemProps {
+    id: number,
+    index: number,
     stepId: number,
     description: string
 }
@@ -17,14 +21,14 @@ interface RecipeNotesProps {
 const NoteForm = ({recipeNotes}: RecipeNotesProps) => {
     const dispatch = useDispatch();
 
-    const [notes, setNotes] = useState(recipeNotes || [{description: "", stepId: 1}, {description: "", stepId: 2}, {description: "", stepId: 3}, {description: "", stepId: 4}, {description: "", stepId: 5}])
+    const [notes, setNotes] = useState(recipeNotes || createNewItems(5, { id: "", description: "" }));
 
     useEffect(() => {
         dispatch(updateRecipeNotes(notes));
     }, [recipeNotes, notes])
 
     const addNewNote = () => {
-        setNotes([...notes, {description: "", stepId: notes.length }]);
+        setNotes([...notes, {id: newId(), description: "", stepId: notes.length, index: notes.length-1}]);
     }
 
     const removeNote = (index: Number) => {
@@ -55,7 +59,7 @@ const NoteForm = ({recipeNotes}: RecipeNotesProps) => {
                     <NoteItem
                         removeNote={removeNote}
                         index={index}
-                        key={index} 
+                        key={note.id} 
                         note={note}   
                         updateNotes={updateNotes}
                     />
