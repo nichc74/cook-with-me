@@ -6,7 +6,6 @@ import { Add, Delete } from "@mui/icons-material";
 interface IngredientComponentProps {
     updateComponent: Function,
     removeComponent: Function,
-    key: number,
     index: number,
     metricPresets: Array<string>,
     ingredientPresets: Array<string>,
@@ -23,9 +22,9 @@ interface IngredientProps {
     name: string,
 }
 
-const IngredientComponent = ({updateComponent, removeComponent, ingredientComponent, metricPresets, ingredientPresets, key, index}: IngredientComponentProps) => {
+const IngredientComponent = ({updateComponent, removeComponent, ingredientComponent, metricPresets, ingredientPresets, index}: IngredientComponentProps) => {
     const[componentName, setComponentName] = useState(ingredientComponent.component_name || "");
-    const[ingredients, setIngredients] = useState(ingredientComponent.ingredients || new Array(5).fill({amount: "", metric: "", name: ""}));
+    const[ingredients, setIngredients] = useState(ingredientComponent.ingredients);
 
     useEffect(() => {
         updateComponent({
@@ -39,12 +38,12 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
     }
 
     const addNewIngredient = () => {
-        setIngredients([...ingredients, {id: null, amount: "", metric: "", name: ""}]);
+        setIngredients([...ingredients, {id: Math.floor(Math.random()*10), amount: "", metric: "", name: ""}]);
     }
 
     const removeIngredient = (index: number) => {
-        const updatedComponents = ingredients.filter((_, idx) => idx !== index);
-        setIngredients(updatedComponents);
+        const updatedIngredients = ingredients.filter((_, idx) => idx !== index);
+        setIngredients(updatedIngredients);
     }
 
     const updateIngredientList = (updatedIngredient: IngredientProps, index: number) => {
@@ -75,8 +74,8 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
                 {
                     ingredients.map((ingredient, index) => (
                         <IngredientItem 
-                            key={ingredient.id || index}
                             index={index}
+                            key={ingredient.id}
                             ingredientPresets={ingredientPresets}
                             metricPresets={metricPresets}
                             ingredient={ingredient}

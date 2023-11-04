@@ -20,9 +20,9 @@ interface InstructionProps {
     image: string,
 }
 
-const InstructionalComponent = ({updateComponent, removeComponent, instructionalComponent, index}:InstructionalComponentProps) => {
+const InstructionalComponent = ({updateComponent, removeComponent, instructionalComponent, index} :InstructionalComponentProps) => {
     const [componentName, setComponentName] = useState(instructionalComponent.component_name || "")
-    const [instructions, setInstructions] = useState(instructionalComponent.instructions || new Array(6).fill({description: "", image: ""}));
+    const [instructions, setInstructions] = useState(instructionalComponent.instructions);
 
     useEffect(() => {
         updateComponent({
@@ -71,7 +71,7 @@ const InstructionalComponent = ({updateComponent, removeComponent, instructional
                 {
                     instructions.map((instruction, index) => (
                         <InstructionItem
-                            key={instruction.id || index}
+                            key={instruction.id}
                             index={index}
                             instruction={instruction}
                             removeInstruction={removeInstruction}

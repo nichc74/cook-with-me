@@ -4,8 +4,10 @@ import RecipeComponent from "../../../Basics/RecipeComponent/RecipeComponent";
 import {updateRecipeInstructionalComponent} from  '../../../../store/actions/recipeActions.js';
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
+import {newId, createNewItems} from '../../../../helpers/generateNewItems.js';
 
 interface InstructionalComponentProps {
+    id: string,
     componentName: string
     instructions: Array<Object>
 }
@@ -14,17 +16,16 @@ interface RecipeFormProps {
     instructionalElements: Array<InstructionalComponentProps>
 }
 
-
 const InstructionForm = ({instructionalElements}: RecipeFormProps) => {
     const dispatch = useDispatch();
-    const [instructionalComponent, setInstructionalComponent] = useState(instructionalElements || [{}])
+    const [instructionalComponent, setInstructionalComponent] = useState(instructionalElements || [ {id: newId(),  componentName: "", instructions: createNewItems(6, { id: "", description: "", image: ""}) }]);
    
     useEffect(() => {
         dispatch(updateRecipeInstructionalComponent(instructionalComponent));
     }, [instructionalComponent]);
 
     const addNewComponent = () => {
-        setInstructionalComponent([...instructionalComponent, { componentName: "", instructions: new Array(3).fill({description: "", image: ""})}]);
+        setInstructionalComponent([...instructionalComponent, { id: newId(), componentName: "", instructions: createNewItems(6, { id: "", description: "", image: ""}) }]);
     }
 
     const removeComponent = (index: Number) => {
