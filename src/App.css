@@ -43,10 +43,10 @@
 
 .App-main-body {
   background-color: white;
-  min-height: 100vh;
+  height: 100%;
   margin: auto;
   /* width: 60%; */
-  max-width: 1200px;
+  /* max-width: 1250px; */
 }
 
 @keyframes App-logo-spin {
@@ -61,6 +61,7 @@
 .App-recipeBoxes {
   /* display: flex;
   flex-direction: row; */
+  height: inherit;
   flex-wrap: wrap;
   justify-content: center;
 }

@@ -3,10 +3,11 @@ import "./Notes.css"
 const RecipeNotes = ({notes}) => {
     return (
         <div className="notes-container">
-            <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
-                Notes
-            </div>
-            
+            { notes.length > 0 && 
+                 <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">
+                    Notes
+                </div>
+            }
             {
                 notes.map((note: any, index: number) => (
                     <div className="RecipeDetailPage-ingr">
@@ -17,6 +18,7 @@ const RecipeNotes = ({notes}) => {
                     </div>
                 ))
             }
+           
         </div>
     )
 }
