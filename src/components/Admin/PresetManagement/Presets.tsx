@@ -1,5 +1,6 @@
-import { Box, Tabs, Tab, CustomTabPanel, Typography } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 import React from "react";
+import PresetList from "./PresetList";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -7,7 +8,7 @@ interface TabPanelProps {
     value: number;
 }
 
-const Presets = () => {
+const Presets = ({metrics, categories, ingredients, cuisines } : any) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -27,7 +28,7 @@ const Presets = () => {
             >
                 {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    {children}
                 </Box>
                 )}
             </div>
@@ -42,9 +43,8 @@ const Presets = () => {
         };
     }
   
-      
     return (
-        <div>
+        <div style={{width: '75%', maxWidth: "750px"}}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Metrics" {...a11yProps(0)} />
@@ -52,19 +52,19 @@ const Presets = () => {
                     <Tab label="Categories" {...a11yProps(2)} />
                     <Tab label="Cusines" {...a11yProps(3)} />
                 </Tabs>
-                </Box>
-                <CustomTabPanel value={value} index={0}>
-                    Metrics
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
-                    Ingredients
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={2}>
-                    Categories
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={3}>
-                    Cusines
-                </CustomTabPanel>
+            </Box>
+            <CustomTabPanel value={value} index={0}>
+                <PresetList presets={metrics}/>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+                <PresetList presets={ingredients}/>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+                <PresetList presets={categories}/>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={3}>
+                <PresetList presets={cuisines}/>
+            </CustomTabPanel>
         </div>
     )
 }

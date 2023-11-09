@@ -1,0 +1,16 @@
+.preset-item {
+    display: flex;
+    flex-direction: row;
+    max-width: 500px;
+    
+}
+
+.preset-item :hover {
+    background: blue;
+}
+
+.preset-item-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+}
