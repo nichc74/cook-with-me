@@ -18,8 +18,8 @@ const ConfirmationModal = ({isOpen, cancelDelete, preset, presetType, removeElem
 
     const deleteAndRemovePreset = async () => {
         const response = await deletePreset(presetType, preset.id);
-        console.dir(response);
-        if (response.message == "Sucess") {
+        
+        if (response.message == "Sucess" || response) {
             removeElement(presetType, preset.id);
             successfulRemoval("Successfully Removed Element", true);
         }
@@ -34,10 +34,12 @@ const ConfirmationModal = ({isOpen, cancelDelete, preset, presetType, removeElem
             <DialogTitle>Confirmation</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Permanently delete Preset? This will effect all recipes that use this item.
+                    Permanently delete Preset? 
                     <br/>
                     <br/>
                     <b>{preset.name}</b>
+
+                    <p style={{color: "red"}}>This will affect all recipes that use this item, including published recipes.</p>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

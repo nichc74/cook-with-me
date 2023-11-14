@@ -48,7 +48,7 @@ export async function deletePreset(presetType, id) {
         const response = await fetch(deletePresetEndpoint, options);
 
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`HTTP error! Status: ${response.statusText}`);
         }
         return response.ok;
     } catch (error) {

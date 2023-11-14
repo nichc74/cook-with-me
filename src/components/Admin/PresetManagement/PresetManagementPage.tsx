@@ -26,6 +26,7 @@ const PresetManagementPage = () => {
     };
 
     const removeElement = (presetType: string, id: number) => {
+        console.log("removing element");
         switch(presetType) {
             case 'metric':
                 const updatedMetrics = metrics.filter((metric, index) => metric.id !== id);
@@ -43,7 +44,6 @@ const PresetManagementPage = () => {
                 break;
 
             case 'cuisine':
-                console.log()
                 const updatedCuisines = cuisines.filter((cuisine, index) => cuisine.id !== id);
                 setCuisines(updatedCuisines)
                 break;
@@ -55,7 +55,7 @@ const PresetManagementPage = () => {
             <div className="admin-header">
                 <h1>Presets</h1>
             </div>
-            
+
             <Presets
                 metrics={metrics}
                 categories={categories}
