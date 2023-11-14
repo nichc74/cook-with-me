@@ -1,5 +1,6 @@
 import React from "react";
 import RecipeBox from './RecipeBox/RecipeBox.js';
+import './Recipes.css';
 
 interface RecipesProps {
     recipes: Array<Object>,
@@ -8,7 +9,7 @@ interface RecipesProps {
 
 const Recipes = ({recipes, togglePage}: RecipesProps) => {
     return (
-        <div style={{display: "flex", flexWrap: "wrap", justifyContent:"space-evenly"}}>
+        <div className="recipe-container">
             {
                 recipes.map((recipe: any) => (
                     <RecipeBox key={recipe.id} togglePage={togglePage} recipe={recipe}/>

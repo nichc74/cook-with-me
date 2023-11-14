@@ -1,6 +1,16 @@
 import React from "react";
 import "./Notes.css"
-const RecipeNotes = ({notes}) => {
+
+interface NotesProps { 
+    notes: Array<NoteProps>
+}
+
+interface NoteProps {
+    stepId: number;
+    description: string;
+}
+
+const RecipeNotes = ({notes}: NotesProps) => {
     return (
         <div className="notes-container">
             { notes.length > 0 && 

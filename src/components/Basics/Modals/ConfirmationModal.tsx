@@ -6,8 +6,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {deletePreset} from '../../../apis/AdminAPI/PresetAPI.js';
 
-const ConfirmationModal = ({isOpen, cancelDelete, presetName}: any) => {
+const ConfirmationModal = ({isOpen, cancelDelete, preset, presetType, removeElement, successfulRemoval}: any) => {
     const [open, setOpen] = useState(isOpen);
     
     const handleClose = () => {
@@ -15,14 +16,32 @@ const ConfirmationModal = ({isOpen, cancelDelete, presetName}: any) => {
         cancelDelete(false);
     };
 
+    const deleteAndRemovePreset = async () => {
+        const response = await deletePreset(presetType, preset.id);
+        console.dir(response);
+        if (response.message == "Sucess") {
+            removeElement(presetType, preset.id);
+            successfulRemoval("Successfully Removed Element", true);
+        }
+        else {
+            successfulRemoval(response.message, false);
+        }
+        setOpen(false);
+    }
+
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Are you sure you want to delete this preset?</DialogTitle>
+            <DialogTitle>Confirmation</DialogTitle>
             <DialogContent>
-                <b>{presetName}</b>
+                <DialogContentText>
+                    Permanently delete Preset? This will effect all recipes that use this item.
+                    <br/>
+                    <br/>
+                    <b>{preset.name}</b>
+                </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button color="error"onClick={handleClose}>Delete</Button>
+                <Button color="error"onClick={deleteAndRemovePreset}>Delete</Button>
                 <Button onClick={handleClose}>Cancel</Button>
             </DialogActions>
         </Dialog>

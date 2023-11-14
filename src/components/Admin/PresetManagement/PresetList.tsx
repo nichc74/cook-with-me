@@ -2,9 +2,18 @@ import React from "react";
 import PresetItem from "./PresetItem";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from "@mui/material";
 
+interface PresetListProps {
+    presets: Array<PresetItem>;
+    presetType: string;
+    removeElement: Function;
+}
 
-const PresetList = ({presets} : any) => {
-    console.log(presets);
+interface PresetItem {
+    id: number,
+    name: string
+}
+
+const PresetList = ({presets, presetType, removeElement} : PresetListProps) => {
     return (
         <TableContainer>
             {/* <TextField/> */}
@@ -20,7 +29,11 @@ const PresetList = ({presets} : any) => {
                 <TableBody>
                 {
                     presets.map((preset: any, index: number) => (
-                        <PresetItem key={preset.id}index={preset.id} preset={preset} />
+                        <PresetItem 
+                            removeElement={removeElement}
+                            key={preset.id}
+                            preset={preset} 
+                            presetType={presetType} />
                     ))
                 }
                 </TableBody>

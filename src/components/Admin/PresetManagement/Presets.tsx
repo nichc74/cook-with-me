@@ -8,7 +8,20 @@ interface TabPanelProps {
     value: number;
 }
 
-const Presets = ({metrics, categories, ingredients, cuisines } : any) => {
+interface PresetProps {
+    metrics: Array<PresetItem>;
+    categories: Array<PresetItem>;
+    ingredients: Array<PresetItem>;
+    cuisines: Array<PresetItem>;
+    removeElement: Function;
+}
+
+interface PresetItem {
+    id: number,
+    name: string
+}
+
+const Presets = ({metrics, categories, ingredients, cuisines, removeElement } : PresetProps) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -54,16 +67,16 @@ const Presets = ({metrics, categories, ingredients, cuisines } : any) => {
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
-                <PresetList presets={metrics}/>
+                <PresetList presets={metrics} presetType={"metric"} removeElement={removeElement}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <PresetList presets={ingredients}/>
+                <PresetList presets={ingredients} presetType={"ingredient"} removeElement={removeElement}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
-                <PresetList presets={categories}/>
+                <PresetList presets={categories} presetType={"category"} removeElement={removeElement}/>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={3}>
-                <PresetList presets={cuisines}/>
+                <PresetList presets={cuisines} presetType={"cuisine"} removeElement={removeElement}/>
             </CustomTabPanel>
         </div>
     )

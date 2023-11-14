@@ -15,7 +15,6 @@ const PresetManagementPage = () => {
     const fetchFormPresets = async () => {
         try {
             const response = await getFormPresets();
-            console.log(response);
             setMetrics(response.metrics);
             setCategories(response.categories);
             setIngredients(response.ingredients);
@@ -26,16 +25,43 @@ const PresetManagementPage = () => {
         }
     };
 
+    const removeElement = (presetType: string, id: number) => {
+        switch(presetType) {
+            case 'metric':
+                const updatedMetrics = metrics.filter((metric, index) => metric.id !== id);
+                setMetrics(updatedMetrics)
+                break;
+
+            case 'category':
+                const updatedCategories = categories.filter((category, index) => category.id !== id);
+                setCategories(updatedCategories)
+                break;
+
+            case 'ingredient':
+                const updatedIngredients= ingredients.filter((ingredient, index) => ingredient.id !== id);
+                setIngredients(updatedIngredients)
+                break;
+
+            case 'cuisine':
+                console.log()
+                const updatedCuisines = cuisines.filter((cuisine, index) => cuisine.id !== id);
+                setCuisines(updatedCuisines)
+                break;
+        }
+    }
+
     return (
         <div style={{ width: '100%' }}>
             <div className="admin-header">
                 <h1>Presets</h1>
             </div>
+            
             <Presets
                 metrics={metrics}
                 categories={categories}
                 ingredients={ingredients}
                 cuisines={cuisines}
+                removeElement={removeElement}
             />
         </div>
     );
