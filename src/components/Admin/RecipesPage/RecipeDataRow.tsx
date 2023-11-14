@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js'
-import { TableCell, TableRow } from '@mui/material';
+import { Checkbox, TableCell, TableRow } from '@mui/material';
 
 interface RecipeObjectProp {
     id: number;
@@ -37,7 +37,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
         <TableRow
             key={recipe.title}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-
+            {/* <TableCell><Checkbox/></TableCell> */}
             <TableCell>{recipe.id}</TableCell>
             <TableCell component="th" scope="row">
                 <img style={{width: 100, height: 100, objectFit: "cover"}} src={recipe.image}/>

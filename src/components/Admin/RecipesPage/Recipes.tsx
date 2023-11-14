@@ -6,10 +6,13 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
+import { Checkbox } from "@mui/material";
 
 interface RecipesPageProps {
     recipes: Array<Object>
 }
+
+
 
 const Recipes = ({recipes}: RecipesPageProps) => {
     return (
@@ -17,6 +20,7 @@ const Recipes = ({recipes}: RecipesPageProps) => {
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
+                        {/* <TableCell align="left"><Checkbox/></TableCell> */}
                         <TableCell align="left"><b>ID</b></TableCell>
                         <TableCell/>
                         <TableCell><b>Recipe</b></TableCell>

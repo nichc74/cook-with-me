@@ -57,11 +57,10 @@ const RecipesPage = ({}) => {
             </div>
 
             <div className="filters-and-search-container">
-                <div className="search-container">
-                    <TextField placeholder="Search Recipes" fullWidth/>
+                {/* <div className="search-container">
+                    <TextField placeholder="Search Recipe Titles" fullWidth/>
                 </div>
                 <div className="filters-container">   
-                    <Button variant="contained" fullWidth>Select All</Button>   
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Status</InputLabel>
                         <Select
@@ -85,12 +84,14 @@ const RecipesPage = ({}) => {
                             <MenuItem value={"Archived"}>Archived</MenuItem>
                         </Select>
                     </FormControl>
-                    <Button>Sort</Button>
-                </div>
+                    <Button>Sort</Button> */}
+                {/* </div> */}
             </div>
-            <div className="applied-filters-container">
+            {/* <div className="applied-filters-container">
                 <Button>Clear Filter</Button>
-            </div>
+            </div> */}
+
+            {/* <Button variant="contained" fullWidth>Select All</Button>    */}
             
             <Recipes recipes={recipes} />
 

@@ -7,7 +7,7 @@ import Recipe from './components/Recipe/Recipe.tsx';
 import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
 import { getRecipes } from './apis/AdminAPI/RecipeAPI';
 import Header from './components/Basics/Header/Header.tsx';
-import RecipesPage from './components/Admin/RecipesPage/RecipesPage.tsx';
+import AdminPage from './components/Admin/AdminPage.tsx';
 import PageNotFound from './components/Pages/NotFound/PageNotFound.tsx';
 function App() {
   const [recipes, setRecipes] = useState([]);
@@ -37,7 +37,7 @@ function App() {
         <div className="App-recipeBoxes">
           {/* <HashRouter> */}
             <Routes>
-              <Route exact path={`${path}admin`} element={<RecipesPage/>}/>
+              <Route exact path={`${path}admin`} element={<AdminPage/>}/>
               <Route exact path={`${path}admin/recipe-form/create`} element={<RecipeForm/> }/>
               <Route path={`${path}admin/recipe-form/edit/*`} element={<RecipeForm/>} />
               <Route exact path={`${path}`} element={<Recipes recipes={recipes}/> }/>
