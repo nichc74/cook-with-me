@@ -9,7 +9,7 @@ interface RecipesProps {
 
 const Recipes = ({recipes, togglePage}: RecipesProps) => {
     return (
-        <div className="recipe-container">
+        <div className="recipe-boxes-container">
             {
                 recipes.map((recipe: any) => (
                     <RecipeBox key={recipe.id} togglePage={togglePage} recipe={recipe}/>

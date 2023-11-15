@@ -1,5 +1,7 @@
 .recipe-detail-page {
-    margin: 0px 10% 0px 10%;
+    margin: auto;
+    width: 80%;
+    max-width: 1250px;
 }
 
 @media (max-width: 500px) {

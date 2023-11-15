@@ -23,6 +23,7 @@
     font-weight: bold;
     overflow-wrap: break-word;
     font-family: serif;
+    max-width: 250px;
 }
 
 .RecipeDetailPage-image {
