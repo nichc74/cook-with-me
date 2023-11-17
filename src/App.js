@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import { useEffect, useState } from 'react';
 import { Routes, Route, HashRouter } from 'react-router-dom'; 
 import './App.css';
@@ -31,7 +30,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Header/>
-        {/* <div style={{height: 16, width: "100%", background: "black"}}/> */}
       </header>
       <div className="App-main-body">
         <div className="App-recipeBoxes">
@@ -53,7 +51,7 @@ function App() {
         </div>
       </div>
       <footer className="App-footer">
-        Placeholder Header
+        footer
       </footer>
     </div>
   );
