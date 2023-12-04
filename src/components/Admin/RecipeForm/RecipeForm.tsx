@@ -142,8 +142,8 @@ const RecipeForm = () => {
                     />
                     <SummaryForm recipeSummary={recipeSummary}/>
                     <IngredientForm 
-                        metricPresets={formPresets.metrics}
-                        ingredientPresets={formPresets.ingredients}
+                        metricPresets={formPresets.metrics.map((metric) => metric.name)}
+                        ingredientPresets={formPresets.ingredients.map((ingredient) => ingredient.name)}
                         ingredientElements={ingredientElements}
                     />
                     <InstructionForm
