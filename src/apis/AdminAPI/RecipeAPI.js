@@ -1,12 +1,13 @@
-const endpoint = 'http://localhost:8000/api/v1';
-// const endpoint = 'https://api.foodbaby.qvinyl.app/data-sync';
+import {CONNECTION_TYPE, HOSTSITE, ORM_PATH} from '../../config/endpoints';
+const endpoint = `${CONNECTION_TYPE}${HOSTSITE}${ORM_PATH}`;
+
 
 const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
 };
 
-export async function createRecipe(formData: any) {
+export async function createRecipe(formData) {
     let createRecipeEndpoint = `${endpoint}/postRecipe`;
     
     const options = {
@@ -40,7 +41,7 @@ export async function getAllRecipesInAdmin(pageNumber) {
     return await results;
 }
 
-export async function getRecipe(url_slug: string, id: number) {
+export async function getRecipe(url_slug, id) {
     let fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',

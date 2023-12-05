@@ -1,5 +1,5 @@
-const endpoint = 'http://localhost:8000/api/v1/preset';
-// const endpoint = 'https://api.foodbaby.qvinyl.app/data-sync';
+import {CONNECTION_TYPE, HOSTSITE, ORM_PATH} from '../../config/endpoints';
+const endpoint = `${CONNECTION_TYPE}${HOSTSITE}${ORM_PATH}/preset`;
 
 const headers = {
     Accept: 'application/json',
