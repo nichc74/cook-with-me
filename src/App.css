@@ -1,4 +1,5 @@
 .App {
+
 }
 
 .App-logo {
@@ -21,8 +22,19 @@
   /* background-color: #61dafb; */
 }
 
+.App-main-body {
+  padding: 5%;
+  /* background-color: orange; */
+  height: 100%;
+  margin: auto;
+  min-height: 100vh;
+  /* width: 60%; */
+  /* max-width: 1250px; */
+}
+
+
 .App-footer {
-  height: 100px;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,13 +42,6 @@
 }
 
 
-.App-main-body {
-  background-color: white;
-  height: 100%;
-  margin: auto;
-  /* width: 60%; */
-  /* max-width: 1250px; */
-}
 
 @keyframes App-logo-spin {
   from {
