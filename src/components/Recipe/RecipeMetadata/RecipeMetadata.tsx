@@ -24,6 +24,7 @@ const RecipeMetadata = ({metadata}) => {
                     <div className="RecipeDetailPage-recipeTitle">
                         {metadata.title}
                     </div>
+                    <a href={metadata.source_link}>Source</a>
                 </div>
                 <div className="RecipeDetailPage-header-divider"/>
 
@@ -53,7 +54,7 @@ const RecipeMetadata = ({metadata}) => {
                         value={metadata.total_time} label="Total Time"
                     /> 
                 </div>
-                <a href={metadata.source_link}>Source</a>
+                
             </div>
         </div>
     )
