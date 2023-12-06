@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, HashRouter } from 'react-router-dom'; 
 import './App.css';
+import Navbar from './components/Basics/Navbar/Navbar.tsx';
 import Recipes from './components/Recipes/Recipes.tsx';
 import Recipe from './components/Recipe/Recipe.tsx';
 import RecipeForm from './components/Admin/RecipeForm/RecipeForm.tsx';
@@ -11,7 +12,7 @@ import PageNotFound from './components/Pages/NotFound/PageNotFound.tsx';
 function App() {
   const [recipes, setRecipes] = useState([]);
 
-  const path = '';
+  const path = '/';
 
   useEffect(() => {
     fetchRecipes();
@@ -31,6 +32,7 @@ function App() {
       <header className="App-header">
         <Header/>
       </header>
+      <Navbar/>
       <div className="App-main-body">
         <div className="App-recipeBoxes">
           {/* <HashRouter> */}
@@ -38,7 +40,9 @@ function App() {
               <Route exact path={`${path}admin`} element={<AdminPage/>}/>
               <Route exact path={`${path}admin/recipe-form/create`} element={<RecipeForm/> }/>
               <Route path={`${path}admin/recipe-form/edit/*`} element={<RecipeForm/>} />
-              <Route exact path={`${path}`} element={<Recipes recipes={recipes}/> }/>
+              <Route exact path={`${path}/recipes`} element={<Recipes recipes={recipes}/> }/>
+              <Route exact path={`${path}/categories`} element={<div>CATEGORY</div> }/>
+              <Route exact path={`${path}/entrees`} element={<div>ENTREE</div> }/>
               <Route path={`${path}recipes/:slug/:id`} element={<Recipe/>}/>
               {
                 recipes.map((recipe) => (

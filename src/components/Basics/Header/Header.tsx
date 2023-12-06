@@ -8,7 +8,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const backHomePage = () => {
-        navigate('/');
+        navigate('/recipes');
     }
     return (
         <div className="navbarContainer">
