@@ -1,0 +1,23 @@
+.CategoryBox-main {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    cursor: pointer;
+}
+
+.CategoryBox-image {
+    width: 60%;
+    height: 500px;
+}
+
+.CategoryBox-name {
+    text-align: center;
+    padding: 16px;
+    color: darkblue;
+    font-size: x-large;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    font-family: serif;
+    max-width: 250px;
+}
+

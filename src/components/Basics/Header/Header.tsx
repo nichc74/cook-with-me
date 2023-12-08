@@ -15,9 +15,9 @@ const Header = () => {
             <Button style={{height: "inherit"}} onClick={() => backHomePage()}>
                 <img className="logo" src="https://res.cloudinary.com/dufsumsmb/image/upload/v1694724055/271408200_602409760868028_4501220399632729979_n_ooa15h.jpg" alt="logo" />
             </Button>
-            <div style={{margin: "auto 60px"}}>
+            {/* <div style={{margin: "auto 60px"}}>
                 <TextField/>
-            </div>
+            </div> */}
         </div>
     )
 }

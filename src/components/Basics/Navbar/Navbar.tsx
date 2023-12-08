@@ -10,12 +10,12 @@ const Navbar = () => {
             path: "/recipes",
         },
         { 
-            name: 'Categories',
+            name: "By Category",
             path: "/categories",
         },
         { 
-            name: 'Entrees',
-            path: "/entrees",
+            name: "By Cuisine",
+            path: "/cuisines",
         }
     ]
 
