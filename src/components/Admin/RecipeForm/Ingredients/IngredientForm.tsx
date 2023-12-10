@@ -17,8 +17,6 @@ interface RecipeFormProps {
     ingredientElements: Array<IngredientComponentProps>
 }
 
-
-
 const IngredientForm = ({metricPresets, ingredientPresets, ingredientElements}: RecipeFormProps) => {
     const dispatch = useDispatch();
     const [ingredientComponents, setIngredientComponents] = useState(ingredientElements || [ {id: newId(),  componentName: "", ingredients: createNewItems(5, {id: "", amount: "", metric: "", name: ""}) }]);

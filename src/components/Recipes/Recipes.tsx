@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RecipeBox from './RecipeBox/RecipeBox.js';
 import './Recipes.css';
 
@@ -8,6 +8,7 @@ interface RecipesProps {
 }
 
 const Recipes = ({recipes, togglePage}: RecipesProps) => {
+    
     return (
         <div className="recipe-boxes-container">
             {

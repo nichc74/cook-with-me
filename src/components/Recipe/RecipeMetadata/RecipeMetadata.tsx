@@ -54,7 +54,6 @@ const RecipeMetadata = ({metadata}) => {
                         value={metadata.total_time} label="Total Time"
                     /> 
                 </div>
-                
             </div>
         </div>
     )

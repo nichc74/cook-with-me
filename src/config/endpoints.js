@@ -1,7 +1,7 @@
 module.exports = {
     CONNECTION_TYPE: "http://",
     HOSTSITE: "localhost:8000",
-    ORM_PATH: "/api/v1",
+    ORM_PATH: "/api/v1/",
 }; 
 
 // module.exports = {
@@ -10,3 +10,4 @@ module.exports = {
 //     ORM_PATH: "/data-sync/",
 // }; 
 
+// http://localhost:3000/cook-with-me

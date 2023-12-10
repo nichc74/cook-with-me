@@ -12,8 +12,6 @@ interface RecipesPageProps {
     recipes: Array<Object>
 }
 
-
-
 const Recipes = ({recipes}: RecipesPageProps) => {
     return (
         <div style={{display: "block", flexWrap: "wrap", width:"100%"}}>

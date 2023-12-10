@@ -1,0 +1,34 @@
+.navbar-container-outer {
+    width: 100%;
+    min-height: 100px;
+    background-color: blanchedalmond;
+    display: flex;
+    
+}
+
+.navbar-container-inner {
+    width: 60%;
+    max-width: 1250px;
+    justify-content: space-evenly;
+    display: flex;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+.navbar-item {
+    display: flex;
+    width: 250px;
+    justify-content: center;
+    margin: auto;
+    cursor: pointer;
+}
+
+.navbar-item-label {
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 24px 24px 24px 24px;
+    font-size: 16px;
+    color: #ababab;
+    text-decoration: none;
+}

@@ -7,7 +7,7 @@ const headers = {
 };
 
 export async function editPreset(presetType, id, value) {
-    const editPresetEndpoint = `${endpoint}/${presetType}/${id}`;
+    const editPresetEndpoint = `${endpoint}${presetType}/${id}`;
 
     const options = {
         method: 'PUT',
