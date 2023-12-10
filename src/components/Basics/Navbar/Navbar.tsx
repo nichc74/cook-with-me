@@ -23,8 +23,6 @@ const Navbar = () => {
 
     const navigate = useNavigate();
 
-
-
     const navigateToDestination = (path: string, tab: number) => {
         navigate(path, { state: { path: path } });
         setTab(tab);

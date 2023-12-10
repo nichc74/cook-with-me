@@ -9,6 +9,7 @@ const headers = {
 
 export async function createRecipe(formData) {
     let createRecipeEndpoint = `${endpoint}postRecipe`;
+    console.log(formData);
     
     const options = {
         method: 'POST',
