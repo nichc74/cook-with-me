@@ -26,16 +26,17 @@ const CollectionBox = ({collection, collectionPath}: any) => {
     
     return (
         <div className="CategoryBox-main" onClick={handleClick}>
-            <div style={{width: `${180}px`, height: `${180}px`, margin: "auto", backgroundColor: "beige"}}>
+            <div style={{width: `${180}px`, height: `${180}px`, margin: "auto", backgroundColor: "white", border: "2px solid darkblue", display: "flex"}}>
                 {/* <img
                     className="CategoryBox-image"
                     alt="Category Image"
                     // src={recipe.image}
                 /> */}
+
+                <div className="CategoryBox-name" style={{margin: "auto"}}>
+                    {collection.name} 
+                </div>
             </div>
-        <div className="CategoryBox-name">
-            {collection.name} 
-        </div>
     </div>
     )
 }

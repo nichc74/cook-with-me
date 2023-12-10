@@ -8,6 +8,7 @@ interface RecipesProps {
 }
 
 const Recipes = ({recipes, togglePage}: RecipesProps) => {
+    
     return (
         <div className="recipe-boxes-container">
             {
