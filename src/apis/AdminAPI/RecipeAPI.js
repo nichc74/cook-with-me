@@ -8,7 +8,7 @@ const headers = {
 };
 
 export async function createRecipe(formData) {
-    let createRecipeEndpoint = `${endpoint}/postRecipe`;
+    let createRecipeEndpoint = `${endpoint}postRecipe`;
     
     const options = {
         method: 'POST',
@@ -19,7 +19,7 @@ export async function createRecipe(formData) {
 } 
 
 export async function getRecipes(collection="", genre="") {
-    let fetchRecipesEndpoint = `${endpoint}/recipes`;
+    let fetchRecipesEndpoint = `${endpoint}recipes`;
     if (collection.length !== 0 && genre.length !== 0) {
         fetchRecipesEndpoint = `${fetchRecipesEndpoint}/${collection}/${genre}`;
     }
@@ -34,7 +34,7 @@ export async function getRecipes(collection="", genre="") {
 }
 
 export async function getCategories() {
-    let fetchCategoriesEndpoint = `${endpoint}/categories`;
+    let fetchCategoriesEndpoint = `${endpoint}categories`;
     let response = await fetch(fetchCategoriesEndpoint, {
         method: 'GET',
         headers: headers
@@ -45,7 +45,7 @@ export async function getCategories() {
 }
 
 export async function getCuisines() {
-    let fetchCuisinesEndpoint = `${endpoint}/cuisines`;
+    let fetchCuisinesEndpoint = `${endpoint}cuisines`;
     let response = await fetch(fetchCuisinesEndpoint, {
         method: 'GET',
         headers: headers
@@ -57,7 +57,7 @@ export async function getCuisines() {
 
 export async function getAllRecipesInAdmin(pageNumber) {
     // let fetchRecipeEndpoint = `${endpoint}/adminRecipes`;
-    let fetchRecipeEndpoint = `${endpoint}/recipes/page/${pageNumber}`;
+    let fetchRecipeEndpoint = `${endpoint}recipes/page/${pageNumber}`;
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
         headers: headers
@@ -68,7 +68,7 @@ export async function getAllRecipesInAdmin(pageNumber) {
 }
 
 export async function getRecipe(url_slug, id) {
-    let fetchRecipeEndpoint = `${endpoint}/recipe/${id}/`;
+    let fetchRecipeEndpoint = `${endpoint}recipe/${id}/`;
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
         headers: headers
@@ -79,7 +79,7 @@ export async function getRecipe(url_slug, id) {
 }
 
 export async function updateRecipeStatus(id, status) {
-    let fetchRecipeEndpoint = `${endpoint}/updateRecipeStatus/${id}/`;
+    let fetchRecipeEndpoint = `${endpoint}updateRecipeStatus/${id}/`;
 
     const options = {
         method: 'POST',
@@ -94,7 +94,7 @@ export async function updateRecipeStatus(id, status) {
 }
 
 export async function getFormPresets() {
-    let formPresets = `${endpoint}/presets`;
+    let formPresets = `${endpoint}presets`;
 
     let response = await fetch(formPresets, {
         method: 'GET',
