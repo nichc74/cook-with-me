@@ -1,5 +1,5 @@
 import React from 'react';
-import './CategoryBox.css';
+import './CollectionBox.css';
 import { useNavigate } from 'react-router-dom';
 import { getRecipes } from '../../../apis/AdminAPI/RecipeAPI.js';
 import { updateRecipes } from '../../../store/actions/recipesActions.js';
@@ -9,7 +9,7 @@ interface CategoryBox {
 
 }
 
-const CategoryBox = ({collection, collectionPath}: any) => {
+const CollectionBox = ({collection, collectionPath}: any) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -39,5 +39,5 @@ const CategoryBox = ({collection, collectionPath}: any) => {
     </div>
     )
 }
-export default CategoryBox;
+export default CollectionBox;
 

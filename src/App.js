@@ -31,7 +31,6 @@ function App() {
     useEffect(() => {
 
         if (location.state && location.state.path === '/recipes') {
-            console.log(location)
             fetchRecipes();
         }
         // fetchRecipes();
@@ -82,6 +81,7 @@ function App() {
                         <Route path={`${path}admin/recipe-form/edit/*`} element={<RecipeForm/>} />
 
                         <Route exact path={`${path}/recipes`} element={<Recipes recipes={recipes}/> }/>
+                        
                         <Route path={`${path}recipes/:slug/:id`} element={<Recipe/>}/>
                         {
                             recipes.map((recipe) => (

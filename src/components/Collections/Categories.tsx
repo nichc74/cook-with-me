@@ -1,5 +1,5 @@
 import React from "react";
-import CategoryBox from './CategoryBoxes/CategoryBox';
+import CollectionBox from './CollectionBox/CollectionBox';
 
 
 interface CategoriesProps {
@@ -7,16 +7,16 @@ interface CategoriesProps {
     collectionPath: string
 }
 
-const Categories = ({collections, collectionPath}: CategoriesProps) => {
+const Collections = ({collections, collectionPath}: CategoriesProps) => {
     return (
         <div className="recipe-boxes-container">
             {
                 collections.map((collection: any) => (
-                    <CategoryBox key={collection.id}  collection={collection} collectionPath={collectionPath}/>
+                    <CollectionBox key={collection.id}  collection={collection} collectionPath={collectionPath}/>
                 ))
             }
         </div>
     )
 }
 
-export default Categories;
+export default Collections;
