@@ -1,15 +1,27 @@
 import React from 'react';
 import './CategoryBox.css';
 import { useNavigate } from 'react-router-dom';
+import { getRecipes } from '../../../apis/AdminAPI/RecipeAPI.js';
+import { updateRecipes } from '../../../store/actions/recipesActions.js';
+import { useDispatch } from "react-redux";
+
 interface CategoryBox {
 
 }
 
-const CategoryBox = ({category}: any) => {
+const CategoryBox = ({collection, collectionPath}: any) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    function handleClick() {
-        navigate(`/categories/${category.name}`)
+    const handleClick = async () => {
+        navigate(`/${collectionPath}/${collection.name}`)
+        const recipes = await fetchRecipeCollection();
+        dispatch(updateRecipes(recipes));
+    }
+
+    const fetchRecipeCollection = async () => {
+        const recipes = await getRecipes(collectionPath, collection.name);
+        return recipes;
     }
     
     return (
@@ -22,7 +34,7 @@ const CategoryBox = ({category}: any) => {
                 /> */}
             </div>
         <div className="CategoryBox-name">
-            {category.name} 
+            {collection.name} 
         </div>
     </div>
     )

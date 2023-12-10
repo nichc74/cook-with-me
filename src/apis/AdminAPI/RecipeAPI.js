@@ -18,9 +18,35 @@ export async function createRecipe(formData) {
     return await response.json();
 } 
 
-export async function getRecipes() {
+export async function getRecipes(collection="", genre="") {
     let fetchRecipesEndpoint = `${endpoint}/recipes`;
+    if (collection.length !== 0 && genre.length !== 0) {
+        fetchRecipesEndpoint = `${fetchRecipesEndpoint}/${collection}/${genre}`;
+    }
+
     let response = await fetch(fetchRecipesEndpoint, {
+        method: 'GET',
+        headers: headers
+    });
+
+    let recipes = await response.json();
+    return await recipes;
+}
+
+export async function getCategories() {
+    let fetchCategoriesEndpoint = `${endpoint}/categories`;
+    let response = await fetch(fetchCategoriesEndpoint, {
+        method: 'GET',
+        headers: headers
+    });
+
+    let recipes = await response.json();
+    return await recipes;
+}
+
+export async function getCuisines() {
+    let fetchCuisinesEndpoint = `${endpoint}/cuisines`;
+    let response = await fetch(fetchCuisinesEndpoint, {
         method: 'GET',
         headers: headers
     });

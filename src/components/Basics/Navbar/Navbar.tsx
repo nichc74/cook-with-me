@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import './Navbar.css';
@@ -19,27 +19,36 @@ const Navbar = () => {
         }
     ]
 
+    const [tab, setTab] = useState(0);
 
     const navigate = useNavigate();
 
-    const backHomePage = (path: string) => {
-        navigate(path);
+
+
+    const navigateToDestination = (path: string, tab: number) => {
+        navigate(path, { state: { path: path } });
+        setTab(tab);
     }
 
     return (
         <div className="navbar-container-outer">
             <div className="navbar-container-inner">
             { 
-                list.map((item) : any => (
-                    <div className="navbar-item">
-                        <a className="navbar-item-label" onClick={() => backHomePage(item.path)}> 
-                            {item.name} 
-                        </a>
-                    </div>
+                list.map((item, index) : any => (
+                    <a className="navbar-item" onClick={() => navigateToDestination(item.path, index)}>
+                        {tab == index ? 
+                            <p className="navbar-item-label" style={{color: "black"}}> 
+                                {item.name} 
+                            </p>
+                        :
+                            <p className="navbar-item-label" > 
+                                {item.name} 
+                            </p>
+                        }
+                    </a>
                 ))
             }
             </div>
-          
         </div>
     )
 }

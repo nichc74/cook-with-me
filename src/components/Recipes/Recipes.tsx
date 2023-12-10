@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RecipeBox from './RecipeBox/RecipeBox.js';
 import './Recipes.css';
 

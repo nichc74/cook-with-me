@@ -3,16 +3,16 @@ import CategoryBox from './CategoryBoxes/CategoryBox';
 
 
 interface CategoriesProps {
-    categories: Array<Object>,
+    collections: Array<Object>,
+    collectionPath: string
 }
 
-const Categories = ({categories}: CategoriesProps) => {
-    
+const Categories = ({collections, collectionPath}: CategoriesProps) => {
     return (
         <div className="recipe-boxes-container">
             {
-                categories.map((category: any) => (
-                    <CategoryBox key={category.id}  category={category}/>
+                collections.map((collection: any) => (
+                    <CategoryBox key={collection.id}  collection={collection} collectionPath={collectionPath}/>
                 ))
             }
         </div>
