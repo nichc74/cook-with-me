@@ -14,11 +14,9 @@ const CollectionBox = ({collection, collectionPath}: any) => {
     const dispatch = useDispatch();
 
     const handleClick = async () => {
+        navigate(`/${collectionPath}/${collection.name}`)
         const recipes = await fetchRecipeCollection();
         dispatch(updateRecipes(recipes));
-        if (recipes) {
-            navigate(`/${collectionPath}/${collection.name}`)
-        }
     }
 
     const fetchRecipeCollection = async () => {
