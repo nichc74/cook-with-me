@@ -33,7 +33,7 @@ function App() {
         if (location.state && location.state.path === '/recipes') {
             fetchRecipes();
         }
-        // fetchRecipes();
+        fetchRecipes();
         fetchCategories();
         fetchCuisines();
     }, [location.state]);
