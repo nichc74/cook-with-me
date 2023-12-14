@@ -16,7 +16,7 @@ interface IngredientComponentProps {
 }
 
 interface IngredientProps {
-    id: number | null,
+    id: string | null,
     amount: string,
     metric: string,
     name: string,
@@ -38,7 +38,7 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
     }
 
     const addNewIngredient = () => {
-        setIngredients([...ingredients, {id: Math.floor(Math.random()*10), amount: "", metric: "", name: ""}]);
+        setIngredients([...ingredients, {id: "", amount: "", metric: "", name: ""}]);
     }
 
     const removeIngredient = (index: number) => {
@@ -51,7 +51,6 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
             if (index === idx) {
                 return {
                     ...ingredient,
-                    id: updatedIngredient.id,
                     amount: updatedIngredient.amount,
                     metric: updatedIngredient.metric,
                     name: updatedIngredient.name
