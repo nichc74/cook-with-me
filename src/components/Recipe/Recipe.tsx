@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getRecipe } from "../../apis/AdminAPI/RecipeAPI.js";
+import { getRecipeBySlug } from "../../apis/AdminAPI/RecipeAPI.js";
 import RecipeMetadata from "./RecipeMetadata/RecipeMetadata.tsx";
 import RecipeSummary from "./RecipeSummary/RecipeSummary.tsx";
 import RecipeIngredients from "./RecipeIngredients/RecipeIngredients.tsx";
@@ -19,45 +19,45 @@ const Recipe = ({ slug, recipe_id }: RecipeProps) => {
 
   useEffect(() => {
     fetchRecipeDetails();
-  }, [recipe_id]);
+  }, [slug]);
 
   const fetchRecipeDetails = async () => {
     let recipeDetail;
-    try {
-      if (Object.keys(params).length !== 0) {
-        recipeDetail = await getRecipe(params.slug, params.id);
-      }
-      else {
-        recipeDetail = await getRecipe(slug, recipe_id);
-      }
-      setRecipeDetails(recipeDetail);
+    	try {
+			if (Object.keys(params).length !== 0) {
+				recipeDetail = await getRecipeBySlug(params.slug);
+			}
+			else {
+				recipeDetail = await getRecipeBySlug(slug);
+			}
+      		setRecipeDetails(recipeDetail);
 
-    } catch (error) {
-      console.error("Error fetching recipe details:", error);
-    }
-  };
+		} catch (error) {
+			console.error("Error fetching recipe details:", error);
+		}
+  	};
 
-  return (
-    <div className="recipe-detail-page">
-        {recipeDetails ? (
-            <div>
-                <RecipeMetadata metadata={recipeDetails.metadata} />
-                <RecipeSummary summary={recipeDetails.recipe_summary.summary}/>
-                <div className="RecipeDetailPage-body">
-                    <div className="RecipeDetailPage-ingredient-body">
-                      <RecipeIngredients recipeIngredientComponents={recipeDetails.recipe_ingredient_components} />
-                    </div>
-                    <div className="RecipeDetailPage-instruction-body">
-                      <RecipeInstructions recipeComponentInstructions={recipeDetails.recipe_instructional_components} />
-                    </div>
-                </div> 
-                <RecipeNotes notes={recipeDetails.notes} />
-            </div>
-        ) : (
-            <p>Loading Recipe Data...</p>
-        )}
-    </div>
-  );
+	return (
+		<div className="recipe-detail-page">
+			{recipeDetails ? (
+				<div>
+					<RecipeMetadata metadata={recipeDetails.metadata} />
+					<RecipeSummary summary={recipeDetails.recipe_summary.summary}/>
+					<div className="RecipeDetailPage-body">
+						<div className="RecipeDetailPage-ingredient-body">
+						<RecipeIngredients recipeIngredientComponents={recipeDetails.recipe_ingredient_components} />
+						</div>
+						<div className="RecipeDetailPage-instruction-body">
+						<RecipeInstructions recipeComponentInstructions={recipeDetails.recipe_instructional_components} />
+						</div>
+					</div> 
+					<RecipeNotes notes={recipeDetails.notes} />
+				</div>
+			) : (
+				<p>Loading Recipe Data...</p>
+			)}
+		</div>
+	);
 };
 
 export default Recipe;

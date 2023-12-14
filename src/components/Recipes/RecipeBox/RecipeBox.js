@@ -12,7 +12,6 @@ const RecipeBox = ({togglePage, recipe}) => {
 
     function handleClick() {
         navigate(`/recipes${recipe.url_slug}`)
-        togglePage(recipe.id);
     }
   
     return (

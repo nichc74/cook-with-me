@@ -7,15 +7,15 @@ const Navbar = () => {
     var list = [
         { 
             name: 'Recipes',
-            path: "/recipes",
+            path: "recipes",
         },
         { 
             name: "By Category",
-            path: "/categories",
+            path: "categories",
         },
         { 
             name: "By Cuisine",
-            path: "/cuisines",
+            path: "cuisines",
         }
     ]
 
@@ -24,7 +24,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const navigateToDestination = (path: string, tab: number) => {
-        navigate(path, { state: { path: path } });
+        navigate(`/${path}`, { state: { collectionPath: path } });
         setTab(tab);
     }
 
@@ -33,7 +33,7 @@ const Navbar = () => {
             <div className="navbar-container-inner">
             { 
                 list.map((item, index) : any => (
-                    <a className="navbar-item" onClick={() => navigateToDestination(item.path, index)}>
+                    <a className="navbar-item" onClick={() => navigateToDestination(item.path, index)} key={index}>
                         {tab == index ? 
                             <p className="navbar-item-label" style={{color: "black"}}> 
                                 {item.name} 

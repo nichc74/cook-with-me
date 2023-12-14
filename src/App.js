@@ -29,18 +29,19 @@ function App() {
     }, [reduxRecipes]);
 
     useEffect(() => {
-
-        if (location.state && location.state.path === '/recipes') {
+        if (location.state) {
+            fetchRecipes(location.state.collectionPath, location.state.collectionName);
+        }
+        else {
             fetchRecipes();
         }
-        fetchRecipes();
         fetchCategories();
         fetchCuisines();
     }, [location.state]);
 
-    const fetchRecipes = async () => {
+    const fetchRecipes = async (collection="", collectionName="") => {
         try {
-            const fetchedRecipes = await getRecipes();
+            const fetchedRecipes = await getRecipes(collection, collectionName);
             dispatch(updateRecipes(fetchedRecipes));
         } catch (error) {
             console.error('Error fetching recipes:', error);
@@ -58,36 +59,27 @@ function App() {
 
     const fetchCuisines = async () => {
         try {
-            const fetcgedCuisines = await getCuisines();
-            setCuisines(fetcgedCuisines);
+            const fetchedCuisines = await getCuisines();
+            setCuisines(fetchedCuisines);
         } catch (error) {
             console.error('Error fetching recipes:', error);
         }
     };
-    
+
     return (
         <div className="App">
             <header className="App-header">
                 <Header/>
             </header>
-
             <Navbar/>
-
             <div className="App-main-body">
                 <div className="App-recipeBoxes">
                     <Routes>
                         <Route exact path={`${path}admin`} element={<AdminPage/>}/>
                         <Route exact path={`${path}admin/recipe-form/create`} element={<RecipeForm/> }/>
                         <Route path={`${path}admin/recipe-form/edit/*`} element={<RecipeForm/>} />
-
                         <Route exact path={`${path}/recipes`} element={<Recipes recipes={recipes}/> }/>
-                        
-                        <Route path={`${path}recipes/:slug/:id`} element={<Recipe/>}/>
-                        {
-                            recipes.map((recipe) => (
-                                <Route key={recipe.id} path={`${path}recipes${recipe.url_slug}`} element={<Recipe recipe={recipe} recipe_id={recipe.id}/> }/>
-                            ))
-                        }
+                        <Route path={`${path}recipes/:slug`} element={<Recipe/>}/>
 
                         <Route exact path={`${path}/categories`} element={<Categories collections={categories} collectionPath={'categories'} />}/>
                         {
@@ -95,7 +87,6 @@ function App() {
                                 <Route key={category.id} path={`${path}categories/${category.name}`} element={<Recipes recipes={recipes}/>}/>
                             ))
                         }
-
                         <Route exact path={`${path}/cuisines`} element={<Categories collections={cuisines} collectionPath={'cuisines'}/> }/>
                         {
                             cuisines.map((cuisine) => (

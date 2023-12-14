@@ -20,7 +20,7 @@ const RecipeNotes = ({notes}: NotesProps) => {
             }
             {
                 notes.map((note: any, index: number) => (
-                    <div className="RecipeDetailPage-ingr">
+                    <div className="RecipeDetailPage-ingr" key={note.id}>
                         <div className="note-step-container">
                             <div className="step-number"><b>{note.step_id}.</b></div>
                             <div className="step-description">{note.description}</div>
