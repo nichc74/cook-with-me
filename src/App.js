@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, HashRouter, useLocation } from 'react-router-dom'; 
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'; 
 import './App.css';
 import Navbar from './components/Basics/Navbar/Navbar.tsx';
 import Categories from './components/Collections/Categories';
@@ -94,6 +94,7 @@ function App() {
                             ))
                         }
                         <Route exact path="/*" element={<PageNotFound/>}/>
+                        <Route path="/" element={<Navigate to={`${path}recipes`} replace />} />
                     </Routes>
                 </div>
             </div>
