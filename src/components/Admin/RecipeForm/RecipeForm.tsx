@@ -84,7 +84,7 @@ const RecipeForm = () => {
             formData.append('status', "unpublished");
             const result = await createRecipe(formData);
             handleApiResult(result);
-            navigate(`/recipes${result.url_slug}/${result.id}`);
+            navigate(`/recipes${result.url_slug}`);
         } catch (error: any) {
             console.log(error);
         }
@@ -96,7 +96,7 @@ const RecipeForm = () => {
             formData.append('status',  "published");
             const result = await createRecipe(formData);
             handleApiResult(result.url_slug);
-            navigate(`/recipes${result.url_slug}/${result.id}`);
+            navigate(`/recipes${result.url_slug}`);
         }   
         catch (error : any) {
             console.log(error);

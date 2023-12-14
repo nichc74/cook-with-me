@@ -14,6 +14,7 @@ interface RecipeProps {
 }
 
 const Recipe = ({ slug, recipe_id }: RecipeProps) => {
+
   const params = useParams();
   const [recipeDetails, setRecipeDetails] = useState(null);
 
@@ -25,10 +26,10 @@ const Recipe = ({ slug, recipe_id }: RecipeProps) => {
     let recipeDetail;
     	try {
 			if (Object.keys(params).length !== 0) {
-				recipeDetail = await getRecipeBySlug(params.slug);
+				recipeDetail = await getRecipeBySlug(`/${params.slug}`);
 			}
 			else {
-				recipeDetail = await getRecipeBySlug(slug);
+				recipeDetail = await getRecipeBySlug(`/${slug}`);
 			}
       		setRecipeDetails(recipeDetail);
 

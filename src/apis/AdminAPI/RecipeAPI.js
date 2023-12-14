@@ -68,7 +68,7 @@ export async function getAllRecipesInAdmin(pageNumber) {
 }
 
 export async function getRecipeBySlug(url_slug) {
-    let fetchRecipeEndpoint = `${endpoint}recipe/${url_slug}`;
+    let fetchRecipeEndpoint = `${endpoint}recipe${url_slug}`;
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
         headers: headers
