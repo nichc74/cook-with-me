@@ -9,11 +9,11 @@ const RecipeInstructions = ({recipeComponentInstructions}) => {
             </div>
             {
                 recipeComponentInstructions.map((component: any) => (
-                    <div className="instruction-container">
+                    <div className="instruction-container" key={component.id}>
                         <b>{component.component_name}</b>
                         {
                             component.instructions.map((instruction: any, index: number) => (
-                                <Instruction key={index} instruction={instruction}/>
+                                <Instruction key={instruction.id} instruction={instruction}/>
                             ))
                         }   
                     </div>

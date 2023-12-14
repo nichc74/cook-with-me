@@ -17,7 +17,14 @@ const CollectionBox = ({collection, collectionPath}: any) => {
         const recipes = await fetchRecipeCollection();
         dispatch(updateRecipes(recipes));
         if (recipes) {
-            navigate(`/${collectionPath}/${collection.name}`)
+            navigate(`/${collectionPath}/${collection.name}`, 
+                {
+                    state: {
+                        collectionPath: collectionPath,
+                        collectionName: collection.name
+                    }
+                }
+            )
         }
     }
 

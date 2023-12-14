@@ -9,8 +9,7 @@ const headers = {
 
 export async function createRecipe(formData) {
     let createRecipeEndpoint = `${endpoint}postRecipe`;
-    console.log(formData);
-    
+
     const options = {
         method: 'POST',
         body: formData,
@@ -68,8 +67,8 @@ export async function getAllRecipesInAdmin(pageNumber) {
     return await results;
 }
 
-export async function getRecipe(url_slug, id) {
-    let fetchRecipeEndpoint = `${endpoint}recipe/${id}/`;
+export async function getRecipeBySlug(url_slug) {
+    let fetchRecipeEndpoint = `${endpoint}recipe/${url_slug}`;
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
         headers: headers

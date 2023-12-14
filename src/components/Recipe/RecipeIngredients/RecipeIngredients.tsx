@@ -9,11 +9,11 @@ const RecipeIngredients = ({recipeIngredientComponents}) => {
             </div>
             {
                 recipeIngredientComponents.map((component: any) => (
-                    <div>
+                    <div key={component.id}>
                         <b>{component.component_name}</b>
                         {
                             component.ingredients.map((ingredient) => (
-                                <Ingredient ingredient={ingredient}/>
+                                <Ingredient key={ingredient.id} ingredient={ingredient}/>
                             ))
                         }   
                     </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Snackbar, Alert } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { createRecipe, getRecipe, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.js';
+import { createRecipe, getRecipeBySlug, getFormPresets } from '../../../apis/AdminAPI/RecipeAPI.js';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MetadataForm from "./Metadata/MetadataForm";
 import SummaryForm from "./Summary/SummaryForm";
@@ -54,7 +54,7 @@ const RecipeForm = () => {
         setLoading(true);
 
         try {
-            const data = await getRecipe(location.state.url_slug, location.state.id);
+            const data = await getRecipeBySlug(location.state.url_slug);
             // setRecipeData(data);
             setRecipeMetadata(data.metadata);
             setRecipeSummary(data.recipe_summary);
