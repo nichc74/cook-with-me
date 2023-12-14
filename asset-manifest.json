@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/cook-with-me/static/css/main.be27a746.css",
-    "main.js": "/cook-with-me/static/js/main.c26d54ff.js",
+    "main.js": "/cook-with-me/static/js/main.6dc2e9ec.js",
     "static/js/787.c860a096.chunk.js": "/cook-with-me/static/js/787.c860a096.chunk.js",
     "index.html": "/cook-with-me/index.html",
     "main.be27a746.css.map": "/cook-with-me/static/css/main.be27a746.css.map",
-    "main.c26d54ff.js.map": "/cook-with-me/static/js/main.c26d54ff.js.map",
+    "main.6dc2e9ec.js.map": "/cook-with-me/static/js/main.6dc2e9ec.js.map",
     "787.c860a096.chunk.js.map": "/cook-with-me/static/js/787.c860a096.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.be27a746.css",
-    "static/js/main.c26d54ff.js"
+    "static/js/main.6dc2e9ec.js"
   ]
 }
