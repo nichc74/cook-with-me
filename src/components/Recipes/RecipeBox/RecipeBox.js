@@ -16,16 +16,17 @@ const RecipeBox = ({togglePage, recipe}) => {
   
     return (
         <div onClick={handleClick} className="RecipeBox-main">
-            <div style={{width: `${240}px`, height: `${240}px`, margin: "auto" }}>
+            <div className="RecipeBox-image-container">
                 <img
                     className="RecipeBox-image"
                     alt="Recipe Image"
                     src={recipe.image}
                 />
-            </div>
-            
-            <div className="RecipeBox-name">
-                {recipe.title} 
+                <div className="RecipeBox-text-gradient">
+                    <div className="RecipeBox-name">
+                        {recipe.title} 
+                    </div>
+                </div>
             </div>
         </div>
     )
