@@ -16,6 +16,8 @@ const RecipeIngredients = ({recipeIngredientComponents}) => {
                                 <Ingredient key={ingredient.id} ingredient={ingredient}/>
                             ))
                         }   
+                        <br/>
+                        {/* <br/> */}
                     </div>
                 ))
             }

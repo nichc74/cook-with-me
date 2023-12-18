@@ -14,7 +14,7 @@ const Ingredient = ({ingredient}) => {
                     :
                     ingredient.amount
             }
-                &nbsp; <span>
+                <span>
                     {ingredient.metric !== '0' && <span> {ingredient.metric} </span> }
                 </span>  
             {ingredient.name} 
