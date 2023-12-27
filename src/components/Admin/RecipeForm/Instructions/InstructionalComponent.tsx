@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
 import InstructionItem from "./InstructionItem";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Box, Paper, TextField, Button } from "@mui/material";
 import { Add, Delete } from "@mui/icons-material";
 
 interface InstructionalComponentProps {
-    updateComponent: Function,
-    removeComponent: Function,
-    key: number,
-    index: number,
+    updateComponent: Function;
+    removeComponent: Function;
+    key: number;
+    index: number;
     instructionalComponent: {
-        component_name: string,
+        component_name: string;
         instructions: Array<InstructionProps>
     }
 }
 
 interface InstructionProps {
-    id: string
+    id: string;
     description: string;
-    image: string,
+    image: string;
+    step_id: number | null;
 }
 
 const InstructionalComponent = ({updateComponent, removeComponent, instructionalComponent, index} :InstructionalComponentProps) => {
@@ -36,7 +38,7 @@ const InstructionalComponent = ({updateComponent, removeComponent, instructional
     }
 
     const addNewInstruction = () => {
-        setInstructions([...instructions, {id: "", description: "", image: ""}]);
+        setInstructions([...instructions, {id: instructions.length - 1 + "", description: "", image: "", step_id: instructions.length - 1}]);
     }
 
     const removeInstruction = (index: number) => {
@@ -50,14 +52,21 @@ const InstructionalComponent = ({updateComponent, removeComponent, instructional
                 return {
                     ...instruction,
                     image: updatedInstruction.image,
-                    description: updatedInstruction.description,
-                    stepId: updatedInstruction.index + 1
+                    description: updatedInstruction.description
                 };
             }
             return instruction;
         })
         setInstructions(updatedInstructions);
     }
+
+    const onDragEnd = (result: any) => {
+        if (!result.destination) return;
+        const newItems = Array.from(instructions);
+        const [removed] = newItems.splice(result.source.index, 1);
+        newItems.splice(result.destination.index, 0, removed);
+        setInstructions(newItems);
+    };
 
     return (
         <Box>
@@ -68,17 +77,33 @@ const InstructionalComponent = ({updateComponent, removeComponent, instructional
                     value={componentName}
                     onChange={(e) => handleComponentNameInput(e.target.value)}
                 />
-                {
-                    instructions.map((instruction, index) => (
-                        <InstructionItem
-                            key={instruction.id}
-                            index={index}
-                            instruction={instruction}
-                            removeInstruction={removeInstruction}
-                            updateInstructions={updateInstructions}
-                        />
-                    ))
-                }
+
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="droppable">
+                        {(provided) => (
+                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                            {
+                                instructions.map((instruction, index) => (
+                                    <Draggable key={instruction.id} draggableId={instruction.id + ""} index={index}>
+                                        {(provided, snapshot) => (
+                                            <InstructionItem 
+                                                provided={provided}
+                                                snapshot={snapshot}
+                                                index={index}
+                                                key={instruction.id}
+                                                instruction={instruction}
+                                                removeInstruction={removeInstruction}
+                                                updateInstructions={updateInstructions}
+                                            />
+                                        )}
+                                    </Draggable>
+                                ))
+                            }
+                        </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+
                 <div className="ingredient-section-buttons">
                     <Button variant="contained" onClick={() => addNewInstruction()}><Add/></Button>
                     <Button variant="contained" color="error" onClick={() => removeComponent(index)}><Delete/></Button>

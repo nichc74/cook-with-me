@@ -13,7 +13,7 @@ interface NoteItemProps {
     }
 }
 
-const NoteItem = ({key, index, removeNote, updateNotes, note}: NoteItemProps) => {
+const NoteItem = ({index, removeNote, updateNotes, note}: NoteItemProps) => {
     const [description, setDescription] = useState(note.description || "");
 
     useEffect(() => {

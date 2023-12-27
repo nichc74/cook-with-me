@@ -1,6 +1,8 @@
 import React from "react";
 import './Instructions.css'
-const Instruction = ({instruction}) => {
+
+const Instruction = ({instruction, step_id}) => {
+    
     return (
         <div className="RecipeDetailPage-ingr">
             {
@@ -9,7 +11,7 @@ const Instruction = ({instruction}) => {
 
             }
             <div className="step-container">
-                <div className="step-number"><b>{instruction.step_id}.</b></div>
+                <div className="step-number"><b>{step_id+1}.</b></div>
                 <div className="step-description">{instruction.description}</div>
             </div>
           </div>

@@ -26,7 +26,6 @@ const PresetManagementPage = () => {
     };
 
     const removeElement = (presetType: string, id: number) => {
-        console.log("removing element");
         switch(presetType) {
             case 'metric':
                 const updatedMetrics = metrics.filter((metric, index) => metric.id !== id);
