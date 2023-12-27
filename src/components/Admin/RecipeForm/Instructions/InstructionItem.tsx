@@ -1,4 +1,4 @@
-import { Image, Add, Remove } from "@mui/icons-material";
+import { Image, Add, Remove, Reorder } from "@mui/icons-material";
 import { Box, Button, Paper, TextField, Tooltip } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import './Instruction.css';
@@ -10,10 +10,12 @@ interface InstructionItemProps {
         image: string
     }
     removeInstruction: Function,
-    updateInstructions: Function
+    updateInstructions: Function,
+    snapshot: any,
+    provided: any
 }
 
-const InstructionItem = ({removeInstruction, updateInstructions, instruction, index} : InstructionItemProps) => {
+const InstructionItem = ({removeInstruction, updateInstructions, instruction, index, snapshot, provided}: InstructionItemProps) => {
     const [image, setImage] = useState(instruction.image || "");
     const [description, setDescription] = useState(instruction.description || "");
     
@@ -21,7 +23,6 @@ const InstructionItem = ({removeInstruction, updateInstructions, instruction, in
         updateInstructions({
             image, 
             description,
-            index
         }, index)
     }, [image, description]);
 
@@ -43,7 +44,11 @@ const InstructionItem = ({removeInstruction, updateInstructions, instruction, in
 
 
     return(
-        <Box>
+        <Box
+            ref={provided.innerRef}
+            snapshot={snapshot}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}>
             <Paper elevation={3} style={{display: 'flex', padding: 10, background: 'white', flexDirection: "column", marginBottom: 10}}>
                     { image && 
                         <Button className="remove-image" onClick={removeImage}>
@@ -52,19 +57,7 @@ const InstructionItem = ({removeInstruction, updateInstructions, instruction, in
                             </Tooltip>
                         </Button>
                     }
-                    <div style={{marginLeft: "auto", flexDirection: "row"}}>
-                        <label>
-                            <Button variant="contained" component="span">
-                                <Image/><Add/>
-                                <input
-                                    accept="image/*"
-                                    type="file"
-                                    style={{ display: 'none' }}
-                                    onChange={handleImageUpload}
-                                />
-                            </Button>
-                        </label>                    
-                    </div>
+                    
                     <br/>
                     <div style={{ display: "flex", flexDirection: "row"}}>
                         <TextField
@@ -78,9 +71,20 @@ const InstructionItem = ({removeInstruction, updateInstructions, instruction, in
                                 setDescription(e.target.value);
                             }}
                         />
+                        <Button variant="contained">
+                            <Image/>
+                            <input
+                                accept="image/*"
+                                type="file"
+                                style={{ display: 'none' }}
+                                onChange={handleImageUpload}
+                            />
+                        </Button>     
                         <Button color="error" style={{marginLeft: "auto"}} variant="contained" onClick={() => {removeInstruction(index)}}>
                             <Remove/>
                         </Button>
+
+                        <Reorder style={{height: "100%", paddingLeft: 10, margin: "auto"}}/>
                     </div>
                     <br/>
             </Paper>

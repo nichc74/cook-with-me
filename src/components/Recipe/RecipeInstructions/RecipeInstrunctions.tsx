@@ -13,7 +13,7 @@ const RecipeInstructions = ({recipeComponentInstructions}) => {
                         <b>{component.component_name}</b>
                         {
                             component.instructions.map((instruction: any, index: number) => (
-                                <Instruction key={instruction.id} instruction={instruction}/>
+                                <Instruction key={instruction.id} instruction={instruction} step_id={index}/>
                             ))
                         } 
                         <br/>  
