@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import IngredientItem from "./IngredientItem";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Box, Button, Paper, TextField } from "@mui/material";
 import { Add, Delete } from "@mui/icons-material";
 
@@ -38,7 +39,7 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
     }
 
     const addNewIngredient = () => {
-        setIngredients([...ingredients, {id: "", amount: "", metric: "", name: ""}]);
+        setIngredients([...ingredients, {id: ingredients.length - 1 + "", amount: "", metric: "", name: ""}]);
     }
 
     const removeIngredient = (index: number) => {
@@ -60,6 +61,14 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
         })
         setIngredients(updatedIngredients);
     }
+
+    const onDragEnd = (result: any) => {
+        const newItems = Array.from(ingredients);
+        const [removed] = newItems.splice(result.source.index, 1);
+        newItems.splice(result.destination.index, 0, removed);
+        console.dir(newItems);
+        setIngredients(newItems);
+    };
     
     return (
         <Box>
@@ -70,19 +79,33 @@ const IngredientComponent = ({updateComponent, removeComponent, ingredientCompon
                     value={componentName}
                     onChange={(e) => handleComponentNameInput(e.target.value)}
                 />
-                {
-                    ingredients.map((ingredient, index) => (
-                        <IngredientItem 
-                            index={index}
-                            key={ingredient.id}
-                            ingredientPresets={ingredientPresets}
-                            metricPresets={metricPresets}
-                            ingredient={ingredient}
-                            removeIngredient={() => removeIngredient(index)}
-                            updateIngredientList={updateIngredientList}
-                        />
-                    ))
-                }
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="droppable">
+                        {(provided) => (
+                        <div {...provided.droppableProps} ref={provided.innerRef}>
+                            {
+                                ingredients.map((ingredient, index) => (
+                                    <Draggable key={ingredient.id} draggableId={ingredient.id + ""} index={index}>
+                                        {(provided, snapshot) => (
+                                            <IngredientItem 
+                                                provided={provided}
+                                                snapshot={snapshot}
+                                                index={index}
+                                                key={ingredient.id}
+                                                ingredientPresets={ingredientPresets}
+                                                metricPresets={metricPresets}
+                                                ingredient={ingredient}
+                                                removeIngredient={() => removeIngredient(index)}
+                                                updateIngredientList={updateIngredientList}
+                                            />
+                                        )}
+                                    </Draggable>
+                                ))
+                            }
+                        </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                 <div className="ingredient-section-buttons">
                     <Button variant="contained" onClick={() => addNewIngredient()}><Add/></Button>
                     <Button variant="contained" color="error" onClick={() => removeComponent(index)}><Delete/></Button>

@@ -73,6 +73,7 @@ export async function getRecipeBySlug(url_slug) {
         method: 'GET',
         headers: headers
     });
+    console.log(response)
 
     let recipe = await response.json();
     return await recipe;

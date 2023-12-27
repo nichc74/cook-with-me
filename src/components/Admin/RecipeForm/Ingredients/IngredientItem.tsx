@@ -1,5 +1,6 @@
 import { Autocomplete, Box, Button, Paper, TextField } from "@mui/material";
 import { Remove } from "@mui/icons-material";
+import ReorderIcon from '@mui/icons-material/Reorder';
 import React, { useEffect, useState } from "react";
 
 interface IngredientItemProps {
@@ -13,10 +14,12 @@ interface IngredientItemProps {
         amount: string,
         metric: string,
         name: string
-    }
+    },
+    snapshot: any,
+    provided: any
 }
 
-const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, metricPresets, ingredientPresets, index}: IngredientItemProps) => {
+const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, metricPresets, ingredientPresets, index, snapshot, provided}: IngredientItemProps) => {
     const [id, setId] = useState<number | null>(ingredient.id || null );
     const [amount, setAmount] = useState<string | null>(ingredient.amount || "");
     const [metric, setMetric] = useState<string | null>(ingredient.metric || "");
@@ -36,7 +39,11 @@ const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, me
     }
 
     return (
-        <Box className="ingredients-container">
+        <Box className="ingredients-container"
+            ref={provided.innerRef}
+            snapshot={snapshot}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}>
             <Paper elevation={3} style={{width: "100%", display: "flex", padding: 10, justifyContent: "left", background: "white"}} >
                 <TextField id="amount" sx={{ width: '100%' }} fullWidth label="Amount" variant="outlined"
                     value={amount === null ? "" : amount}
@@ -72,6 +79,7 @@ const IngredientItem = ( {updateIngredientList, removeIngredient, ingredient, me
                 }
                 />
                 <Button color="error" variant="contained" onClick={deleteItem}><Remove/></Button>
+                <ReorderIcon style={{height: "100%", paddingLeft: 10}}/>
             </Paper>
         </Box>
     )
