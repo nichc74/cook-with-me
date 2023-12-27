@@ -1,65 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {editPreset} from '../../../apis/AdminAPI/PresetAPI.js';
-import { Alert, Snackbar } from "@mui/material";
+import { Tooltip } from "@mui/material";
+import { Image } from "@mui/icons-material";
 
-const EditingPresetModal = ({isOpen, cancelEdit, preset, presetType, presetName, setNewPresetName}: any) => {
-    const [open, setOpen] = useState(isOpen);
-    const [rename, setRename] = useState(presetName);
-    const [hasInputError, setHasInputError] = useState(false);
+import { editPreset } from '../../../apis/AdminAPI/PresetAPI.js';
+import './EditingPresetModal.css'; // Import your CSS file here
 
+interface Props {
+    isOpen: boolean;
+    cancelEdit: (value: boolean) => void;
+    preset: any; // Adjust type as needed
+    presetType: string;
+    presetName: string;
+    setNewPresetName: (value: string) => void;
+}
+
+const EditingPresetModal: React.FC<Props> = ({ isOpen, cancelEdit, preset, presetType, presetName, setNewPresetName }) => {
+    const [image, setImage] = useState<string>("");
+    const [open, setOpen] = useState<boolean>(isOpen);
+    const [rename, setRename] = useState<string>(presetName);
+    const [hasInputError, setHasInputError] = useState<boolean>(false);
+
+    // Handle closing the modal
     const handleClose = () => {
         setOpen(false);
         cancelEdit(false);
     };
 
-    const renameRoom = async () => {
+    // Handle renaming of the preset
+    const updatePreset = async () => {
         if (rename) {
             try {
                 const result = await editPreset(presetType, preset.id, rename);
-            
-                if (result) {
-                    console.log(result.name);
-                    setNewPresetName(result.name);
-                    handleClose();
-                }
+                setNewPresetName(result.name);
+                handleClose();
             } catch (error) {
-              // Handle errors from the API call
-              console.error("Error editing preset:", error);
-              // You might want to set an error state or show an error message to the user
+                console.error("Error editing preset:", error);
             }
         } else {
             setHasInputError(true);
         }
     }
 
-    const setNewName = (event: any) => {
+    const setNewName = (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
-        if (newValue) {
-            setHasInputError(false)
-        }
+        setHasInputError(!newValue);
         setRename(newValue);
+    }
+
+    const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => setImage(reader.result as string);
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeImage = () => {
+        setImage('');
     }
 
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Editing Preset</DialogTitle>
-            <DialogContent>
-                <TextField 
-                    sx={{width: 350}}
-                    value={rename}
-                    onChange={setNewName} 
-                    error={hasInputError}
-                />
+            <DialogContent className="modal-content">
+                {image && 
+                    <div className="image-container">
+                        <Button className="remove-image" onClick={removeImage}>
+                            <Tooltip title="Delete">
+                                <img className="image-button" src={image} alt="Uploaded preview" />
+                            </Tooltip>
+                        </Button>
+                    </div>
+                }
+                { (presetType === "category" || presetType === "cuisines") &&
+                    <div className="button-container">
+                        <label>
+                            <Button variant="contained" className="upload-button" component="span">
+                                <Image />
+                                <input
+                                    accept="image/*"
+                                    type="file"
+                                    className="file-input"
+                                    onChange={handleImageUpload}
+                                />
+                            </Button>
+                        </label>
+                    </div>
+                }
+                
+                <div className="text-field-container">
+                    <TextField 
+                        className="text-field"
+                        value={rename}
+                        onChange={setNewName} 
+                        error={hasInputError}
+                    />
+                </div>
             </DialogContent>
             <DialogActions>
-                <Button onClick={renameRoom}>Submit</Button>
+                <Button onClick={updatePreset}>Submit</Button>
                 <Button color="error" onClick={handleClose}>Cancel</Button>
             </DialogActions>
         </Dialog>

@@ -71,15 +71,17 @@ const InstructionItem = ({removeInstruction, updateInstructions, instruction, in
                                 setDescription(e.target.value);
                             }}
                         />
-                        <Button variant="contained">
-                            <Image/>
-                            <input
-                                accept="image/*"
-                                type="file"
-                                style={{ display: 'none' }}
-                                onChange={handleImageUpload}
-                            />
-                        </Button>     
+                        <label>
+                            <Button variant="contained" component="span">
+                                <Image/>
+                                <input
+                                    accept="image/*"
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                    onChange={handleImageUpload}
+                                />
+                            </Button>     
+                        </label>
                         <Button color="error" style={{marginLeft: "auto"}} variant="contained" onClick={() => {removeInstruction(index)}}>
                             <Remove/>
                         </Button>
