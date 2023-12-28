@@ -5,11 +5,8 @@ import { getRecipes } from '../../../apis/AdminAPI/RecipeAPI.js';
 import { updateRecipes } from '../../../store/actions/recipesActions.js';
 import { useDispatch } from "react-redux";
 
-interface CategoryBox {
-
-}
-
 const CollectionBox = ({collection, collectionPath}: any) => {
+    console.log(collection)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -34,19 +31,30 @@ const CollectionBox = ({collection, collectionPath}: any) => {
     }
     
     return (
-        <div className="CategoryBox-main" onClick={handleClick}>
-            <div style={{width: `${180}px`, height: `${180}px`, margin: "auto", backgroundColor: "white", border: "2px solid darkblue", display: "flex"}}>
-                {/* <img
-                    className="CategoryBox-image"
-                    alt="Category Image"
-                    // src={recipe.image}
-                /> */}
-
-                <div className="CategoryBox-name" style={{margin: "auto"}}>
-                    {collection.name} 
+        <div className="CollectionBox-main" onClick={handleClick}>
+            {
+                collection.image ?
+                    <div className="CollectionBox-image-container">
+                    
+                            <img
+                                className="CollectionBox-image"
+                                alt="Collection Image"
+                                src={collection.image}
+                            />
+                            <div className="CollectionBox-text-gradient">
+                            <div className="CollectionBox-name">
+                                {collection.name} 
+                            </div>
+                        </div>
+                    </div>
+                :
+                <div style={{width: `${180}px`, height: `${180}px`, margin: "auto", backgroundColor: "white", border: "2px solid darkblue", display: "flex"}}>
+                    <div className="CollectionBox-name-pictureless " style={{margin: "auto"}}>
+                        {collection.name} 
+                    </div>
                 </div>
-            </div>
-    </div>
+            }
+        </div>
     )
 }
 export default CollectionBox;

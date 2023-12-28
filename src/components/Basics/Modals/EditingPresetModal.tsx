@@ -7,21 +7,22 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Tooltip } from "@mui/material";
 import { Image } from "@mui/icons-material";
-
 import { editPreset } from '../../../apis/AdminAPI/PresetAPI.js';
-import './EditingPresetModal.css'; // Import your CSS file here
+import './EditingPresetModal.css';
 
 interface Props {
     isOpen: boolean;
     cancelEdit: (value: boolean) => void;
-    preset: any; // Adjust type as needed
+    preset: any;
     presetType: string;
     presetName: string;
+    presetImage: string;
     setNewPresetName: (value: string) => void;
+    setNewPresetImage: (value: string) => void;
 }
 
-const EditingPresetModal: React.FC<Props> = ({ isOpen, cancelEdit, preset, presetType, presetName, setNewPresetName }) => {
-    const [image, setImage] = useState<string>("");
+const EditingPresetModal: React.FC<Props> = ({ isOpen, cancelEdit, preset, presetType, presetName, presetImage, setNewPresetName, setNewPresetImage }) => {
+    const [image, setImage] = useState<string>(presetImage);
     const [open, setOpen] = useState<boolean>(isOpen);
     const [rename, setRename] = useState<string>(presetName);
     const [hasInputError, setHasInputError] = useState<boolean>(false);
@@ -34,10 +35,12 @@ const EditingPresetModal: React.FC<Props> = ({ isOpen, cancelEdit, preset, prese
 
     // Handle renaming of the preset
     const updatePreset = async () => {
-        if (rename) {
+        if (rename != presetName || image != presetImage ) {
             try {
-                const result = await editPreset(presetType, preset.id, rename);
+                const result = await editPreset(presetType, preset.id, rename, image);
+                console.log(result)
                 setNewPresetName(result.name);
+                setNewPresetImage(result.image);
                 handleClose();
             } catch (error) {
                 console.error("Error editing preset:", error);
@@ -79,7 +82,7 @@ const EditingPresetModal: React.FC<Props> = ({ isOpen, cancelEdit, preset, prese
                         </Button>
                     </div>
                 }
-                { (presetType === "category" || presetType === "cuisines") &&
+                { (presetType === "category" || presetType === "cuisine") &&
                     <div className="button-container">
                         <label>
                             <Button variant="contained" className="upload-button" component="span">

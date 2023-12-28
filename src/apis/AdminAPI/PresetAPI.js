@@ -1,12 +1,12 @@
 import {CONNECTION_TYPE, HOSTSITE, ORM_PATH} from '../../config/endpoints';
-const endpoint = `${CONNECTION_TYPE}${HOSTSITE}${ORM_PATH}/preset`;
+const endpoint = `${CONNECTION_TYPE}${HOSTSITE}${ORM_PATH}preset/`;
 
 const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
 };
 
-export async function editPreset(presetType, id, value) {
+export async function editPreset(presetType, id, value, image) {
     const editPresetEndpoint = `${endpoint}${presetType}/${id}`;
 
     const options = {
@@ -14,6 +14,7 @@ export async function editPreset(presetType, id, value) {
         headers,
         body: JSON.stringify({
             name: value,
+            image: image
         }),
     };
 
