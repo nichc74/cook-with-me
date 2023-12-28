@@ -21,6 +21,7 @@ const PresetList = ({presets, presetType, removeElement} : PresetListProps) => {
                 <TableHead>
                     <TableRow>
                         <TableCell>ID</TableCell>
+                        <TableCell></TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>Options</TableCell>
                     </TableRow>
