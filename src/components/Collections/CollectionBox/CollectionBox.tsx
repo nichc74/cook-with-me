@@ -6,7 +6,6 @@ import { updateRecipes } from '../../../store/actions/recipesActions.js';
 import { useDispatch } from "react-redux";
 
 const CollectionBox = ({collection, collectionPath}: any) => {
-    console.log(collection)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
