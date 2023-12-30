@@ -14,6 +14,7 @@ const SearchDrawer = ({ searching, closeSearch, searchTerm, searchResults, handl
                 <form onSubmit={handleSubmit}> {/* Use form element for handling submission */}
                     <FormControl>
                         <RoundedTextField
+                            type="search"
                             value={searchTerm}
                             onChange={setSearch}
                             placeholder='Search Recipes'

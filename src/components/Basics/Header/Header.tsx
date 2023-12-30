@@ -10,6 +10,7 @@ const Header = () => {
     const [searching, setSearching] = useState(false);
     const [searchTerm, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState(null);
+
     const navigate = useNavigate();
 
     useEffect(()=> {
@@ -21,9 +22,10 @@ const Header = () => {
 
     const handleSubmit = (event: { keyCode?: number; preventDefault?: any; }) => {
         event.preventDefault();
-        setSearchInput("");
-        setSearching(true);
-        searchContent();
+        if (searchTerm !== "") {
+            setSearching(true);
+            searchContent();
+        }
     };
 
     const keyPress = (e: { keyCode: number; }) => {
@@ -45,7 +47,6 @@ const Header = () => {
         searchRecipes(searchTerm).then((results : any) => {
             setSearchResults(results);
         });
-        setSearchInput("");
     }
 
 
@@ -57,6 +58,7 @@ const Header = () => {
             <div style={{margin: "auto 60px"}}>
                 <FormControl onSubmit={handleSubmit}>
                     <RoundedTextField 
+                        type="search"
                         onKeyDown={keyPress}
                         value={searchTerm}
                         onChange={setSearch}
