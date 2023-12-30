@@ -25,7 +25,7 @@ const RoundedTextField = styled(TextField)({
     },
 
     height: "100%",
-    width: "300px",
+    width: "250px",
 });
   
 export default RoundedTextField;
