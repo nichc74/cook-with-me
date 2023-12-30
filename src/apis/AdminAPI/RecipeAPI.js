@@ -33,6 +33,17 @@ export async function getRecipes(collection="", genre="") {
     return await recipes;
 }
 
+export async function searchRecipes(term) {
+    let searchRecipeEndpoint = `${endpoint}recipeSearch/${term}/`;
+    let response = await fetch(searchRecipeEndpoint, {
+        method: 'GET',
+        headers: headers
+    });
+
+    let recipes = await response.json();
+    return await recipes;
+}
+
 export async function getCategories() {
     let fetchCategoriesEndpoint = `${endpoint}categories`;
     let response = await fetch(fetchCategoriesEndpoint, {
@@ -104,8 +115,4 @@ export async function getFormPresets() {
     
     let presets = response.json();
     return await presets;
-}
-
-export async function searchRecipesInAdmin() {
-
 }
