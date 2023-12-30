@@ -57,12 +57,10 @@ const Header = () => {
             <div style={{margin: "auto 60px"}}>
                 <FormControl onSubmit={handleSubmit}>
                     <RoundedTextField 
-                        value={searchTerm}
                         onKeyDown={keyPress}
+                        value={searchTerm}
                         onChange={setSearch}
-                        type="text"
-                        label="Search Recipes" 
-                        multiline maxRows={4}
+                        placeholder='Search Recipes'
                     />
                 </FormControl>
             </div>

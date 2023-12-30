@@ -16,7 +16,7 @@ const SearchContent = ({searchResults, closeSearch} : any) => {
             {
                 searchResults.recipes_with_ingredient.length > 0 &&
                 <>
-                    <h2 style={{color: "#ababab"}}>Revelant Recipes</h2>
+                    <h2 style={{color: "#ababab"}}>Relevant Recipes</h2>
                     <SearchList 
                         closeSearch={closeSearch}
                         recipeList={searchResults.recipes_with_ingredient}/>
