@@ -7,10 +7,11 @@ import { Checkbox, TableCell, TableRow } from '@mui/material';
 
 interface RecipeObjectProp {
     id: number;
-    image: string,
-    title: string,
-    status: string,
-    category: string
+    image: string;
+    title: string;
+    status: string;
+    category: string;
+    updated_at: string;
 }
 
 interface RecipeCardProps {
@@ -18,12 +19,14 @@ interface RecipeCardProps {
 
 }
 
+
 const RecipeCard = ({recipe}: RecipeCardProps) => {
     const [recipeStatus, setRecipeStatus] = useState(recipe.status);
     const navigate = useNavigate();
 
     const publishingOnClick = async (status: string) => {
         const result = await updateRecipeStatus(recipe.id, status);
+
         if (result.status == 200) {
             setRecipeStatus(status);
         }
@@ -31,6 +34,14 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
 
     const onClickEdit = () => {
         navigate(`/admin/recipe-form/edit/${recipe.id}`, { state: recipe });
+    }
+
+    const convertUTCtoLocalTimeZone = () => {
+        const utcDate = new Date(recipe.updated_at);
+        const timeZoneOffset = utcDate.getTimezoneOffset();
+        const localDate = new Date(utcDate.getTime() - (timeZoneOffset));
+        const formattedLocalTime = localDate.toLocaleString();
+        return formattedLocalTime;
     }
 
     return (
@@ -48,7 +59,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
         
             <TableCell align="left">{recipeStatus}</TableCell>
             <TableCell align="left">{recipe.category}</TableCell>
-            <TableCell align="left"></TableCell>
+            <TableCell align="left">{recipe.updated_at && convertUTCtoLocalTimeZone()}</TableCell>
             <TableCell align="left">
             <div style={{padding: 10, display: "flex", justifyContent: "space-evenly", overflowWrap: "normal", flexWrap: "wrap"}}>
                 {
