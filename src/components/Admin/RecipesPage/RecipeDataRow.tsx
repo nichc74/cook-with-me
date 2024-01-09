@@ -2,8 +2,9 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js'
+import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js';
 import { Checkbox, TableCell, TableRow } from '@mui/material';
+import {convertUTCtoLocalTimeZone} from '../../../helpers/timezoneConverter';
 
 interface RecipeObjectProp {
     id: number;
@@ -36,14 +37,6 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
         navigate(`/admin/recipe-form/edit/${recipe.id}`, { state: recipe });
     }
 
-    const convertUTCtoLocalTimeZone = () => {
-        const utcDate = new Date(recipe.updated_at);
-        const timeZoneOffset = utcDate.getTimezoneOffset();
-        const localDate = new Date(utcDate.getTime() - (timeZoneOffset));
-        const formattedLocalTime = localDate.toLocaleString();
-        return formattedLocalTime;
-    }
-
     return (
         <TableRow
             key={recipe.title}
@@ -59,7 +52,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
         
             <TableCell align="left">{recipeStatus}</TableCell>
             <TableCell align="left">{recipe.category}</TableCell>
-            <TableCell align="left">{recipe.updated_at && convertUTCtoLocalTimeZone()}</TableCell>
+            <TableCell align="left">{recipe.updated_at && convertUTCtoLocalTimeZone(recipe.updated_at)}</TableCell>
             <TableCell align="left">
             <div style={{padding: 10, display: "flex", justifyContent: "space-evenly", overflowWrap: "normal", flexWrap: "wrap"}}>
                 {

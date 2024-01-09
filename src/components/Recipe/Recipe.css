@@ -4,9 +4,16 @@
     padding: 50px;
 }
 
+.last-updated-time {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+}
+
 @media (max-width: 500px) {
     .recipe-detail-page {
         margin: 0px;
         padding: 0px;
     }
 }
+

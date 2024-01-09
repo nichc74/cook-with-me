@@ -6,6 +6,7 @@ import RecipeIngredients from "./RecipeIngredients/RecipeIngredients.tsx";
 import RecipeInstructions from "./RecipeInstructions/RecipeInstrunctions.tsx";
 import RecipeNotes from "./RecipeNotes/RecipeNotes.tsx";
 import { useParams } from "react-router-dom";
+import { convertUTCtoLocalDate } from "../../helpers/timezoneConverter";
 import './Recipe.css';
 
 interface RecipeProps {
@@ -53,6 +54,12 @@ const Recipe = ({ slug, recipe_id }: RecipeProps) => {
 						</div>
 					</div> 
 					<RecipeNotes notes={recipeDetails.notes} />
+					{recipeDetails.metadata.updated_at && 
+						<div className="last-updated-time">
+							Last Updated: {convertUTCtoLocalDate(recipeDetails.metadata.updated_at)}
+						</div>
+					}
+					
 				</div>
 			) : (
 				<p>Loading Recipe Data...</p>
