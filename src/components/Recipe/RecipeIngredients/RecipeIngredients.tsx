@@ -2,7 +2,6 @@ import React from "react";
 import Ingredient from './Ingredient.tsx'
 
 const RecipeIngredients = ({recipeIngredientComponents}) => {
-    console.dir(recipeIngredientComponents)
     return (
         <div className="Recipe-detail-top-border">
             <div className="RecipeDetailPage-ingr-label RecipeDetailPage-body-label">

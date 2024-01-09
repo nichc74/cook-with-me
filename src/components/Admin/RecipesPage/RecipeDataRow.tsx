@@ -2,15 +2,17 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js'
+import { updateRecipeStatus } from '../../../apis/AdminAPI/RecipeAPI.js';
 import { Checkbox, TableCell, TableRow } from '@mui/material';
+import {convertUTCtoLocalTimeZone} from '../../../helpers/timezoneConverter';
 
 interface RecipeObjectProp {
     id: number;
-    image: string,
-    title: string,
-    status: string,
-    category: string
+    image: string;
+    title: string;
+    status: string;
+    category: string;
+    updated_at: string;
 }
 
 interface RecipeCardProps {
@@ -18,12 +20,14 @@ interface RecipeCardProps {
 
 }
 
+
 const RecipeCard = ({recipe}: RecipeCardProps) => {
     const [recipeStatus, setRecipeStatus] = useState(recipe.status);
     const navigate = useNavigate();
 
     const publishingOnClick = async (status: string) => {
         const result = await updateRecipeStatus(recipe.id, status);
+
         if (result.status == 200) {
             setRecipeStatus(status);
         }
@@ -48,7 +52,7 @@ const RecipeCard = ({recipe}: RecipeCardProps) => {
         
             <TableCell align="left">{recipeStatus}</TableCell>
             <TableCell align="left">{recipe.category}</TableCell>
-            <TableCell align="left"></TableCell>
+            <TableCell align="left">{recipe.updated_at && convertUTCtoLocalTimeZone(recipe.updated_at)}</TableCell>
             <TableCell align="left">
             <div style={{padding: 10, display: "flex", justifyContent: "space-evenly", overflowWrap: "normal", flexWrap: "wrap"}}>
                 {
