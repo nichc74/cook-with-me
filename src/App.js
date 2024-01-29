@@ -30,6 +30,7 @@ function App() {
 
     useEffect(() => {
         if (location.state) {
+            console.log(location.state);
             fetchRecipes(location.state.collectionPath, location.state.collectionName);
         }
         else {
@@ -82,17 +83,17 @@ function App() {
                         <Route path={`${path}recipes/:slug`} element={<Recipe/>}/>
 
                         <Route exact path={`${path}/categories`} element={<Categories collections={categories} collectionPath={'categories'} />}/>
-                        {
+                        {/* {
                             categories.map((category) => (
                                 <Route key={category.id} path={`${path}categories/${category.name}`} element={<Recipes recipes={recipes}/>}/>
                             ))
-                        }
-                        <Route exact path={`${path}/cuisines`} element={<Categories collections={cuisines} collectionPath={'cuisines'}/> }/>
-                        {
+                        } */}
+                        <Route exact path={`${path}/cuisines`} element={<Categories collections={cuisines} collectionPath={'cuisines'} />}/>
+                        {/* {
                             cuisines.map((cuisine) => (
                                 <Route key={cuisine.id} path={`${path}cuisines/${cuisine.name}`} element={<Recipes recipes={recipes}/>}/>
                             ))
-                        }
+                        } */}
                         <Route exact path="/*" element={<PageNotFound/>}/>
                         <Route path="/" element={<Navigate to={`${path}recipes`} replace />} />
                     </Routes>

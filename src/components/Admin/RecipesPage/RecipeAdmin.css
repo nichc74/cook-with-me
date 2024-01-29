@@ -1,13 +1,19 @@
+.recipe-admin-page-container {
+    width: 100%;
+}
+
 .admin-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 24px;
 }
 
 .filters-and-search-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    padding: 16px 0px 40px 0px;
 }
 
 .filters-container {
@@ -15,6 +21,7 @@
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
+    margin: 0px 16px 0px 16px;
 }
 
 .search-container {
