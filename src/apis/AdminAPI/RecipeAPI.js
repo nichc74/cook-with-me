@@ -66,9 +66,23 @@ export async function getCuisines() {
     return await recipes;
 }
 
-export async function getAllRecipesInAdmin(pageNumber) {
-    // let fetchRecipeEndpoint = `${endpoint}/adminRecipes`;
-    let fetchRecipeEndpoint = `${endpoint}recipes/page/${pageNumber}`;
+export async function getAllRecipesInAdmin(params) {
+    console.log(params);
+    let fetchRecipeEndpoint = `${endpoint}filterRecipes?page=${params.page}`;
+
+    if (params.status) {
+        fetchRecipeEndpoint+=`&status=${params.status}`;
+    }
+    if (params.category) {
+        fetchRecipeEndpoint+=`&category=${params.category}`;
+    }
+    if (params.cuisine) {
+        fetchRecipeEndpoint+=`&cuisine=${params.cuisine}`;
+    }
+    if (params.search) {
+        fetchRecipeEndpoint+=`&search=${params.search}`;
+    }
+
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',
         headers: headers

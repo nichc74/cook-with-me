@@ -9,8 +9,8 @@ import "./RecipeAdmin.css";
 const RecipesPage = ({}) => {
     const navigate = useNavigate();
 
-    const [page, setPage] = React.useState(1);
-    const [searchTerm, setSearchTerm] = useState("")
+    const [page, setPage] = useState(1);
+    const [search, setSearchTerm] = useState("")
     const [status, setStatus] = useState("");
     const [category, setCategory] = useState("");
     const [cuisine, setCuisine] = useState("");
@@ -46,7 +46,13 @@ const RecipesPage = ({}) => {
     };
 
     const fetchRecipePage = async (pageNumber: number) => {
-        const fetchedRecipes = await getAllRecipesInAdmin(pageNumber);
+        const fetchedRecipes = await getAllRecipesInAdmin({
+            page: pageNumber,
+            search,
+            status, 
+            category, 
+            cuisine
+        });
         setRecipes(fetchedRecipes.recipes);
         setNumPages(fetchedRecipes.numPages);
     }
@@ -70,27 +76,24 @@ const RecipesPage = ({}) => {
         setCuisine(event.target.value as string);
     }
 
-    const handleFilterSubmit = () => {
-        console.dir({
-            searchTerm,
+    const handleFilterSubmit = async () => {
+        const fetchedRecipes = await getAllRecipesInAdmin({
+            page,
+            search,
             status, 
             category, 
             cuisine
         });
+        setRecipes(fetchedRecipes.recipes);
+        setNumPages(fetchedRecipes.numPages);
     }
 
     const handleSubmit = (event: { keyCode?: number; preventDefault?: any; }) => {
         event.preventDefault();
-        if (searchTerm !== "") {
-            searchContent();
+        if (search !== "") {
+            handleFilterSubmit();
         }
     };
-
-    const searchContent = async () => {
-        searchRecipes(searchTerm).then((results : any) => {
-            setSearchResults(results);
-        });
-    }
 
     const keyPress = (e: { keyCode: number; }) => {
         if(e.keyCode === 13){
@@ -101,6 +104,13 @@ const RecipesPage = ({}) => {
     const setSearch = (event: { target: { value: any; }; }) => {
         const newValue = event.target.value;
         setSearchTerm(newValue);
+    }
+
+    const handleClearFilter = () => {
+        setSearchTerm("");
+        setStatus("");
+        setCategory("");
+        setCuisine("");
     }
 
     return (
@@ -115,7 +125,7 @@ const RecipesPage = ({}) => {
                     <TextField 
                         type="search"
                         onKeyDown={keyPress}
-                        value={searchTerm}
+                        value={search}
                         onChange={setSearch}
                         placeholder='Search Recipes'
                     />
@@ -128,6 +138,7 @@ const RecipesPage = ({}) => {
                             value={status}
                             label="Status"
                             onChange={handleStatusChange}>
+                            <MenuItem value={""}>Clear Entry</MenuItem>
                             <MenuItem value={"published"}>Published</MenuItem>
                             <MenuItem value={"unpublished"}>Unpublished</MenuItem>
                             <MenuItem value={"archived"}>Archived</MenuItem>
@@ -139,8 +150,9 @@ const RecipesPage = ({}) => {
                             value={category}
                             label="Category"
                             onChange={handleCategoryChange}>
+                            <MenuItem value={""}>Clear Entry</MenuItem>
                             {categories.map((category: any) => (
-                                <MenuItem key={category.id} value={category.name}>{category.name}</MenuItem>
+                                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -150,15 +162,18 @@ const RecipesPage = ({}) => {
                             value={cuisine}
                             label="Cuisine"
                             onChange={handleCuisineChange}>
+                            <MenuItem value={""}>Clear Entry</MenuItem> 
                             {cuisines.map((cuisine: any) => (
-                                <MenuItem key={cuisine.id} value={cuisine.name}>{cuisine.name}</MenuItem>
+                                <MenuItem key={cuisine.id} value={cuisine.id}>{cuisine.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </div>
                 <Button variant="contained" color="success" onClick={handleFilterSubmit}>Filter</Button> 
             </div>
-            
+
+            <Button color="error" onClick={handleClearFilter}>Clear Filter</Button> 
+
             <Recipes recipes={recipes} />
 
             <div className="AdminPage-pagination-container">
