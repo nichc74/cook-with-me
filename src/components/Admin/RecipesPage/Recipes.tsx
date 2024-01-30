@@ -5,8 +5,8 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
-import { Checkbox } from "@mui/material";
+// import { getAllRecipesInAdmin } from "../../../apis/AdminAPI/RecipeAPI.js";
+// import { Checkbox } from "@mui/material";
 
 interface RecipesPageProps {
     recipes: Array<Object>
