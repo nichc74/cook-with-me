@@ -16,8 +16,9 @@ const RecipesPage = ({}) => {
     const [cuisine, setCuisine] = useState("");
     const [recipes, setRecipes] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [cuisines, setCuisines] = useState([])
+    const [cuisines, setCuisines] = useState([]);
     const [numPages, setNumPages] = useState(0);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         fetchResources();
@@ -30,7 +31,7 @@ const RecipesPage = ({}) => {
 
     const fetchResources = async () => {
         try {
-            fetchRecipePage(1);
+            fetchRecipePage(page);
             fetchCuisinesAndCategories();
         } catch (error) {
           console.error('Error fetching recipes:', error);
@@ -53,8 +54,12 @@ const RecipesPage = ({}) => {
             category, 
             cuisine
         });
-        setRecipes(fetchedRecipes.recipes);
-        setNumPages(fetchedRecipes.numPages);
+        setLoading(true);
+        if (fetchedRecipes) {
+            setRecipes(fetchedRecipes.recipes);
+            setNumPages(fetchedRecipes.numPages);
+            setLoading(false);
+        }
     }
 
     const fetchCuisinesAndCategories = async() => {
@@ -77,15 +82,7 @@ const RecipesPage = ({}) => {
     }
 
     const handleFilterSubmit = async () => {
-        const fetchedRecipes = await getAllRecipesInAdmin({
-            page,
-            search,
-            status, 
-            category, 
-            cuisine
-        });
-        setRecipes(fetchedRecipes.recipes);
-        setNumPages(fetchedRecipes.numPages);
+        fetchRecipePage(page);
     }
 
     const handleSubmit = (event: { keyCode?: number; preventDefault?: any; }) => {
@@ -119,66 +116,72 @@ const RecipesPage = ({}) => {
                 <h1>Recipes</h1>
                 <Button style={{height: 50, margin: "auto 0px"}} onClick={onClickAddRecipe} size="small" variant="contained">Add Recipe</Button>
             </div>
+            { loading ?
+                <div>Loading Admin Page...</div>
+                :
+                <>
+                    <div className="filters-and-search-container">
+                        <FormControl fullWidth onSubmit={handleSubmit}>
+                            <TextField 
+                                type="search"
+                                onKeyDown={keyPress}
+                                value={search}
+                                onChange={setSearch}
+                                placeholder='Search Recipes'
+                            />
+                        </FormControl>
 
-            <div className="filters-and-search-container">
-                <FormControl fullWidth onSubmit={handleSubmit}>
-                    <TextField 
-                        type="search"
-                        onKeyDown={keyPress}
-                        value={search}
-                        onChange={setSearch}
-                        placeholder='Search Recipes'
-                    />
-                </FormControl>
+                        <div className="filters-container">
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    value={status}
+                                    label="Status"
+                                    onChange={handleStatusChange}>
+                                    <MenuItem value={""}>Clear Entry</MenuItem>
+                                    <MenuItem value={"published"}>Published</MenuItem>
+                                    <MenuItem value={"unpublished"}>Unpublished</MenuItem>
+                                    <MenuItem value={"archived"}>Archived</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                                <Select
+                                    value={category}
+                                    label="Category"
+                                    onChange={handleCategoryChange}>
+                                    <MenuItem value={""}>Clear Entry</MenuItem>
+                                    {categories.map((category: any) => (
+                                        <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Cuisine</InputLabel>
+                                <Select
+                                    value={cuisine}
+                                    label="Cuisine"
+                                    onChange={handleCuisineChange}>
+                                    <MenuItem value={""}>Clear Entry</MenuItem> 
+                                    {cuisines.map((cuisine: any) => (
+                                        <MenuItem key={cuisine.id} value={cuisine.id}>{cuisine.name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <Button variant="contained" color="success" onClick={handleFilterSubmit}>Filter</Button> 
+                    </div>
 
-                <div className="filters-container">
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                        <Select
-                            value={status}
-                            label="Status"
-                            onChange={handleStatusChange}>
-                            <MenuItem value={""}>Clear Entry</MenuItem>
-                            <MenuItem value={"published"}>Published</MenuItem>
-                            <MenuItem value={"unpublished"}>Unpublished</MenuItem>
-                            <MenuItem value={"archived"}>Archived</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                        <Select
-                            value={category}
-                            label="Category"
-                            onChange={handleCategoryChange}>
-                            <MenuItem value={""}>Clear Entry</MenuItem>
-                            {categories.map((category: any) => (
-                                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Cuisine</InputLabel>
-                        <Select
-                            value={cuisine}
-                            label="Cuisine"
-                            onChange={handleCuisineChange}>
-                            <MenuItem value={""}>Clear Entry</MenuItem> 
-                            {cuisines.map((cuisine: any) => (
-                                <MenuItem key={cuisine.id} value={cuisine.id}>{cuisine.name}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-                <Button variant="contained" color="success" onClick={handleFilterSubmit}>Filter</Button> 
-            </div>
+                    <Button color="error" onClick={handleClearFilter}>Clear Filter</Button> 
 
-            <Button color="error" onClick={handleClearFilter}>Clear Filter</Button> 
+                    <Recipes recipes={recipes} />
 
-            <Recipes recipes={recipes} />
-
-            <div className="AdminPage-pagination-container">
-                <Pagination page={page} onChange={handleChange} count={numPages}/>
-            </div>
+                    <div className="AdminPage-pagination-container">
+                        <Pagination page={page} onChange={handleChange} count={numPages}/>
+                    </div>
+                </>
+            }
+            
         </div>
     )
 }
