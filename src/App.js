@@ -30,7 +30,6 @@ function App() {
 
     useEffect(() => {
         if (location.state) {
-            console.log(location.state);
             fetchRecipes(location.state.collectionPath, location.state.collectionName);
         }
         else {

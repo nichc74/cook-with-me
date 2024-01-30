@@ -67,7 +67,6 @@ export async function getCuisines() {
 }
 
 export async function getAllRecipesInAdmin(params) {
-    console.log(params);
     let fetchRecipeEndpoint = `${endpoint}filterRecipes?page=${params.page}`;
 
     if (params.status) {
@@ -98,7 +97,6 @@ export async function getRecipeBySlug(url_slug) {
         method: 'GET',
         headers: headers
     });
-    console.log(response)
 
     let recipe = await response.json();
     return await recipe;

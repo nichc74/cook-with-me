@@ -38,7 +38,6 @@ const EditingPresetModal: React.FC<Props> = ({ isOpen, cancelEdit, preset, prese
         if (rename != presetName || image != presetImage ) {
             try {
                 const result = await editPreset(presetType, preset.id, rename, image);
-                console.log(result)
                 setNewPresetName(result.name);
                 setNewPresetImage(result.image);
                 handleClose();

@@ -86,7 +86,7 @@ const RecipeForm = () => {
             handleApiResult(result);
             navigate(`/recipes${result.url_slug}`);
         } catch (error: any) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -99,7 +99,7 @@ const RecipeForm = () => {
             navigate(`/recipes${result.url_slug}`);
         }   
         catch (error : any) {
-            console.log(error);
+            console.error(error);
         }
     }
 
