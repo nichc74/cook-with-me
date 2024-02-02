@@ -58,11 +58,13 @@
 
 .remove-image {
     width: 50%;
+    height: 100% !important;
     margin: auto !important;
 }
 
 .remove-image:hover {
     background-color: gray;
+    height: 100%;
     /* opacity: 5; */
 }
 .image:hover {
@@ -73,5 +75,6 @@
 
 .image {
     width: 100%;
+    /* height: 100%; */
     margin: auto !important;
 }
