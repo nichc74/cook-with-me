@@ -33,15 +33,15 @@ function App() {
     }, []);
 
     useEffect(() => {
-        setLoading(true);
-        switch (location.pathname) {
-            case "/categories":
-            case "/cuisines":
-                fetchRecipes(location.state.collectionPath, location.state.collectionName);
-                break;
-            default:
-                fetchRecipes();
-                break;
+        fetchCategories();
+        fetchCuisines();
+    
+        const { pathname, state: { collectionPath, collectionName } = {} } = location;
+    
+        if (pathname === "/categories" || pathname === "/cuisines") {
+            fetchRecipes(collectionPath, collectionName);
+        } else {
+            fetchRecipes();
         }
     }, [location.pathname]);
 
