@@ -16,7 +16,7 @@ import { updateRecipes } from './store/actions/recipesActions';
 function App() {
     const dispatch = useDispatch();
     const location = useLocation();
-
+    
     const reduxRecipes = useSelector((state) => state.recipesReducer.recipes);
     const [recipes, setRecipes] = useState(reduxRecipes);
     const [categories, setCategories] = useState([]);
@@ -25,24 +25,29 @@ function App() {
     const path = '/';
 
     useEffect(() => {
-        setRecipes(reduxRecipes);
-    }, [reduxRecipes]);
-
-    useEffect(() => {
-        if (location.state) {
-            fetchRecipes(location.state.collectionPath, location.state.collectionName);
-        }
-        else {
-            fetchRecipes();
-        }
         fetchCategories();
         fetchCuisines();
-    }, [location.state]);
+		switch (location.pathname) {
+			case "/categories":
+				fetchRecipes(location.state.collectionPath, location.state.collectionName);
+				break;
+			case "/cuisines":
+				fetchRecipes(location.state.collectionPath, location.state.collectionName);
+				break;
+			default:
+				fetchRecipes();
+                setRecipes(reduxRecipes);
+				break;
+		}
+       
+	}, [location.pathname])
+
 
     const fetchRecipes = async (collection="", collectionName="") => {
         try {
             const fetchedRecipes = await getRecipes(collection, collectionName);
             dispatch(updateRecipes(fetchedRecipes));
+
         } catch (error) {
             console.error('Error fetching recipes:', error);
         }
@@ -84,13 +89,13 @@ function App() {
                         <Route exact path={`${path}/categories`} element={<Categories collections={categories} collectionPath={'categories'} />}/>
                         {
                             categories.map((category) => (
-                                <Route key={category.id} path={`${path}categories/${category.name}`} element={<Recipes recipes={recipes}/>}/>
+                                <Route key={category.id} path={`${path}categories/:category`} element={<Recipes recipes={recipes}/>}/>
                             ))
                         }
                         <Route exact path={`${path}/cuisines`} element={<Categories collections={cuisines} collectionPath={'cuisines'} />}/>
                         {
                             cuisines.map((cuisine) => (
-                                <Route key={cuisine.id} path={`${path}cuisines/${cuisine.name}`} element={<Recipes recipes={recipes}/>}/>
+                                <Route key={cuisine.id} path={`${path}cuisines/:cuisine`} element={<Recipes recipes={recipes}/>}/>
                             ))
                         }
                         <Route exact path="/*" element={<PageNotFound/>}/>
@@ -98,9 +103,9 @@ function App() {
                     </Routes>
                 </div>
             </div>
-            <footer className="App-footer">
+            {/* <footer className="App-footer">
                 footer
-            </footer>
+            </footer> */}
         </div>
     );
 }
