@@ -1,5 +1,5 @@
 import {CONNECTION_TYPE, HOSTSITE, ORM_PATH} from '../../config/endpoints';
-const endpoint = `${CONNECTION_TYPE}${HOSTSITE}${ORM_PATH}preset/`;
+const endpoint = `${CONNECTION_TYPE}${HOSTSITE}${ORM_PATH}preset`;
 
 const headers = {
     Accept: 'application/json',
@@ -18,19 +18,14 @@ export async function editPreset(presetType, id, value, image) {
         }),
     };
 
-    try {
-        const response = await fetch(editPresetEndpoint, options);
+    const response = await fetch(editPresetEndpoint, options);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error('Error editing preset:', error);
-        // You might want to handle the error more gracefully, depending on your use case
-        throw error;
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
     }
+
+    return await response.json();
+
 }
 
 export async function deletePreset(presetType, id) {
@@ -45,16 +40,10 @@ export async function deletePreset(presetType, id) {
         })
     };
 
-    try {
-        const response = await fetch(deletePresetEndpoint, options);
+    const response = await fetch(deletePresetEndpoint, options);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.statusText}`);
-        }
-        return response.ok;
-    } catch (error) {
-        console.error('Error deleting preset:', error);
-        // You might want to handle the error more gracefully, depending on your use case
-        return error;
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.statusText}`);
     }
+    return response.ok;
 }

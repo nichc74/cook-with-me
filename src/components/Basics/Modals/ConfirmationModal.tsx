@@ -17,14 +17,13 @@ const ConfirmationModal = ({isOpen, cancelDelete, preset, presetType, removeElem
     };
 
     const deleteAndRemovePreset = async () => {
-        const response = await deletePreset(presetType, preset.id);
-        
-        if (response.message == "Sucess" || response) {
+        try {
+            const response = await deletePreset(presetType, preset.id);
             removeElement(presetType, preset.id);
             successfulRemoval("Successfully Removed Element", true);
         }
-        else {
-            successfulRemoval(response.message, false);
+        catch(e) {
+            successfulRemoval("Unable to delete preset", false);
         }
         setOpen(false);
     }
@@ -38,8 +37,8 @@ const ConfirmationModal = ({isOpen, cancelDelete, preset, presetType, removeElem
                     <br/>
                     <br/>
                     <b>{preset.name}</b>
-
-                    <p style={{color: "red"}}>This will affect all recipes that use this item, including published recipes.</p>
+                    <br/>
+                    <span style={{color: "red"}}>This will affect all recipes that use this item, including published recipes.</span>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
