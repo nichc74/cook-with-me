@@ -34,9 +34,10 @@ function App() {
 
     useEffect(() => {
         setLoading(true);
-        switch (location.pathname) {
-            case "/categories":
-            case "/cuisines":
+        console.log(location.state);
+        switch (location.state.collectionPath) {
+            case "categories":
+            case "cuisines":
                 fetchRecipes(location.state.collectionPath, location.state.collectionName);
                 break;
             default:
@@ -53,6 +54,9 @@ function App() {
 
 
     const fetchRecipes = async (collection = "", collectionName = "") => {
+        console.log("collection: " + collection);
+        console.log("collectionName: " + collectionName);
+
         try {
             const fetchedRecipes = await getRecipes(collection, collectionName);
             dispatch(updateRecipes(fetchedRecipes));
