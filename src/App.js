@@ -34,8 +34,7 @@ function App() {
 
     useEffect(() => {
         setLoading(true);
-        console.log(location.state);
-        switch (location.state.collectionPath) {
+        switch (location.state?.collectionPath) {
             case "categories":
             case "cuisines":
                 fetchRecipes(location.state.collectionPath, location.state.collectionName);
