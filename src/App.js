@@ -53,9 +53,6 @@ function App() {
 
 
     const fetchRecipes = async (collection = "", collectionName = "") => {
-        console.log("collection: " + collection);
-        console.log("collectionName: " + collectionName);
-
         try {
             const fetchedRecipes = await getRecipes(collection, collectionName);
             dispatch(updateRecipes(fetchedRecipes));
