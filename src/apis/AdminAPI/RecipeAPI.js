@@ -81,6 +81,9 @@ export async function getAllRecipesInAdmin(params) {
     if (params.search) {
         fetchRecipeEndpoint+=`&search=${params.search}`;
     }
+    if (params.ordering) {
+        fetchRecipeEndpoint+=`&ordering=${params.ordering}`;
+    }
 
     let response = await fetch(fetchRecipeEndpoint, {
         method: 'GET',

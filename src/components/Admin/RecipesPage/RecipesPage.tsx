@@ -5,6 +5,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { getAllRecipesInAdmin, getCategories, getCuisines } from "../../../apis/AdminAPI/RecipeAPI.js";
 import { useNavigate } from "react-router-dom";
 import "./RecipeAdmin.css";
+import { CheckBox } from "@mui/icons-material";
 
 const RecipesPage = ({}) => {
     const navigate = useNavigate();
@@ -19,10 +20,13 @@ const RecipesPage = ({}) => {
     const [cuisines, setCuisines] = useState([]);
     const [numPages, setNumPages] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [sortField, setSortField] = useState("updated_at");
+    const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
     
     useEffect(() => {
         fetchResources();
-    }, []);
+    }, [status, category, cuisine, sortDirection, sortField]);
 
     const onClickAddRecipe = () => {
         navigate("recipe-form/create");
@@ -47,12 +51,14 @@ const RecipesPage = ({}) => {
     };
 
     const fetchRecipePage = async (pageNumber: number) => {
+        const ordering = sortDirection === "asc" ? sortField : `-${sortField}`;
         const fetchedRecipes = await getAllRecipesInAdmin({
             page: pageNumber,
             search,
             status, 
             category, 
-            cuisine
+            cuisine,
+            ordering
         });
         setLoading(true);
         if (fetchedRecipes) {
@@ -60,7 +66,7 @@ const RecipesPage = ({}) => {
             setNumPages(fetchedRecipes.numPages);
             setLoading(false);
         }
-    }
+    };
 
     const fetchCuisinesAndCategories = async() => {
         const fetchedCategories = await getCategories();
@@ -108,7 +114,19 @@ const RecipesPage = ({}) => {
         setStatus("");
         setCategory("");
         setCuisine("");
+        setSortDirection("desc");
+        fetchRecipePage(page)
     }
+
+    const handleSortChange = (field: string) => {
+        if (sortField === field) {
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+        } else {
+            setSortField(field);
+            setSortDirection("asc");
+        }
+        fetchRecipePage(page);
+    };
 
     return (
         <div className="recipe-admin-page-container">
@@ -120,61 +138,28 @@ const RecipesPage = ({}) => {
                 <div>Loading Admin Page...</div>
                 :
                 <>
-                    <div className="filters-and-search-container">
-                        <FormControl fullWidth onSubmit={handleSubmit}>
-                            <TextField 
-                                type="search"
-                                onKeyDown={keyPress}
-                                value={search}
-                                onChange={setSearch}
-                                placeholder='Search Recipes'
-                            />
-                        </FormControl>
-
-                        <div className="filters-container">
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                <Select
-                                    value={status}
-                                    label="Status"
-                                    onChange={handleStatusChange}>
-                                    <MenuItem value={""}>Clear Entry</MenuItem>
-                                    <MenuItem value={"published"}>Published</MenuItem>
-                                    <MenuItem value={"unpublished"}>Unpublished</MenuItem>
-                                    <MenuItem value={"archived"}>Archived</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                                <Select
-                                    value={category}
-                                    label="Category"
-                                    onChange={handleCategoryChange}>
-                                    <MenuItem value={""}>Clear Entry</MenuItem>
-                                    {categories.map((category: any) => (
-                                        <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Cuisine</InputLabel>
-                                <Select
-                                    value={cuisine}
-                                    label="Cuisine"
-                                    onChange={handleCuisineChange}>
-                                    <MenuItem value={""}>Clear Entry</MenuItem> 
-                                    {cuisines.map((cuisine: any) => (
-                                        <MenuItem key={cuisine.id} value={cuisine.id}>{cuisine.name}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </div>
-                        <Button variant="contained" color="success" onClick={handleFilterSubmit}>Filter</Button> 
+                    <div style={{justifyContent: "space-between"}}>
+                        <Button color="error" onClick={handleClearFilter}>Clear Filter</Button> 
+                        <Button color="success" onClick={handleFilterSubmit}>Filter</Button> 
                     </div>
-
-                    <Button color="error" onClick={handleClearFilter}>Clear Filter</Button> 
-
-                    <Recipes recipes={recipes} />
+                   
+                    <Recipes 
+                        recipes={recipes}
+                        categories={categories}
+                        cuisines={cuisines}
+                        keyPress={keyPress}
+                        setSearch={setSearch}
+                        handleCuisineChange={handleCuisineChange}
+                        handleCategoryChange={handleCategoryChange}
+                        handleStatusChange={handleStatusChange}
+                        status={status}
+                        category={category}
+                        cuisine={cuisine}
+                        search={search}
+                        sortField={sortField}
+                        sortDirection={sortDirection}
+                        handleSortChange={handleSortChange}
+                    />
 
                     <div className="AdminPage-pagination-container">
                         <Pagination page={page} onChange={handleChange} count={numPages}/>
